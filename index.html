@@ -6,14 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
 body{
   margin:0;
   font-family:'Poppins', sans-serif;
-  background:linear-gradient(120deg,#0f2027,#203a43,#2c5364);
-  background-size:400% 400%;
-  animation:bg 10s ease infinite;
+  background:radial-gradient(circle at top,#1a2a3a,#050a12);
   min-height:100vh;
   display:flex;
   justify-content:center;
@@ -21,47 +19,66 @@ body{
   color:#fff;
 }
 
-@keyframes bg{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
 .card{
+  width:94%;
+  max-width:430px;
   background:rgba(0,0,0,0.8);
-  border-radius:24px;
+  border-radius:26px;
   padding:30px;
-  width:92%;
-  max-width:420px;
   text-align:center;
-  box-shadow:0 0 40px rgba(255,215,0,0.4);
+  box-shadow:
+    0 0 25px rgba(255,215,0,.4),
+    inset 0 0 20px rgba(255,215,0,.15);
 }
 
-h1{ color:#ffd700; }
+.titulo{
+  font-size:30px;
+  font-weight:800;
+  background:linear-gradient(180deg,#fff6a0,#ffd700,#ffae00);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:
+    0 2px 2px #000,
+    0 4px 10px rgba(255,215,0,.6);
+  margin-bottom:10px;
+}
+
+.sub{
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:25px;
+}
 
 button{
   width:100%;
-  margin:8px 0;
   padding:14px;
+  margin:10px 0;
   border:none;
-  border-radius:14px;
+  border-radius:16px;
   background:linear-gradient(135deg,#ffd700,#ffae00);
   color:#000;
   font-size:16px;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
+  box-shadow:0 6px 0 #c99700,0 10px 20px rgba(0,0,0,.6);
 }
 
-button:hover{
-  transform:scale(1.05);
+button:active{
+  transform:translateY(4px);
+  box-shadow:0 2px 0 #c99700;
+}
+
+.pergunta{
+  font-size:18px;
+  margin-bottom:20px;
 }
 
 .fade{
-  animation:fade 0.8s ease;
+  animation:fade .6s ease;
 }
 
 @keyframes fade{
-  from{opacity:0; transform:scale(0.9)}
+  from{opacity:0; transform:scale(.9)}
   to{opacity:1; transform:scale(1)}
 }
 </style>
@@ -69,85 +86,73 @@ button:hover{
 
 <body>
 
-<div class="card fade" id="app"></div>
+<div class="card fade" id="app">
+  <div class="titulo">⚔️ Guerreiros da Luz</div>
+  <div class="sub">Escolha o nível – EBD</div>
+
+  <button onclick="iniciar('criancas')">👶 Crianças</button>
+  <button onclick="iniciar('jovens')">🧑 Jovens</button>
+  <button onclick="iniciar('adultos')">👨‍🏫 Adultos</button>
+</div>
 
 <script>
-const fases = [
-  {
-    nome:"Fase 1 – Chamado",
-    perguntas:[
-      "Quem transformou água em vinho?",
-      "Onde Jesus nasceu?",
-      "Quantos discípulos Jesus teve?"
-    ],
-    respostas:[
-      ["Moisés","Jesus","Pedro"],
-      ["Belém","Nazaré","Jerusalém"],
-      ["10","11","12"]
-    ]
-  },
-  {
-    nome:"Fase 2 – Caminho",
-    perguntas:[
-      "Quem abriu o Mar Vermelho?",
-      "Quem venceu Golias?",
-      "Qual era o nome da mãe de Jesus?"
-    ],
-    respostas:[
-      ["Abraão","Moisés","Josué"],
-      ["Saul","Davi","Sansão"],
-      ["Maria","Marta","Isabel"]
-    ]
-  },
-  {
-    nome:"Fase 3 – Vitória",
-    perguntas:[
-      "Quem escreveu muitos Salmos?",
-      "Qual apóstolo negou Jesus?",
-      "Quem ressuscitou Jesus?"
-    ],
-    respostas:[
-      ["Salomão","Davi","Paulo"],
-      ["João","Pedro","Tiago"],
-      ["Os discípulos","O Pai","Deus"]
-    ]
-  }
-];
+const perguntas = {
+  criancas:[
+    {
+      q:"Quem construiu a arca?",
+      r:["Noé","Moisés","Abraão"]
+    },
+    {
+      q:"Quem venceu Golias?",
+      r:["Davi","Saul","Sansão"]
+    },
+    {
+      q:"Onde Jesus nasceu?",
+      r:["Belém","Jerusalém","Nazaré"]
+    },
+    {
+      q:"Quem foi engolido por um grande peixe?",
+      r:["Jonas","Pedro","Paulo"]
+    },
+    {
+      q:"Quem abriu o Mar Vermelho?",
+      r:["Moisés","Josué","Elias"]
+    }
+  ],
+  jovens:[],
+  adultos:[]
+};
 
-let fase = 0;
-let pergunta = 0;
+let nivel = "";
+let atual = 0;
 
-function mostrarPergunta(){
-  const f = fases[fase];
+function iniciar(n){
+  nivel = n;
+  atual = 0;
+  mostrar();
+}
+
+function mostrar(){
+  const p = perguntas[nivel][atual];
   document.getElementById("app").innerHTML = `
-    <h1>⚔️ ${f.nome}</h1>
-    <p>${f.perguntas[pergunta]}</p>
-    ${f.respostas[pergunta].map(r=>`<button onclick="responder()">${r}</button>`).join("")}
+    <div class="titulo">⚔️ ${nivel.toUpperCase()}</div>
+    <div class="pergunta">${p.q}</div>
+    ${p.r.map(r=>`<button onclick="responder()">${r}</button>`).join("")}
   `;
 }
 
 function responder(){
-  pergunta++;
-  if(pergunta < fases[fase].perguntas.length){
-    mostrarPergunta();
+  atual++;
+  if(atual < perguntas[nivel].length){
+    mostrar();
   }else{
-    fase++;
-    pergunta = 0;
-    if(fase < fases.length){
-      document.getElementById("app").innerHTML = `
-        <h1>✨ Fase Concluída!</h1>
-        <button onclick="mostrarPergunta()">Próxima Fase</button>
-      `;
-    }else{
-      document.getElementById("app").innerHTML = `
-        <h1>🏆 Campeão da Luz</h1>
-        <p>Você venceu todas as fases!</p>
-      `;
-    }
+    document.getElementById("app").innerHTML = `
+      <div class="titulo">🏆 Vitória!</div>
+      <p>Você concluiu este nível!</p>
+      <button onclick="location.reload()">Voltar ao início</button>
+    `;
   }
 }
-
-mostrarPergunta();
 </script>
 
 </body>

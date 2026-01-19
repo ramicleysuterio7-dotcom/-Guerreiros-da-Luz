@@ -11,8 +11,7 @@
 body{
   margin:0;
   font-family:'Orbitron', sans-serif;
-  background:
-    radial-gradient(circle at top,#1b2a4e,#05070f 70%);
+  background:radial-gradient(circle at top,#1b2a4e,#05070f);
   min-height:100vh;
   display:flex;
   justify-content:center;
@@ -26,9 +25,7 @@ body{
   background:linear-gradient(180deg,#0b1020,#02040a);
   border-radius:30px;
   padding:22px;
-  box-shadow:
-    0 0 40px rgba(0,140,255,.4),
-    inset 0 0 25px rgba(0,140,255,.15);
+  box-shadow:0 0 40px rgba(0,140,255,.4);
 }
 
 .hud{
@@ -38,17 +35,15 @@ body{
   margin-bottom:15px;
 }
 
-.level{
-  font-size:14px;
-  letter-spacing:1px;
-  color:#7dd3ff;
-}
-
 .score{
-  background:linear-gradient(135deg,#00d4ff,#0077ff);
+  background:#0077ff;
   padding:6px 14px;
   border-radius:16px;
-  box-shadow:0 0 15px rgba(0,180,255,.8);
+}
+
+.sound{
+  cursor:pointer;
+  font-size:18px;
 }
 
 .card{
@@ -56,21 +51,12 @@ body{
   border-radius:22px;
   padding:22px;
   text-align:center;
-  box-shadow:inset 0 0 20px rgba(0,140,255,.15);
 }
 
 .title{
   font-size:22px;
   font-weight:900;
-  background:linear-gradient(180deg,#ffffff,#7dd3ff);
-  -webkit-background-clip:text;
-  color:transparent;
   margin-bottom:10px;
-}
-
-.question{
-  font-size:16px;
-  margin:18px 0;
 }
 
 button{
@@ -79,22 +65,10 @@ button{
   margin:10px 0;
   border:none;
   border-radius:16px;
-  font-size:14px;
-  font-weight:700;
-  color:#fff;
-  cursor:pointer;
   background:linear-gradient(135deg,#ff2a2a,#b00000);
-  box-shadow:0 6px 0 #6b0000,0 10px 25px rgba(0,0,0,.7);
-}
-
-button:active{
-  transform:translateY(4px);
-  box-shadow:0 2px 0 #6b0000;
-}
-
-.feedback{
-  margin-top:12px;
-  font-size:15px;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -104,6 +78,43 @@ button:active{
 <div class="app" id="app"></div>
 
 <script>
+// ======= AUDIO ENGINE =======
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioCtx();
+let somLigado = true;
+
+function beep(freq, tempo){
+  if(!somLigado) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.frequency.value = freq;
+  osc.start();
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + tempo);
+  osc.stop(audioCtx.currentTime + tempo);
+}
+
+// música ambiente (loop suave)
+let musica;
+function musicaFundo(){
+  if(!somLigado) return;
+  musica = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  musica.type = "sine";
+  musica.frequency.value = 120;
+  musica.connect(gain);
+  gain.connect(audioCtx.destination);
+  gain.gain.value = 0.03;
+  musica.start();
+}
+
+function pararMusica(){
+  if(musica) musica.stop();
+}
+
+// ======= JOGO =======
 const niveis = ["CRIANÇAS","JOVENS","ADULTOS"];
 let nivelAtual = 0;
 let perguntaAtual = 0;
@@ -127,13 +138,14 @@ function render(){
 
   document.getElementById("app").innerHTML = `
     <div class="hud">
-      <div class="level">${niveis[nivelAtual]}</div>
+      <div>${niveis[nivelAtual]}</div>
       <div class="score">⭐ ${pontos}</div>
+      <div class="sound" onclick="toggleSom()">🔊</div>
     </div>
 
     <div class="card">
       <div class="title">⚔️ Guerreiros da Luz</div>
-      <div class="question">${p.q}</div>
+      <p>${p.q}</p>
       ${p.r.map((op,i)=>`
         <button onclick="answer(${i})">${op}</button>
       `).join("")}
@@ -141,41 +153,41 @@ function render(){
   `;
 }
 
+function toggleSom(){
+  somLigado = !somLigado;
+  if(!somLigado) pararMusica();
+  else musicaFundo();
+  render();
+}
+
 function answer(i){
   const p = perguntas[nivelAtual][perguntaAtual];
-  let text = "";
 
   if(i === p.c){
     pontos += 10;
-    text = "💥 ACERTOU! +10";
+    beep(800,0.3);
   }else{
-    text = "⚠️ ERROU! Resposta: " + p.r[p.c];
+    beep(200,0.5);
   }
 
   document.getElementById("app").innerHTML += `
-    <div class="feedback">${text}</div>
     <button onclick="next()">Continuar</button>
   `;
 }
 
 function next(){
   perguntaAtual++;
-
   if(perguntaAtual < perguntas[nivelAtual].length){
     render();
   }else{
     nivelAtual++;
     perguntaAtual = 0;
+    beep(1200,0.6);
 
     if(nivelAtual < perguntas.length){
-      document.getElementById("app").innerHTML = `
-        <div class="card">
-          <div class="title">Nível Concluído</div>
-          <p>Pontuação: ⭐ ${pontos}</p>
-          <button onclick="render()">Avançar</button>
-        </div>
-      `;
+      render();
     }else{
+      pararMusica();
       document.getElementById("app").innerHTML = `
         <div class="card">
           <div class="title">🏆 Herói da Fé</div>
@@ -186,6 +198,12 @@ function next(){
     }
   }
 }
+
+// iniciar
+document.body.addEventListener("click", ()=>{
+  if(audioCtx.state === "suspended") audioCtx.resume();
+  if(!musica) musicaFundo();
+},{once:true});
 
 render();
 </script>

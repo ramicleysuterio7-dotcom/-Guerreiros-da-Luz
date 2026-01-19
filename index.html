@@ -1,131 +1,101 @@
-Html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Guerreiros da Luz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Guerreiros da Luz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 500px;
-      margin: auto;
-    }
-
-    h1 {
-      margin-top: 30px;
-    }
-
-    button {
-      background: #ffd700;
-      color: #000;
-      border: none;
-      padding: 15px 25px;
-      font-size: 18px;
-      border-radius: 10px;
-      margin-top: 15px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    button:hover {
-      background: #ffcc00;
-    }
-
-    .question {
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .score {
-      margin-top: 20px;
-      font-weight: bold;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.app{
+  background:rgba(0,0,0,.7);
+  padding:25px;
+  border-radius:20px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+}
+button{
+  background:gold;
+  border:none;
+  padding:12px 20px;
+  font-size:16px;
+  border-radius:25px;
+  cursor:pointer;
+  margin-top:15px;
+}
+</style>
 </head>
 
 <body>
-  <div class="container" id="app">
-    <h1>⚔️ Guerreiros da Luz</h1>
-    <p>Prepare-se para a missão!</p>
-    <button onclick="startGame()">Começar Missão</button>
-  </div>
+<div class="app" id="app">
+  <h1>⚔️ Guerreiros da Luz</h1>
+  <p id="fase">Fase 1</p>
+  <p id="pergunta"></p>
+  <div id="respostas"></div>
+</div>
 
-  <script>
-    const perguntas = [
-      {
-        pergunta: "Quem construiu a arca?",
-        opcoes: ["Moisés", "Noé", "Abraão", "Davi"],
-        resposta: 1
-      },
-      {
-        pergunta: "Quantos dias Jesus jejuou no deserto?",
-        opcoes: ["7", "20", "30", "40"],
-        resposta: 3
-      },
-      {
-        pergunta: "Quem derrotou Golias?",
-        opcoes: ["Saul", "Davi", "Sansão", "Josué"],
-        resposta: 1
-      }
-    ];
-
-    let indice = 0;
-    let pontos = 0;
-
-    function startGame() {
-      indice = 0;
-      pontos = 0;
-      mostrarPergunta();
+<script>
+const fases = [
+ {
+  nome:"Fase 1",
+  perguntas:[
+    {
+      q:"Quem transformou água em vinho?",
+      r:["Moisés","Jesus","Pedro"],
+      c:1
+    },
+    {
+      q:"Onde Jesus nasceu?",
+      r:["Belém","Nazaré","Jerusalém"],
+      c:0
+    },
+    {
+      q:"Quantos discípulos Jesus teve?",
+      r:["10","11","12"],
+      c:2
     }
+  ]
+ }
+];
 
-    function mostrarPergunta() {
-      const q = perguntas[indice];
-      let html = `
-        <div class="question">${q.pergunta}</div>
-      `;
+let faseAtual = 0;
+let perguntaAtual = 0;
 
-      q.opcoes.forEach((opcao, i) => {
-        html += `<button onclick="responder(${i})">${opcao}</button>`;
-      });
+function carregarPergunta(){
+ document.getElementById("fase").innerText = fases[faseAtual].nome;
+ const p = fases[faseAtual].perguntas[perguntaAtual];
+ document.getElementById("pergunta").innerText = p.q;
 
-      document.getElementById("app").innerHTML = html;
+ const respostasDiv = document.getElementById("respostas");
+ respostasDiv.innerHTML = "";
+
+ p.r.forEach((resposta,i)=>{
+  const btn = document.createElement("button");
+  btn.innerText = resposta;
+  btn.onclick = ()=>{
+    perguntaAtual++;
+    if(perguntaAtual < fases[faseAtual].perguntas.length){
+      carregarPergunta();
+    }else{
+      document.getElementById("app").innerHTML =
+      "<h1>🎉 Fase Concluída!</h1><p>Você venceu esta fase!</p>";
     }
+  };
+  respostasDiv.appendChild(btn);
+ });
+}
 
-    function responder(i) {
-      if (i === perguntas[indice].resposta) {
-        pontos++;
-        alert("Resposta correta! 🙌");
-      } else {
-        alert("Resposta incorreta 😕");
-      }
-
-      indice++;
-
-      if (indice < perguntas.length) {
-        mostrarPergunta();
-      } else {
-        fimDoJogo();
-      }
-    }
-
-    function fimDoJogo() {
-      document.getElementById("app").innerHTML = `
-        <h2>Missão Concluída ⚔️</h2>
-        <p>Sua pontuação: ${pontos} / ${perguntas.length}</p>
-        <button onclick="startGame()">Jogar Novamente</button>
-      `;
-    }
-  </script>
+carregarPergunta();
+</script>
 </body>
 </html>

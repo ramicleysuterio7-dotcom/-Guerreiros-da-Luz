@@ -1,38 +1,131 @@
-{
-  "facil": [
-    {
-      "pergunta": "Quem construiu a arca?",
-      "opcoes": ["Moisés", "Noé", "Abraão", "Davi"],
-      "resposta_correta": "Noé"
-    },
-    {
-      "pergunta": "Quem derrotou Golias?",
-      "opcoes": ["Saul", "Sansão", "Davi", "Josué"],
-      "resposta_correta": "Davi"
-    },
-    {
-      "pergunta": "Onde Jesus nasceu?",
-      "opcoes": ["Jerusalém", "Nazaré", "Belém", "Galileia"],
-      "resposta_correta": "Belém"
+Html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Guerreiros da Luz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
-  ],
-  "medio": [
-    {
-      "pergunta": "Quantos dias durou o dilúvio?",
-      "opcoes": ["7", "30", "40", "100"],
-      "resposta_correta": "40"
-    },
-    {
-      "pergunta": "Quem foi lançado na cova dos leões?",
-      "opcoes": ["José", "Daniel", "Elias", "Jeremias"],
-      "resposta_correta": "Daniel"
+
+    .container {
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
     }
-  ],
-  "dificil": [
-    {
-      "pergunta": "Quem escreveu a maior parte dos Salmos?",
-      "opcoes": ["Moisés", "Salomão", "Davi", "Asafe"],
-      "resposta_correta": "Davi"
+
+    h1 {
+      margin-top: 30px;
     }
-  ]
-}
+
+    button {
+      background: #ffd700;
+      color: #000;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #ffcc00;
+    }
+
+    .question {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .score {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="app">
+    <h1>⚔️ Guerreiros da Luz</h1>
+    <p>Prepare-se para a missão!</p>
+    <button onclick="startGame()">Começar Missão</button>
+  </div>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Quem construiu a arca?",
+        opcoes: ["Moisés", "Noé", "Abraão", "Davi"],
+        resposta: 1
+      },
+      {
+        pergunta: "Quantos dias Jesus jejuou no deserto?",
+        opcoes: ["7", "20", "30", "40"],
+        resposta: 3
+      },
+      {
+        pergunta: "Quem derrotou Golias?",
+        opcoes: ["Saul", "Davi", "Sansão", "Josué"],
+        resposta: 1
+      }
+    ];
+
+    let indice = 0;
+    let pontos = 0;
+
+    function startGame() {
+      indice = 0;
+      pontos = 0;
+      mostrarPergunta();
+    }
+
+    function mostrarPergunta() {
+      const q = perguntas[indice];
+      let html = `
+        <div class="question">${q.pergunta}</div>
+      `;
+
+      q.opcoes.forEach((opcao, i) => {
+        html += `<button onclick="responder(${i})">${opcao}</button>`;
+      });
+
+      document.getElementById("app").innerHTML = html;
+    }
+
+    function responder(i) {
+      if (i === perguntas[indice].resposta) {
+        pontos++;
+        alert("Resposta correta! 🙌");
+      } else {
+        alert("Resposta incorreta 😕");
+      }
+
+      indice++;
+
+      if (indice < perguntas.length) {
+        mostrarPergunta();
+      } else {
+        fimDoJogo();
+      }
+    }
+
+    function fimDoJogo() {
+      document.getElementById("app").innerHTML = `
+        <h2>Missão Concluída ⚔️</h2>
+        <p>Sua pontuação: ${pontos} / ${perguntas.length}</p>
+        <button onclick="startGame()">Jogar Novamente</button>
+      `;
+    }
+  </script>
+</body>
+</html>

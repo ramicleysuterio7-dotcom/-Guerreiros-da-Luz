@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -22,13 +23,13 @@ body{
 .card{
   width:94%;
   max-width:430px;
-  background:rgba(0,0,0,0.8);
-  border-radius:26px;
+  background:rgba(0,0,0,0.85);
+  border-radius:28px;
   padding:30px;
   text-align:center;
   box-shadow:
-    0 0 25px rgba(255,215,0,.4),
-    inset 0 0 20px rgba(255,215,0,.15);
+    0 0 30px rgba(255,215,0,.5),
+    inset 0 0 25px rgba(255,215,0,.2);
 }
 
 .titulo{
@@ -39,14 +40,8 @@ body{
   color:transparent;
   text-shadow:
     0 2px 2px #000,
-    0 4px 10px rgba(255,215,0,.6);
-  margin-bottom:10px;
-}
-
-.sub{
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:25px;
+    0 6px 15px rgba(255,215,0,.7);
+  margin-bottom:15px;
 }
 
 button{
@@ -72,87 +67,75 @@ button:active{
   font-size:18px;
   margin-bottom:20px;
 }
-
-.fade{
-  animation:fade .6s ease;
-}
-
-@keyframes fade{
-  from{opacity:0; transform:scale(.9)}
-  to{opacity:1; transform:scale(1)}
-}
 </style>
 </head>
 
 <body>
 
-<div class="card fade" id="app">
-  <div class="titulo">⚔️ Guerreiros da Luz</div>
-  <div class="sub">Escolha o nível – EBD</div>
-
-  <button onclick="iniciar('criancas')">👶 Crianças</button>
-  <button onclick="iniciar('jovens')">🧑 Jovens</button>
-  <button onclick="iniciar('adultos')">👨‍🏫 Adultos</button>
-</div>
+<div class="card" id="app"></div>
 
 <script>
+const niveis = ["criancas","jovens","adultos"];
+let nivelAtual = 0;
+let perguntaAtual = 0;
+
 const perguntas = {
   criancas:[
-    {
-      q:"Quem construiu a arca?",
-      r:["Noé","Moisés","Abraão"]
-    },
-    {
-      q:"Quem venceu Golias?",
-      r:["Davi","Saul","Sansão"]
-    },
-    {
-      q:"Onde Jesus nasceu?",
-      r:["Belém","Jerusalém","Nazaré"]
-    },
-    {
-      q:"Quem foi engolido por um grande peixe?",
-      r:["Jonas","Pedro","Paulo"]
-    },
-    {
-      q:"Quem abriu o Mar Vermelho?",
-      r:["Moisés","Josué","Elias"]
-    }
+    {q:"Quem construiu a arca?", r:["Noé","Moisés","Abraão"]},
+    {q:"Quem venceu Golias?", r:["Davi","Saul","Sansão"]},
+    {q:"Onde Jesus nasceu?", r:["Belém","Jerusalém","Nazaré"]}
   ],
-  jovens:[],
-  adultos:[]
+  jovens:[
+    {q:"Quem libertou o povo de Israel do Egito?", r:["Moisés","Davi","Josué"]},
+    {q:"Qual discípulo andou sobre as águas?", r:["Pedro","João","Tiago"]}
+  ],
+  adultos:[
+    {q:"Quem escreveu a maior parte do Novo Testamento?", r:["Paulo","Pedro","Lucas"]},
+    {q:"Qual livro fala sobre a armadura de Deus?", r:["Efésios","Romanos","Atos"]}
+  ]
 };
 
-let nivel = "";
-let atual = 0;
-
-function iniciar(n){
-  nivel = n;
-  atual = 0;
-  mostrar();
+function iniciarNivel(){
+  perguntaAtual = 0;
+  mostrarPergunta();
 }
 
-function mostrar(){
-  const p = perguntas[nivel][atual];
+function mostrarPergunta(){
+  const nivel = niveis[nivelAtual];
+  const p = perguntas[nivel][perguntaAtual];
+
   document.getElementById("app").innerHTML = `
-    <div class="titulo">⚔️ ${nivel.toUpperCase()}</div>
+    <div class="titulo">${nivel.toUpperCase()}</div>
     <div class="pergunta">${p.q}</div>
-    ${p.r.map(r=>`<button onclick="responder()">${r}</button>`).join("")}
+    ${p.r.map(op=>`<button onclick="proximaPergunta()">${op}</button>`).join("")}
   `;
 }
 
-function responder(){
-  atual++;
-  if(atual < perguntas[nivel].length){
-    mostrar();
+function proximaPergunta(){
+  perguntaAtual++;
+  const nivel = niveis[nivelAtual];
+
+  if(perguntaAtual < perguntas[nivel].length){
+    mostrarPergunta();
   }else{
-    document.getElementById("app").innerHTML = `
-      <div class="titulo">🏆 Vitória!</div>
-      <p>Você concluiu este nível!</p>
-      <button onclick="location.reload()">Voltar ao início</button>
-    `;
+    nivelAtual++;
+    if(nivelAtual < niveis.length){
+      document.getElementById("app").innerHTML = `
+        <div class="titulo">✨ Nível Concluído!</div>
+        <p>Prepare-se para o próximo desafio</p>
+        <button onclick="iniciarNivel()">Avançar</button>
+      `;
+    }else{
+      document.getElementById("app").innerHTML = `
+        <div class="titulo">🏆 Campeão Bíblico!</div>
+        <p>Você concluiu todos os níveis!</p>
+        <button onclick="location.reload()">Jogar Novamente</button>
+      `;
+    }
   }
 }
+
+iniciarNivel();
 </script>
 
 </body>

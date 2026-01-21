@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>guerreiros da luz</title>
 
   <!-- fonte orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
     body{
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle at top, #050b1a, #000);
-      color: #ffffff;
+      background: radial-gradient(circle, #050b1e, #000);
+      color: #fff;
     }
 
     .app{
@@ -25,112 +27,52 @@
       padding: 20px;
     }
 
-    .logo{
-      width: 160px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px #00ccff);
-    }
-
-    .titulo{
+    h1{
       font-size: 2.5em;
       text-transform: uppercase;
-      color: #00ccff;
-      text-shadow:
-        0 0 5px #00ccff,
-        0 0 15px #00ccff,
-        0 0 30px #0088ff;
-      margin: 10px 0;
+      text-shadow: 0 0 15px #00aaff;
+      margin-bottom: 10px;
     }
 
-    .subtitulo{
-      font-size: 1em;
-      opacity: 0.9;
-      margin-bottom: 25px;
+    .logo{
+      width: 220px;
+      margin: 20px 0;
+      filter: drop-shadow(0 0 20px #00ccff);
     }
 
     button{
-      background: linear-gradient(45deg, #00ccff, #0055ff);
-      border: none;
-      padding: 14px 28px;
-      font-size: 1em;
+      padding: 15px 30px;
+      font-size: 1.1em;
       font-family: 'Orbitron', sans-serif;
-      color: #fff;
+      border: none;
       border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 0 15px #00ccff;
+      background: linear-gradient(45deg, #00aaff, #0044ff);
+      color: #fff;
+      box-shadow: 0 0 15px #00aaff;
     }
 
     button:hover{
       transform: scale(1.05);
-      box-shadow: 0 0 25px #00ccff;
     }
   </style>
 </head>
 
 <body>
+  <div class="app">
+    <h1>guerreiros da luz</h1>
 
-<div class="app" id="app">
-  <img src="logo.png" class="logo">
-  <h1 class="titulo">guerreiros da luz</h1>
-  <p class="subtitulo">prepare-se para a missão</p>
-  <button onclick="iniciarjogo()">começar missão</button>
-</div>
+    <!-- imagem do logo -->
+    <img src="logo.png" class="logo" alt="guerreiros da luz">
 
-<script>
-  let fase = 0;
+    <button onclick="iniciarjogo()">começar missão</button>
+  </div>
 
-  const fases = [
-    {
-      pergunta: "quem construiu a arca?",
-      opcoes: ["noé", "abraão", "moisés"],
-      correta: 0
-    },
-    {
-      pergunta: "quem abriu o mar vermelho?",
-      opcoes: ["josué", "moisés", "davi"],
-      correta: 1
-    },
-    {
-      pergunta: "quem derrotou golias?",
-      opcoes: ["saul", "davi", "sansão"],
-      correta: 1
+  <script>
+    function iniciarjogo(){
+      alert("missão iniciada!");
     }
-  ];
-
-  function iniciarjogo(){
-    fase = 0;
-    mostrarfase();
-  }
-
-  function mostrarfase(){
-    const f = fases[fase];
-    let html = `<h2 class="titulo">fase ${fase + 1}</h2>`;
-    html += `<p>${f.pergunta}</p>`;
-
-    f.opcoes.forEach((opcao, i) => {
-      html += `<button onclick="responder(${i})">${opcao}</button><br><br>`;
-    });
-
-    document.getElementById("app").innerHTML = html;
-  }
-
-  function responder(resposta){
-    if(resposta === fases[fase].correta){
-      fase++;
-      if(fase < fases.length){
-        mostrarfase();
-      }else{
-        document.getElementById("app").innerHTML = `
-          <h2 class="titulo">parabéns 🎉</h2>
-          <p>você concluiu todas as fases!</p>
-          <button onclick="iniciarjogo()">jogar novamente</button>
-        `;
-      }
-    }else{
-      alert("tente novamente");
-    }
-  }
-</script>
-
+  </script>
 </body>
 </html>
+

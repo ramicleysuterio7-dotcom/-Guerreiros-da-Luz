@@ -100,6 +100,62 @@ function beep(freq, tempo){
   gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + tempo);
   osc.stop(audioCtx.currentTime + tempo);
 }
+  let fase = 0;
+
+
+const fases = [
+  {
+    pergunta: "quem construiu a arca?",
+    opcoes: ["noé", "abraão", "moisés"],
+    correta: 0
+  },
+  {
+    pergunta: "quem abriu o mar vermelho?",
+    opcoes: ["josué", "moisés", "davi"],
+    correta: 1
+  },
+  {
+    pergunta: "quem derrotou golias?",
+    opcoes: ["saul", "davi", "sansão"],
+    correta: 1
+  }
+];
+
+function iniciarjogo(){
+  fase = 0;
+  mostrarfase();
+}
+
+function mostrarfase(){
+  const f = fases[fase];
+  let html = `<h2 class="titulo">fase ${fase + 1}</h2>`;
+  html += `<p>${f.pergunta}</p>`;
+
+  f.opcoes.forEach((opcao, i) => {
+    html += `<button onclick="responder(${i})">${opcao}</button>`;
+  });
+
+  document.getElementById("app").innerHTML = html;
+}
+
+function responder(resposta){
+  if(resposta === fases[fase].correta){
+    fase++;
+    if(fase < fases.length){
+      mostrarfase();
+    } else {
+      document.getElementById("app").innerHTML = `
+        <h2 class="titulo">parabéns 🎉</h2>
+        <p>você concluiu todas as fases!</p>
+        <button onclick="iniciarjogo()">jogar novamente</button>
+      `;
+    }
+  } else {
+    alert("tente novamente");
+  }
+}
+</script>
+
 
 // música ambiente (loop suave)
 let musica;

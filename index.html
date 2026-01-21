@@ -77,30 +77,36 @@
   
 
   <script>
-    function iniciarjogo(){
-      alert("missão iniciada!");
-    }
-    <script>
+  const musica = document.getElementById("musica");
+  const btnSom = document.getElementById("btnSom");
+  let somLigado = false;
+
   function iniciarjogo(){
     alert("missão iniciada!");
-    document.getElementById("musica").play();
+    tocarSom();
   }
 
-  let somLigado = true;
+  function tocarSom(){
+    musica.volume = 0.5;
+    musica.play().then(() => {
+      somLigado = true;
+      btnSom.innerText = "🔊 som ligado";
+    }).catch(() => {
+      console.log("som bloqueado até interação");
+    });
+  }
 
   function toggleSom(){
-    const musica = document.getElementById("musica");
-    const botao = document.getElementById("btnSom");
-
     if(somLigado){
       musica.pause();
-      botao.innerText = "🔇 som desligado";
+      btnSom.innerText = "🔇 som desligado";
     }else{
-      musica.play();
-      botao.innerText = "🔊 som ligado";
+      tocarSom();
     }
-
     somLigado = !somLigado;
+  }
+</script>
+
   }
 </script>
 

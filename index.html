@@ -80,6 +80,30 @@
     function iniciarjogo(){
       alert("missão iniciada!");
     }
+    <script>
+  function iniciarjogo(){
+    alert("missão iniciada!");
+    document.getElementById("musica").play();
+  }
+
+  let somLigado = true;
+
+  function toggleSom(){
+    const musica = document.getElementById("musica");
+    const botao = document.getElementById("btnSom");
+
+    if(somLigado){
+      musica.pause();
+      botao.innerText = "🔇 som desligado";
+    }else{
+      musica.play();
+      botao.innerText = "🔊 som ligado";
+    }
+
+    somLigado = !somLigado;
+  }
+</script>
+
   </script>
 </body>
 </html>

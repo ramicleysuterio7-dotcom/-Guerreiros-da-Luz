@@ -47,17 +47,6 @@
 }
 
 
-.botoes{
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.botoes button{
-  padding: 10px 18px;
-  font-size: 0.9em;
-  border-radius: 20px;
-}
 
 
     .app{
@@ -69,6 +58,30 @@
       text-align: center;
       padding: 20px;
     }
+.botoes{
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.botoes button{
+  padding: 8px 16px;
+  font-size: 0.8em;
+  border-radius: 18px;
+  background: linear-gradient(45deg, #00ccff, #0066ff);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 0 6px rgba(0,200,255,0.6),
+    inset 0 0 6px rgba(255,255,255,0.15);
+  transition: 0.3s;
+}
+
+.botoes button:hover{
+  transform: scale(1.08);
+  box-shadow: 0 0 14px #00ccff;
+}
 
     h1{
       font-size: 2.5em;

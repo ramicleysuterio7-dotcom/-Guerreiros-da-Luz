@@ -59,20 +59,25 @@
 </head>
 
 <body>
-  <div class="app">
-    <h1>guerreiros da luz</h1>
-
-    <!-- imagem do logo -->
-    <img src="logo-novo.png" class="logo" alt="guerreiros da luz">
-
-    <button onclick="iniciarjogo()">começar missão</button>
-  </div>
+  
   <button onclick="iniciarjogo()">começar missão</button>
 
 <button id="btnSom" onclick="toggleSom()">🔊 som ligado</button>
 <audio id="musica" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
+<div class="app">
+  <div class="pentagono">
+    <img src="logo-novo.png" class="logo" alt="guerreiros da luz">
+
+    <h1 class="titulo">guerreiros da luz</h1>
+
+    <div class="botoes">
+      <button onclick="iniciarjogo()">⚔️ começar missão</button>
+      <button id="btnSom" onclick="toggleSom()">🔊 som</button>
+    </div>
+  </div>
+</div>
 
   
 

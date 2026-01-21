@@ -1,272 +1,135 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Guerreiros da Luz</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <title>guerreiros da luz</title>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
+  <!-- fonte orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
-body{
-  margin:0;
-  font-family:'Orbitron', sans-serif;
-  background:radial-gradient(circle at top,#1b2a4e,#05070f);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-}
+  <style>
+    body{
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #050b1a, #000);
+      color: #ffffff;
+    }
 
-.app{
-  width:94%;
-  max-width:420px;
-  background:linear-gradient(180deg,#0b1020,#02040a);
-  border-radius:30px;
-  padding:22px;
-  box-shadow:0 0 40px rgba(0,140,255,.4);
-}
+    .app{
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
 
-.hud{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
+    .logo{
+      width: 160px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px #00ccff);
+    }
 
-.score{
-  background:#0077ff;
-  padding:6px 14px;
-  border-radius:16px;
-}
+    .titulo{
+      font-size: 2.5em;
+      text-transform: uppercase;
+      color: #00ccff;
+      text-shadow:
+        0 0 5px #00ccff,
+        0 0 15px #00ccff,
+        0 0 30px #0088ff;
+      margin: 10px 0;
+    }
 
-.sound{
-  cursor:pointer;
-  font-size:18px;
-}
+    .subtitulo{
+      font-size: 1em;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
 
-.card{
-  background:rgba(255,255,255,.05);
-  border-radius:22px;
-  padding:22px;
-  text-align:center;
-}
+    button{
+      background: linear-gradient(45deg, #00ccff, #0055ff);
+      border: none;
+      padding: 14px 28px;
+      font-size: 1em;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ccff;
+    }
 
-.title{
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin:10px 0;
-  border:none;
-  border-radius:16px;
-  background:linear-gradient(135deg,#ff2a2a,#b00000);
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
-</style>
+    button:hover{
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ccff;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app" id="app">
   <img src="logo.png" class="logo">
-  <h1 class="titulo">Guerreiros da Luz</h1>
-  <p class="subtitulo">Prepare-se para a missão</p>
+  <h1 class="titulo">guerreiros da luz</h1>
+  <p class="subtitulo">prepare-se para a missão</p>
   <button onclick="iniciarjogo()">começar missão</button>
 </div>
 
 <script>
-// ======= AUDIO ENGINE =======
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioCtx();
-let somLigado = true;
-
-function beep(freq, tempo){
-  if(!somLigado) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.frequency.value = freq;
-  osc.start();
-  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + tempo);
-  osc.stop(audioCtx.currentTime + tempo);
-}
   let fase = 0;
 
-
-const fases = [
-  {
-    pergunta: "quem construiu a arca?",
-    opcoes: ["noé", "abraão", "moisés"],
-    correta: 0
-  },
-  {
-    pergunta: "quem abriu o mar vermelho?",
-    opcoes: ["josué", "moisés", "davi"],
-    correta: 1
-  },
-  {
-    pergunta: "quem derrotou golias?",
-    opcoes: ["saul", "davi", "sansão"],
-    correta: 1
-  }
-];
-
-function iniciarjogo(){
-  fase = 0;
-  mostrarfase();
-}
-
-function mostrarfase(){
-  const f = fases[fase];
-  let html = `<h2 class="titulo">fase ${fase + 1}</h2>`;
-  html += `<p>${f.pergunta}</p>`;
-
-  f.opcoes.forEach((opcao, i) => {
-    html += `<button onclick="responder(${i})">${opcao}</button>`;
-  });
-
-  document.getElementById("app").innerHTML = html;
-}
-
-function responder(resposta){
-  if(resposta === fases[fase].correta){
-    fase++;
-    if(fase < fases.length){
-      mostrarfase();
-    } else {
-      document.getElementById("app").innerHTML = `
-        <h2 class="titulo">parabéns 🎉</h2>
-        <p>você concluiu todas as fases!</p>
-        <button onclick="iniciarjogo()">jogar novamente</button>
-      `;
+  const fases = [
+    {
+      pergunta: "quem construiu a arca?",
+      opcoes: ["noé", "abraão", "moisés"],
+      correta: 0
+    },
+    {
+      pergunta: "quem abriu o mar vermelho?",
+      opcoes: ["josué", "moisés", "davi"],
+      correta: 1
+    },
+    {
+      pergunta: "quem derrotou golias?",
+      opcoes: ["saul", "davi", "sansão"],
+      correta: 1
     }
-  } else {
-    alert("tente novamente");
-  }
-}
-</script>
+  ];
 
-
-// música ambiente (loop suave)
-let musica;
-function musicaFundo(){
-  if(!somLigado) return;
-  musica = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  musica.type = "sine";
-  musica.frequency.value = 120;
-  musica.connect(gain);
-  gain.connect(audioCtx.destination);
-  gain.gain.value = 0.03;
-  musica.start();
-}
-
-function pararMusica(){
-  if(musica) musica.stop();
-}
-
-// ======= JOGO =======
-const niveis = ["CRIANÇAS","JOVENS","ADULTOS"];
-let nivelAtual = 0;
-let perguntaAtual = 0;
-let pontos = 0;
-
-const perguntas = [
-  [
-    {q:"Quem construiu a arca?", r:["Noé","Moisés","Abraão"], c:0},
-    {q:"Quem venceu Golias?", r:["Davi","Saul","Sansão"], c:0}
-  ],
-  [
-    {q:"Quem libertou Israel do Egito?", r:["Moisés","Josué","Davi"], c:0}
-  ],
-  [
-    {q:"Quem escreveu a maioria das cartas?", r:["Paulo","Pedro","João"], c:0}
-  ]
-];
-
-function render(){
-  const p = perguntas[nivelAtual][perguntaAtual];
-
-  document.getElementById("app").innerHTML = `
-    <div class="hud">
-      <div>${niveis[nivelAtual]}</div>
-      <div class="score">⭐ ${pontos}</div>
-      <div class="sound" onclick="toggleSom()">🔊</div>
-    </div>
-
-    <div class="card">
-      <div class="title">⚔️ Guerreiros da Luz</div>
-      <p>${p.q}</p>
-      ${p.r.map((op,i)=>`
-        <button onclick="answer(${i})">${op}</button>
-      `).join("")}
-    </div>
-  `;
-}
-
-function toggleSom(){
-  somLigado = !somLigado;
-  if(!somLigado) pararMusica();
-  else musicaFundo();
-  render();
-}
-
-function answer(i){
-  const p = perguntas[nivelAtual][perguntaAtual];
-
-  if(i === p.c){
-    pontos += 10;
-    beep(800,0.3);
-  }else{
-    beep(200,0.5);
+  function iniciarjogo(){
+    fase = 0;
+    mostrarfase();
   }
 
-  document.getElementById("app").innerHTML += `
-    <button onclick="next()">Continuar</button>
-  `;
-}
+  function mostrarfase(){
+    const f = fases[fase];
+    let html = `<h2 class="titulo">fase ${fase + 1}</h2>`;
+    html += `<p>${f.pergunta}</p>`;
 
-function next(){
-  perguntaAtual++;
-  if(perguntaAtual < perguntas[nivelAtual].length){
-    render();
-  }else{
-    nivelAtual++;
-    perguntaAtual = 0;
-    beep(1200,0.6);
+    f.opcoes.forEach((opcao, i) => {
+      html += `<button onclick="responder(${i})">${opcao}</button><br><br>`;
+    });
 
-    if(nivelAtual < perguntas.length){
-      render();
+    document.getElementById("app").innerHTML = html;
+  }
+
+  function responder(resposta){
+    if(resposta === fases[fase].correta){
+      fase++;
+      if(fase < fases.length){
+        mostrarfase();
+      }else{
+        document.getElementById("app").innerHTML = `
+          <h2 class="titulo">parabéns 🎉</h2>
+          <p>você concluiu todas as fases!</p>
+          <button onclick="iniciarjogo()">jogar novamente</button>
+        `;
+      }
     }else{
-      pararMusica();
-      document.getElementById("app").innerHTML = `
-        <div class="card">
-          <div class="title">🏆 Herói da Fé</div>
-          <p>Pontuação Final: ⭐ ${pontos}</p>
-          <button onclick="location.reload()">Jogar novamente</button>
-        </div>
-      `;
+      alert("tente novamente");
     }
   }
-}
-
-// iniciar
-document.body.addEventListener("click", ()=>{
-  if(audioCtx.state === "suspended") audioCtx.resume();
-  if(!musica) musicaFundo();
-},{once:true});
-
-render();
 </script>
 
 </body>

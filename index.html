@@ -2,23 +2,104 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>teste som</title>
+<title>guerreiros da luz</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0a0f1f;
+  font-family:Arial, sans-serif;
+  color:#fff;
+}
+
+#inicio, #fases{
+  text-align:center;
+}
+
+.pentagono{
+  width:320px;
+  height:320px;
+  clip-path: polygon(
+    50% 0%,
+    100% 38%,
+    82% 100%,
+    18% 100%,
+    0% 38%
+  );
+  background: url("logonovo.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+h1{
+  margin:0 0 20px;
+  text-transform:lowercase;
+}
+
+.botoes{
+  position:absolute;
+  bottom:20px;
+  display:flex;
+  gap:12px;
+}
+
+button{
+  padding:8px 14px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:14px;
+}
+</style>
 </head>
 
-<body style="text-align:center; padding-top:50px;">
+<body>
 
-<h2>teste de som</h2>
+<!-- TELA INICIAL -->
+<div id="inicio">
+  <div class="pentagono">
+    <h1>guerreiros da luz</h1>
+    <div class="botoes">
+      <button onclick="iniciar()">iniciar missão</button>
+      <button onclick="som()">som</button>
+    </div>
+  </div>
+</div>
 
-<audio id="a">
+<!-- TELA DE FASES -->
+<div id="fases" style="display:none;">
+  <h2>escolha sua fase</h2>
+  <button onclick="selecionarFase('criança')">criança</button>
+  <button onclick="selecionarFase('jovem')">jovem</button>
+  <button onclick="selecionarFase('adulto')">adulto</button>
+  <button onclick="selecionarFase('ebd')">ebd</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="audioBg" loop>
   <source src="som.mp3" type="audio/mpeg">
 </audio>
 
-<button onclick="tocar()">tocar som</button>
-
 <script>
-function tocar(){
-  const audio = document.getElementById("a");
+const audio = document.getElementById("audioBg");
+
+function som(){
   audio.play();
+}
+
+function iniciar(){
+  document.getElementById("inicio").style.display = "none";
+  document.getElementById("fases").style.display = "block";
+}
+
+function selecionarFase(fase){
+  alert("fase selecionada: " + fase);
 }
 </script>
 

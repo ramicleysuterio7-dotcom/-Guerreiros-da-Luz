@@ -105,12 +105,21 @@ button:hover{
 </div>
 
 <script>
-function iniciar(){
-  alert("missão iniciada!");
-}
+
+<script>
+let audio = new Audio("som.mp3");
+audio.loop = true;
 
 function som(){
-  alert("som ligado!");
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
+}
+
+function iniciar(){
+  alert("missão iniciada 🚀");
 }
 </script>
 

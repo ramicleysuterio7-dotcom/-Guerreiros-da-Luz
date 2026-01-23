@@ -86,6 +86,12 @@ button{
 <!-- TELA DE FASES -->
 <div id="fases" class="tela">
   <h2>escolha sua fase</h2>
+<div id="placar" style="margin:20px 0; font-size:18px;">
+  pontuação: <span id="pontos">0</span>
+</div>
+
+<button onclick="acertou()">acertou</button><br><br>
+<button onclick="errou()">errou</button>
 
   <button onclick="selecionarFase('criança')">criança</button><br><br>
   <button onclick="selecionarFase('jovem')">jovem</button><br><br>
@@ -123,6 +129,23 @@ function trocarTela(id){
 function selecionarFase(fase){
   alert("fase selecionada: " + fase);
 }
+  let pontos = 0;
+
+function atualizarPlacar(){
+  document.getElementById("pontos").innerText = pontos;
+}
+
+function acertou(){
+  pontos += 10;
+  atualizarPlacar();
+}
+
+function errou(){
+  pontos -= 5;
+  if(pontos < 0) pontos = 0;
+  atualizarPlacar();
+}
+
 </script>
 
 </body>

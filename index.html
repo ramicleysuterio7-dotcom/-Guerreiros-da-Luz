@@ -108,24 +108,25 @@ button:hover{
 
   </div>
 </div>
+<audio id="audioBg" src="som.mp3" loop></audio>
 
-<script>
 
-<script>
-let audio = new Audio("som.mp3");
-audio.loop = true;
+<script>}<script>
+const audio = document.getElementById("audioBg");
 
 function som(){
   if(audio.paused){
     audio.play();
-  }else{
+  } else {
     audio.pause();
   }
 }
 
 function iniciar(){
-  alert("missão iniciada 🚀");
+  alert("missão iniciada ⚔️🔥");
 }
+</script>
+
 </script>
 
 </body>

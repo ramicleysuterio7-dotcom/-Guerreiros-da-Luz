@@ -6,30 +6,29 @@
 
 <style>
 body{
- body{
   margin:0;
   min-height:100vh;
   background:#0a0f1f;
   font-family:Arial, sans-serif;
   color:#fff;
-  display:flex;
-  justify-content:center;
 }
- 
-#fases{
-  margin-top:40px;
+
+/* telas */
+.tela{
+  display:none;
   text-align:center;
+  padding-top:40px;
 }
-#fases button{
+
+.tela.ativa{
   display:block;
-  margin:10px auto;
 }
 
-
-
+/* pentágono */
 .pentagono{
   width:320px;
   height:320px;
+  margin:0 auto;
   clip-path: polygon(
     50% 0%,
     100% 38%,
@@ -37,22 +36,24 @@ body{
     18% 100%,
     0% 38%
   );
-  background: url("logonovo.png") center/cover no-repeat;
+  background:url("logonovo.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  justify-content:space-between;
+  padding:20px;
+  box-sizing:border-box;
 }
 
-h1{
-  margin:0 0 20px;
+/* título */
+.titulo{
+  font-size:22px;
   text-transform:lowercase;
 }
 
+/* botões */
 .botoes{
-  position:absolute;
-  bottom:20px;
   display:flex;
+  justify-content:center;
   gap:12px;
 }
 
@@ -69,9 +70,12 @@ button{
 <body>
 
 <!-- TELA INICIAL -->
-<div id="inicio">
+<div id="inicio" class="tela ativa">
   <div class="pentagono">
-    <h1>guerreiros da luz</h1>
+    <div></div>
+
+    <div class="titulo">guerreiros da luz</div>
+
     <div class="botoes">
       <button onclick="iniciar()">iniciar missão</button>
       <button onclick="som()">som</button>
@@ -80,11 +84,12 @@ button{
 </div>
 
 <!-- TELA DE FASES -->
-<div id="fases" style="display:none;">
+<div id="fases" class="tela">
   <h2>escolha sua fase</h2>
-  <button onclick="selecionarFase('criança')">criança</button>
-  <button onclick="selecionarFase('jovem')">jovem</button>
-  <button onclick="selecionarFase('adulto')">adulto</button>
+
+  <button onclick="selecionarFase('criança')">criança</button><br><br>
+  <button onclick="selecionarFase('jovem')">jovem</button><br><br>
+  <button onclick="selecionarFase('adulto')">adulto</button><br><br>
   <button onclick="selecionarFase('ebd')">ebd</button>
 </div>
 
@@ -97,12 +102,22 @@ button{
 const audio = document.getElementById("audioBg");
 
 function som(){
-  audio.play();
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
 }
 
 function iniciar(){
-  document.getElementById("inicio").style.display = "none";
-  document.getElementById("fases").style.display = "block";
+  trocarTela("fases");
+}
+
+function trocarTela(id){
+  document.querySelectorAll(".tela").forEach(t=>{
+    t.classList.remove("ativa");
+  });
+  document.getElementById(id).classList.add("ativa");
 }
 
 function selecionarFase(fase){

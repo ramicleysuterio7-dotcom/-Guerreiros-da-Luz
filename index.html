@@ -89,6 +89,13 @@ button{
 <div id="placar" style="margin:20px 0; font-size:18px;">
   pontuação: <span id="pontos">0</span>
 </div>
+<div id="perguntaBox" style="margin-top:20px;">
+  <h3 id="pergunta"></h3>
+
+  <button onclick="responder(0)" id="op0"></button><br><br>
+  <button onclick="responder(1)" id="op1"></button><br><br>
+  <button onclick="responder(2)" id="op2"></button>
+</div>
 
 <button onclick="acertou()">acertou</button><br><br>
 <button onclick="errou()">errou</button>
@@ -97,13 +104,6 @@ button{
   <button onclick="selecionarFase('jovem')">jovem</button><br><br>
   <button onclick="selecionarFase('adulto')">adulto</button><br><br>
   <button onclick="selecionarFase('ebd')">ebd</button>
-</div>
-<div id="perguntaBox" style="margin-top:20px;">
-  <h3 id="pergunta"></h3>
-
-  <button onclick="responder(0)" id="op0"></button><br><br>
-  <button onclick="responder(1)" id="op1"></button><br><br>
-  <button onclick="responder(2)" id="op2"></button>
 </div>
 
 <!-- AUDIO -->

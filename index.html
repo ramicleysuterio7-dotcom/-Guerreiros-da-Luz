@@ -96,6 +96,34 @@ button{
   <button onclick="responder(1)" id="op1"></button><br><br>
   <button onclick="responder(2)" id="op2"></button>
 </div>
+// PERGUNTA MODELO (fase 1)
+const perguntaAtual = {
+  texto: "Quem construiu a arca?",
+  opcoes: ["Moisés", "Noé", "Abraão"],
+  correta: 1
+};
+
+// MOSTRAR PERGUNTA NA TELA
+function carregarPergunta(){
+  document.getElementById("pergunta").innerText = perguntaAtual.texto;
+  document.getElementById("op0").innerText = perguntaAtual.opcoes[0];
+  document.getElementById("op1").innerText = perguntaAtual.opcoes[1];
+  document.getElementById("op2").innerText = perguntaAtual.opcoes[2];
+}
+
+// QUANDO O JOGADOR RESPONDE
+function responder(opcao){
+  if(opcao === perguntaAtual.correta){
+    alert("Resposta correta! ⚔️🔥");
+    acertou(); // soma pontos
+  } else {
+    alert("Resposta errada 😬");
+    errou(); // tira pontos
+  }
+}
+
+// CARREGA AO ABRIR A FASE
+carregarPergunta();
 
 <button onclick="acertou()">acertou</button><br><br>
 <button onclick="errou()">errou</button>

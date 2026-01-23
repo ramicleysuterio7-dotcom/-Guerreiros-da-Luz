@@ -13,11 +13,11 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at top, #0b1a2a, #000814);
+  background:#000814;
   font-family:'Orbitron', sans-serif;
 }
 
-/* CONTAINER DO APP */
+/* contêiner geral */
 .app{
   width:320px;
   height:380px;
@@ -26,11 +26,18 @@ body{
   align-items:center;
 }
 
-/* PENTÁGONO */
+/* pentágono com imagem */
 .pentagono{
   position:relative;
   width:300px;
   height:350px;
+
+  /* 🔴 IMAGEM DA INTERFACE */
+  background-image: url("logonovo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   clip-path: polygon(
     50% 0%,
     95% 30%,
@@ -38,61 +45,46 @@ body{
     20% 100%,
     5% 30%
   );
-  overflow:hidden;
-  box-shadow:0 0 35px rgba(0,170,255,.7);
-  background:#111;
+
+  box-shadow: 0 0 35px rgba(0,150,255,.9);
 }
 
-/* IMAGEM */
-.pentagono img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0.95;
-}
-
-/* TÍTULO CENTRAL */
+/* título */
 .titulo{
   position:absolute;
-  top:25px;
+  top:20px;
   width:100%;
   text-align:center;
   font-size:20px;
   font-weight:900;
-  color:#9ad7ff;
-  text-shadow:
-    0 0 10px #00aaff,
-    0 0 20px #0077ff;
+  color:#cce9ff;
+  text-shadow:0 0 12px #00aaff;
 }
 
-/* ÁREA DOS BOTÕES */
+/* botões */
 .botoes{
   position:absolute;
-  bottom:30px;
+  bottom:25px;
   width:100%;
   display:flex;
   justify-content:center;
   gap:12px;
 }
 
-/* BOTÕES */
 button{
-  padding:8px 16px;
-  border:none;
-  border-radius:18px;
-  font-family:'Orbitron', sans-serif;
-  font-size:12px;
+  padding:7px 14px;
+  font-size:11px;
   font-weight:700;
+  border:none;
+  border-radius:20px;
   cursor:pointer;
   color:white;
   background:linear-gradient(135deg,#00aaff,#0055ff);
-  box-shadow:0 0 12px rgba(0,170,255,.8);
-  transition:transform .2s, box-shadow .2s;
+  box-shadow:0 0 10px rgba(0,170,255,.8);
 }
 
 button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 18px rgba(0,200,255,1);
+  transform:scale(1.08);
 }
 </style>
 </head>
@@ -102,42 +94,23 @@ button:hover{
 <div class="app">
   <div class="pentagono">
 
-    <!-- TROQUE AQUI PELO NOME EXATO DA SUA IMAGEM -->
-    <img src="logonovo.png">
-
     <div class="titulo">guerreiros da luz</div>
 
     <div class="botoes">
-      <button onclick="iniciarMissao()">iniciar missão</button>
-      <button onclick="toggleSom()">som</button>
+      <button onclick="iniciar()">iniciar missão</button>
+      <button onclick="som()">som</button>
     </div>
 
   </div>
 </div>
 
 <script>
-/* SOM */
-let audioAtivo = false;
-let audio;
-
-function toggleSom(){
-  if(!audio){
-    audio = new Audio("som.mp3"); // coloque o arquivo de som no github
-    audio.loop = true;
-  }
-
-  if(audioAtivo){
-    audio.pause();
-    audioAtivo = false;
-  }else{
-    audio.play();
-    audioAtivo = true;
-  }
+function iniciar(){
+  alert("missão iniciada!");
 }
 
-/* INICIAR JOGO */
-function iniciarMissao(){
-  alert("missão iniciada! ⚔️✨");
+function som(){
+  alert("som ligado!");
 }
 </script>
 

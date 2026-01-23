@@ -13,14 +13,14 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#000814;
+  background: radial-gradient(circle at top, #0b1a2a, #000814);
   font-family:'Orbitron', sans-serif;
 }
 
-/* CONTÊINER */
+/* CONTAINER DO APP */
 .app{
   width:320px;
-  height:360px;
+  height:380px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -30,11 +30,17 @@ body{
 .pentagono{
   position:relative;
   width:300px;
-  height:340px;
-  background:#111;
-  clip-path: polygon(50% 0%, 95% 30%, 80% 100%, 20% 100%, 5% 30%);
+  height:350px;
+  clip-path: polygon(
+    50% 0%,
+    95% 30%,
+    80% 100%,
+    20% 100%,
+    5% 30%
+  );
   overflow:hidden;
-  box-shadow:0 0 30px #00aaff;
+  box-shadow:0 0 35px rgba(0,170,255,.7);
+  background:#111;
 }
 
 /* IMAGEM */
@@ -42,41 +48,51 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
+  opacity:0.95;
 }
 
-/* TÍTULO */
+/* TÍTULO CENTRAL */
 .titulo{
   position:absolute;
-  top:20px;
+  top:25px;
   width:100%;
   text-align:center;
   font-size:20px;
   font-weight:900;
   color:#9ad7ff;
-  text-shadow:0 0 10px #00aaff;
+  text-shadow:
+    0 0 10px #00aaff,
+    0 0 20px #0077ff;
 }
 
-/* BOTÕES */
+/* ÁREA DOS BOTÕES */
 .botoes{
   position:absolute;
-  bottom:25px;
+  bottom:30px;
   width:100%;
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:12px;
 }
 
+/* BOTÕES */
 button{
-  padding:8px 14px;
+  padding:8px 16px;
   border:none;
-  border-radius:20px;
+  border-radius:18px;
   font-family:'Orbitron', sans-serif;
   font-size:12px;
   font-weight:700;
   cursor:pointer;
   color:white;
   background:linear-gradient(135deg,#00aaff,#0055ff);
-  box-shadow:0 0 10px rgba(0,170,255,.7);
+  box-shadow:0 0 12px rgba(0,170,255,.8);
+  transition:transform .2s, box-shadow .2s;
+}
+
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 18px rgba(0,200,255,1);
 }
 </style>
 </head>
@@ -86,19 +102,44 @@ button{
 <div class="app">
   <div class="pentagono">
 
-    <!-- MUDE O NOME AQUI -->
-   <img src="logo-novo.png" class="logo-pentagono">
-
+    <!-- TROQUE AQUI PELO NOME EXATO DA SUA IMAGEM -->
+    <img src="logonovo.png">
 
     <div class="titulo">guerreiros da luz</div>
 
     <div class="botoes">
-      <button>iniciar missão</button>
-      <button>som</button>
+      <button onclick="iniciarMissao()">iniciar missão</button>
+      <button onclick="toggleSom()">som</button>
     </div>
 
   </div>
 </div>
+
+<script>
+/* SOM */
+let audioAtivo = false;
+let audio;
+
+function toggleSom(){
+  if(!audio){
+    audio = new Audio("som.mp3"); // coloque o arquivo de som no github
+    audio.loop = true;
+  }
+
+  if(audioAtivo){
+    audio.pause();
+    audioAtivo = false;
+  }else{
+    audio.play();
+    audioAtivo = true;
+  }
+}
+
+/* INICIAR JOGO */
+function iniciarMissao(){
+  alert("missão iniciada! ⚔️✨");
+}
+</script>
 
 </body>
 </html>

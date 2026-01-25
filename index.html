@@ -96,6 +96,8 @@ button{
   <button onclick="responder(1)" id="op1"></button><br><br>
   <button onclick="responder(2)" id="op2"></button>
 </div>
+  <script>
+
 // PERGUNTA MODELO (fase 1)
 const perguntaAtual = {
   texto: "Quem construiu a arca?",
@@ -124,15 +126,8 @@ function responder(opcao){
 
 // CARREGA AO ABRIR A FASE
 carregarPergunta();
+  </script>
 
-<button onclick="acertou()">acertou</button><br><br>
-<button onclick="errou()">errou</button>
-
-  <button onclick="selecionarFase('criança')">criança</button><br><br>
-  <button onclick="selecionarFase('jovem')">jovem</button><br><br>
-  <button onclick="selecionarFase('adulto')">adulto</button><br><br>
-  <button onclick="selecionarFase('ebd')">ebd</button>
-</div>
 
 <!-- AUDIO -->
 <audio id="audioBg" loop>

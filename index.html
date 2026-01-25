@@ -107,22 +107,47 @@ let pontos = 0;
 const audio = document.getElementById("audioBg");
 
 // ===== PERGUNTA =====
-let perguntaAtual = {
-  texto: "Quem construiu a arca?",
-  opcoes: ["Moisés", "Noé", "Abraão"],
-  correta: 1
-};
+let perguntas = [
+  {
+    texto: "Quem construiu a arca?",
+    opcoes: ["Moisés", "Noé", "Abraão"],
+    correta: 1
+  },
+  {
+    texto: "Quem abriu o Mar Vermelho?",
+    opcoes: ["Josué", "Moisés", "Elias"],
+    correta: 1
+  },
+  {
+    texto: "Quem derrotou Golias?",
+    opcoes: ["Saul", "Davi", "Sansão"],
+    correta: 1
+  },
+  {
+    texto: "Quantos dias Jesus jejuou no deserto?",
+    opcoes: ["30", "20", "40"],
+    correta: 2
+  }
+];
+
+let indicePergunta = 0;
+
 
 // ===== FUNÇÕES =====
 function carregarPergunta(){
-  document.getElementById("pergunta").innerText = perguntaAtual.texto;
-  document.getElementById("op0").innerText = perguntaAtual.opcoes[0];
-  document.getElementById("op1").innerText = perguntaAtual.opcoes[1];
-  document.getElementById("op2").innerText = perguntaAtual.opcoes[2];
+  let p = perguntas[indicePergunta];
+
+  document.getElementById("pergunta").innerText = p.texto;
+  document.getElementById("op0").innerText = p.opcoes[0];
+  document.getElementById("op1").innerText = p.opcoes[1];
+  document.getElementById("op2").innerText = p.opcoes[2];
 }
 
+
 function responder(opcao){
-  if(opcao === perguntaAtual.correta){
+  let correta = perguntas[indicePergunta].correta;
+
+  if(opcao === correta){
     alert("Resposta correta! ⚔️🔥");
     pontos += 10;
   }else{
@@ -130,22 +155,20 @@ function responder(opcao){
     pontos -= 5;
     if(pontos < 0) pontos = 0;
   }
+
   document.getElementById("pontos").innerText = pontos;
+
+  indicePergunta++;
+
+  if(indicePergunta < perguntas.length){
+    carregarPergunta();
+  }else{
+    alert("Missão concluída! 🏆🔥");
+    indicePergunta = 0;
+    trocarTela("inicio");
+  }
 }
 
-function trocarTela(id){
-  document.querySelectorAll(".tela").forEach(t=>{
-    t.classList.remove("ativa");
-  });
-  document.getElementById(id).classList.add("ativa");
-}
-
-function selecionarFase(fase){
-  alert("Fase selecionada: " + fase);
-  trocarTela("fases");
-  audio.play();
-  carregarPergunta();
-}
 
 function som(){
   if(audio.paused){

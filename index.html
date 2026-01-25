@@ -97,16 +97,17 @@ button{
   <button onclick="responder(2)" id="op2"></button>
 </div>
   <script>
+let pontos = 0;
 
-// PERGUNTA MODELO (fase 1)
-const perguntaAtual = {
+// PERGUNTA MODELO
+let perguntaAtual = {
   texto: "Quem construiu a arca?",
   opcoes: ["Moisés", "Noé", "Abraão"],
   correta: 1
 };
 
-// MOSTRAR PERGUNTA NA TELA
-function carregarPergunta(){
+// CARREGA A PERGUNTA NA TELA
+function carregarPergunta() {
   document.getElementById("pergunta").innerText = perguntaAtual.texto;
   document.getElementById("op0").innerText = perguntaAtual.opcoes[0];
   document.getElementById("op1").innerText = perguntaAtual.opcoes[1];
@@ -114,19 +115,34 @@ function carregarPergunta(){
 }
 
 // QUANDO O JOGADOR RESPONDE
-function responder(opcao){
-  if(opcao === perguntaAtual.correta){
+function responder(opcao) {
+  if (opcao === perguntaAtual.correta) {
     alert("Resposta correta! ⚔️🔥");
-    acertou(); // soma pontos
+    pontos++;
   } else {
     alert("Resposta errada 😬");
-    errou(); // tira pontos
+    pontos--;
   }
+
+  document.getElementById("pontuacao").innerText = "pontuação: " + pontos;
 }
 
-// CARREGA AO ABRIR A FASE
+// ESCOLHER FASE
+function selecionarFase(fase) {
+  alert("Fase selecionada: " + fase);
+
+  let audio = document.getElementById("audioBg");
+  if (audio) {
+    audio.play();
+  }
+
+  carregarPergunta();
+}
+
+// INICIA O JOGO
 carregarPergunta();
-  </script>
+</script>
+
 
 
 <!-- AUDIO -->

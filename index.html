@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>guerreiros da luz</title>
+<title>Guerreiros da Luz</title>
 
 <style>
 body{
@@ -13,7 +13,6 @@ body{
   color:#fff;
 }
 
-/* telas */
 .tela{
   display:none;
   text-align:center;
@@ -24,7 +23,6 @@ body{
   display:block;
 }
 
-/* pentágono */
 .pentagono{
   width:320px;
   height:320px;
@@ -44,13 +42,11 @@ body{
   box-sizing:border-box;
 }
 
-/* título */
 .titulo{
   font-size:22px;
   text-transform:lowercase;
 }
 
-/* botões */
 .botoes{
   display:flex;
   justify-content:center;
@@ -78,75 +74,27 @@ button{
 
     <div class="botoes">
       <button onclick="selecionarFase('iniciante')">Iniciar missão</button>
-
-      <button onclick="som()">som</button>
+      <button onclick="som()">Som</button>
     </div>
   </div>
 </div>
 
-<!-- TELA DE FASES -->
+<!-- TELA DE FASE -->
 <div id="fases" class="tela">
-  <h2>escolha sua fase</h2>
-<div id="placar" style="margin:20px 0; font-size:18px;">
-  pontuação: <span id="pontos">0</span>
-</div>
-<div id="perguntaBox" style="margin-top:20px;">
+  <h2>Escolha sua fase</h2>
+
+  <div id="placar" style="margin:20px 0; font-size:18px;">
+    pontuação: <span id="pontos">0</span>
+  </div>
+
   <div id="areaPergunta">
-  <h3 id="pergunta"></h3>
+    <h3 id="pergunta"></h3>
 
-  <button onclick="responder(0)" id="op0"></button><br><br>
-  <button onclick="responder(1)" id="op1"></button><br><br>
-  <button onclick="responder(2)" id="op2"></button>
+    <button onclick="responder(0)" id="op0"></button><br><br>
+    <button onclick="responder(1)" id="op1"></button><br><br>
+    <button onclick="responder(2)" id="op2"></button>
+  </div>
 </div>
-
-  <script>
-let pontos = 0;
-
-// PERGUNTA MODELO
-let perguntaAtual = {
-  texto: "Quem construiu a arca?",
-  opcoes: ["Moisés", "Noé", "Abraão"],
-  correta: 1
-};
-
-// CARREGA A PERGUNTA NA TELA
-function carregarPergunta() {
-  document.getElementById("pergunta").innerText = perguntaAtual.texto;
-  document.getElementById("op0").innerText = perguntaAtual.opcoes[0];
-  document.getElementById("op1").innerText = perguntaAtual.opcoes[1];
-  document.getElementById("op2").innerText = perguntaAtual.opcoes[2];
-}
-
-// QUANDO O JOGADOR RESPONDE
-function responder(opcao) {
-  if (opcao === perguntaAtual.correta) {
-    alert("Resposta correta! ⚔️🔥");
-    pontos++;
-  } else {
-    alert("Resposta errada 😬");
-    pontos--;
-  }
-
-  document.getElementById("pontuacao").innerText = "pontuação: " + pontos;
-}
-
-// ESCOLHER FASE
-function selecionarFase(fase) {
-  alert("Fase selecionada: " + fase);
-
-  let audio = document.getElementById("audioBg");
-  if (audio) {
-    audio.play();
-  }
-
-  carregarPergunta();
-}
-
-// INICIA O JOGO
-carregarPergunta();
-</script>
-
-
 
 <!-- AUDIO -->
 <audio id="audioBg" loop>
@@ -154,18 +102,35 @@ carregarPergunta();
 </audio>
 
 <script>
+// ===== VARIÁVEIS =====
+let pontos = 0;
 const audio = document.getElementById("audioBg");
 
-function som(){
-  if(audio.paused){
-    audio.play();
-  }else{
-    audio.pause();
-  }
+// ===== PERGUNTA =====
+let perguntaAtual = {
+  texto: "Quem construiu a arca?",
+  opcoes: ["Moisés", "Noé", "Abraão"],
+  correta: 1
+};
+
+// ===== FUNÇÕES =====
+function carregarPergunta(){
+  document.getElementById("pergunta").innerText = perguntaAtual.texto;
+  document.getElementById("op0").innerText = perguntaAtual.opcoes[0];
+  document.getElementById("op1").innerText = perguntaAtual.opcoes[1];
+  document.getElementById("op2").innerText = perguntaAtual.opcoes[2];
 }
 
-function iniciar(){
-  trocarTela("fases");
+function responder(opcao){
+  if(opcao === perguntaAtual.correta){
+    alert("Resposta correta! ⚔️🔥");
+    pontos += 10;
+  }else{
+    alert("Resposta errada 😬");
+    pontos -= 5;
+    if(pontos < 0) pontos = 0;
+  }
+  document.getElementById("pontos").innerText = pontos;
 }
 
 function trocarTela(id){
@@ -176,25 +141,19 @@ function trocarTela(id){
 }
 
 function selecionarFase(fase){
-  alert("fase selecionada: " + fase);
-}
-  let pontos = 0;
-
-function atualizarPlacar(){
-  document.getElementById("pontos").innerText = pontos;
+  alert("Fase selecionada: " + fase);
+  trocarTela("fases");
+  audio.play();
+  carregarPergunta();
 }
 
-function acertou(){
-  pontos += 10;
-  atualizarPlacar();
+function som(){
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
 }
-
-function errou(){
-  pontos -= 5;
-  if(pontos < 0) pontos = 0;
-  atualizarPlacar();
-}
-
 </script>
 
 </body>

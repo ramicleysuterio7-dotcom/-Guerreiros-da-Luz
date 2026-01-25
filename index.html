@@ -90,6 +90,9 @@ button{
   <div id="placar" style="margin:20px 0; font-size:18px;">
     Pontuação: <span id="pontos">0</span>
   </div>
+<div id="contadorPergunta" style="margin-bottom:10px; font-size:16px;">
+  Pergunta 1 de 4
+</div>
 
   <div id="areaPergunta">
     <h3 id="pergunta"></h3>
@@ -151,7 +154,6 @@ function iniciarMissao(){
   trocarTela("fases");
   carregarPergunta();
 }
-
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
 
@@ -159,7 +161,12 @@ function carregarPergunta(){
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];
   document.getElementById("op2").innerText = p.opcoes[2];
+
+  document.getElementById("contadorPergunta").innerText =
+    "Pergunta " + (indicePergunta + 1) + " de " + perguntas.length;
 }
+
+
 
 function responder(opcao){
   let correta = perguntas[indicePergunta].correta;

@@ -124,8 +124,13 @@ let indicePergunta = 0;
 let perguntas = [];
 let nivelAtual = "";
 
-// ===== BANCO DE PERGUNTAS =====
-const bancoPerguntas = {
+  <script>
+// ================================
+// BANCO DE PERGUNTAS POR NÍVEL
+// ================================
+
+let bancoPerguntas = {
+
   iniciante: [
     {
       texto: "Quem construiu a arca?",
@@ -133,21 +138,41 @@ const bancoPerguntas = {
       correta: 1
     },
     {
-      texto: "Quem abriu o Mar Vermelho?",
-      opcoes: ["Josué", "Moisés", "Elias"],
-      correta: 1
-    }
-  ],
-
-  guerreiro: [
+      texto: "Quem foi engolido por um grande peixe?",
+      opcoes: ["Jonas", "Pedro", "Paulo"],
+      correta: 0
+    },
     {
       texto: "Quem derrotou Golias?",
       opcoes: ["Saul", "Davi", "Sansão"],
       correta: 1
     },
     {
-      texto: "Quantos dias Jesus jejuou no deserto?",
-      opcoes: ["30", "20", "40"],
+      texto: "Quantos dias Deus levou para criar o mundo?",
+      opcoes: ["5", "6", "7"],
+      correta: 1
+    }
+  ],
+
+  guerreiro: [
+    {
+      texto: "Quem abriu o Mar Vermelho?",
+      opcoes: ["Josué", "Moisés", "Elias"],
+      correta: 1
+    },
+    {
+      texto: "Qual era o nome do primeiro rei de Israel?",
+      opcoes: ["Davi", "Saul", "Salomão"],
+      correta: 1
+    },
+    {
+      texto: "Quem interpretou o sonho do faraó?",
+      opcoes: ["Daniel", "José", "Moisés"],
+      correta: 1
+    },
+    {
+      texto: "Quantos mandamentos Deus deu a Moisés?",
+      opcoes: ["7", "12", "10"],
       correta: 2
     }
   ],
@@ -159,12 +184,56 @@ const bancoPerguntas = {
       correta: 1
     },
     {
-      texto: "Em que monte Moisés recebeu os Dez Mandamentos?",
-      opcoes: ["Horebe", "Sinai", "Carmelo"],
+      texto: "Qual profeta enfrentou os profetas de Baal?",
+      opcoes: ["Elias", "Eliseu", "Isaías"],
+      correta: 0
+    },
+    {
+      texto: "Quem foi lançado na cova dos leões?",
+      opcoes: ["José", "Jeremias", "Daniel"],
+      correta: 2
+    },
+    {
+      texto: "Qual livro vem logo após os Evangelhos?",
+      opcoes: ["Romanos", "Atos", "Hebreus"],
       correta: 1
+    }
+  ],
+
+  ebd: [
+    {
+      texto: "Quantos dias Jesus jejuou no deserto?",
+      opcoes: ["30", "20", "40"],
+      correta: 2
+    },
+    {
+      texto: "Quem escreveu o livro de Apocalipse?",
+      opcoes: ["Pedro", "Paulo", "João"],
+      correta: 2
+    },
+    {
+      texto: "Qual era o nome hebraico de Paulo?",
+      opcoes: ["Simão", "Saulo", "Barnabé"],
+      correta: 1
+    },
+    {
+      texto: "Onde Jesus nasceu?",
+      opcoes: ["Jerusalém", "Nazaré", "Belém"],
+      correta: 2
     }
   ]
 };
+
+// ================================
+// VARIÁVEIS DO JOGO
+// ================================
+let perguntas = [];
+let indicePergunta = 0;
+let pontos = 0;
+let nivelAtual = "";
+</script>
+
+
 
 // ===== TROCAR TELAS =====
 function trocarTela(id){

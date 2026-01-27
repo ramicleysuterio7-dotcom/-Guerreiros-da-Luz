@@ -1,136 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <title>Guerreiros da Luz</title>
 
 <style>
-body{
-  margin:0;
-  min-height:100vh;
-  background:#0a0f1f;
-  font-family:Arial, sans-serif;
-  color:#fff;
-}
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0b0b0b;
+    color:#fff;
+    text-align:center;
+  }
 
-.tela{
-  display:none;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
+  .tela{
+    display:none;
+    padding:20px;
+  }
 
-.tela.ativa{
-  display:block;
-}
+  .tela.ativa{
+    display:block;
+  }
 
-.pentagono{
-  width: min(520px, 90vw);
-  height: min(520px, 90vw);
+  /* PENTÁGONO */
+  .pentagono{
+    width:520px;
+    height:520px;
+    margin:20px auto;
+    background:#1a1a1a;
+    clip-path: polygon(
+      50% 0%,
+      100% 38%,
+      82% 100%,
+      18% 100%,
+      0% 38%
+    );
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:20px;
+  }
 
-  margin:0 auto;
-  position: relative; /* IMPORTANTE */
-  clip-path: polygon(
-    50% 0%,
-    100% 38%,
-    82% 100%,
-    18% 100%,
-    0% 38%
-  );
-  background:url("logonovo.png") center/cover no-repeat;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:32px;
-  box-sizing:border-box;
-  z-index:1;
-}
+  button{
+    padding:12px 18px;
+    font-size:16px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#d4af37;
+    font-weight:bold;
+  }
 
+  button:hover{
+    background:#f1c94a;
+  }
 
-
-
-
-
-
-
-.titulo{
-  font-size:22px;
-  text-align:center;
-}
-
-.botoes{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
-
-button{
-  padding:8px 14px;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:14px;
-}
+  .opcao{
+    width:80%;
+    margin:6px auto;
+  }
 </style>
 </head>
 
 <body>
 
-<!-- TELA INICIAL -->
+<!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="pentagono">
-    <div></div>
-
-    <div class="titulo">Guerreiros da Luz</div>
-
-    <div class="botoes">
-      <button onclick="selecionarFase('iniciante')">Iniciante</button>
-      <button onclick="selecionarFase('guerreiro')">Guerreiro</button>
-      <button onclick="selecionarFase('campeao')">Campeão</button>
-      <button onclick="som()">Som</button>
-    </div>
-  </div>
+  <h1>⚔️ Guerreiros da Luz ⚔️</h1>
+  <button onclick="trocarTela('fases')">Iniciar Missão</button>
 </div>
 
-<!-- TELA DE FASES -->
+<!-- ===== TELA DE FASES ===== -->
 <div id="fases" class="tela">
-  <h2 id="contadorPergunta"></h2>
-
-  <div style="margin:15px 0; font-size:18px;">
-    Pontuação: <span id="pontos">0</span>
-  </div>
-
-  <h3 id="pergunta"></h3>
-
-  <button onclick="responder(0)" id="op0"></button><br><br>
-  <button onclick="responder(1)" id="op1"></button><br><br>
-  <button onclick="responder(2)" id="op2"></button>
+  <h2>Escolha a Fase</h2>
+  <button onclick="selecionarFase('iniciante')">Iniciante</button>
 </div>
 
-<!-- AUDIO -->
+<!-- ===== TELA DO JOGO ===== -->
+<div id="jogo" class="tela">
+  <h3>Pontos: <span id="pontos">0</span></h3>
+
+  <div class="pentagono">
+    <h2 id="pergunta">Pergunta</h2>
+
+    <button class="opcao" id="op0" onclick="responder(0)"></button>
+    <button class="opcao" id="op1" onclick="responder(1)"></button>
+    <button class="opcao" id="op2" onclick="responder(2)"></button>
+  </div>
+</div>
+
+<!-- ===== ÁUDIO ===== -->
 <audio id="audioBg" loop>
   <source src="som.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// ===== ÁUDIO =====
+/* ===== ÁUDIO ===== */
 const audio = document.getElementById("audioBg");
 
-// ===== CONTROLE =====
+/* ===== CONTROLE ===== */
 let pontos = 0;
 let indicePergunta = 0;
 let perguntas = [];
 let nivelAtual = "";
 
-  
-// ================================
-// BANCO DE PERGUNTAS POR NÍVEL
-// ================================
-
+/* ===== BANCO DE PERGUNTAS ===== */
 let bancoPerguntas = {
-
   iniciante: [
     {
       texto: "Quem construiu a arca?",
@@ -149,93 +126,13 @@ let bancoPerguntas = {
     },
     {
       texto: "Quantos dias Deus levou para criar o mundo?",
-      opcoes: ["5", "6", "7"],
-      correta: 1
-    }
-  ],
-
-  guerreiro: [
-    {
-      texto: "Quem abriu o Mar Vermelho?",
-      opcoes: ["Josué", "Moisés", "Elias"],
-      correta: 1
-    },
-    {
-      texto: "Qual era o nome do primeiro rei de Israel?",
-      opcoes: ["Davi", "Saul", "Salomão"],
-      correta: 1
-    },
-    {
-      texto: "Quem interpretou o sonho do faraó?",
-      opcoes: ["Daniel", "José", "Moisés"],
-      correta: 1
-    },
-    {
-      texto: "Quantos mandamentos Deus deu a Moisés?",
-      opcoes: ["7", "12", "10"],
-      correta: 2
-    }
-  ],
-
-  campeao: [
-    {
-      texto: "Quem escreveu a maioria dos Salmos?",
-      opcoes: ["Salomão", "Davi", "Asafe"],
-      correta: 1
-    },
-    {
-      texto: "Qual profeta enfrentou os profetas de Baal?",
-      opcoes: ["Elias", "Eliseu", "Isaías"],
+      opcoes: ["6", "7", "10"],
       correta: 0
-    },
-    {
-      texto: "Quem foi lançado na cova dos leões?",
-      opcoes: ["José", "Jeremias", "Daniel"],
-      correta: 2
-    },
-    {
-      texto: "Qual livro vem logo após os Evangelhos?",
-      opcoes: ["Romanos", "Atos", "Hebreus"],
-      correta: 1
-    }
-  ],
-
-  ebd: [
-    {
-      texto: "Quantos dias Jesus jejuou no deserto?",
-      opcoes: ["30", "20", "40"],
-      correta: 2
-    },
-    {
-      texto: "Quem escreveu o livro de Apocalipse?",
-      opcoes: ["Pedro", "Paulo", "João"],
-      correta: 2
-    },
-    {
-      texto: "Qual era o nome hebraico de Paulo?",
-      opcoes: ["Simão", "Saulo", "Barnabé"],
-      correta: 1
-    },
-    {
-      texto: "Onde Jesus nasceu?",
-      opcoes: ["Jerusalém", "Nazaré", "Belém"],
-      correta: 2
     }
   ]
 };
 
-// ================================
-// VARIÁVEIS DO JOGO
-// ================================
-let perguntas = [];
-let indicePergunta = 0;
-let pontos = 0;
-let nivelAtual = "";
-</script>
-
-
-
-// ===== TROCAR TELAS =====
+/* ===== TELAS ===== */
 function trocarTela(id){
   document.querySelectorAll(".tela").forEach(t=>{
     t.classList.remove("ativa");
@@ -243,7 +140,7 @@ function trocarTela(id){
   document.getElementById(id).classList.add("ativa");
 }
 
-// ===== SELECIONAR FASE =====
+/* ===== INICIAR FASE ===== */
 function selecionarFase(fase){
   nivelAtual = fase;
   perguntas = bancoPerguntas[fase];
@@ -252,7 +149,7 @@ function selecionarFase(fase){
   indicePergunta = 0;
   document.getElementById("pontos").innerText = pontos;
 
-  trocarTela("fases");
+  trocarTela("jogo");
   carregarPergunta();
 
   if(audio.paused){
@@ -260,12 +157,15 @@ function selecionarFase(fase){
   }
 }
 
-// ===== CARREGAR PERGUNTA =====
+/* ===== CARREGAR PERGUNTA ===== */
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
 
-  document.getElementById("contadorPergunta").innerText =
-    "Pergunta " + (indicePergunta + 1) + " de " + perguntas.length;
+  if(!p){
+    alert("🎉 Missão Concluída! Pontos: " + pontos);
+    trocarTela("inicio");
+    return;
+  }
 
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
@@ -273,35 +173,17 @@ function carregarPergunta(){
   document.getElementById("op2").innerText = p.opcoes[2];
 }
 
-// ===== RESPONDER =====
+/* ===== RESPONDER ===== */
 function responder(opcao){
-  if(opcao === perguntas[indicePergunta].correta){
-    alert("Resposta correta! ⚔️🔥");
+  let p = perguntas[indicePergunta];
+
+  if(opcao === p.correta){
     pontos += 10;
-  }else{
-    alert("Resposta errada 😬");
-    pontos -= 5;
-    if(pontos < 0) pontos = 0;
+    document.getElementById("pontos").innerText = pontos;
   }
 
-  document.getElementById("pontos").innerText = pontos;
   indicePergunta++;
-
-  if(indicePergunta < perguntas.length){
-    carregarPergunta();
-  }else{
-    alert("Missão concluída! 🏆🔥");
-    trocarTela("inicio");
-  }
-}
-
-// ===== SOM =====
-function som(){
-  if(audio.paused){
-    audio.play();
-  }else{
-    audio.pause();
-  }
+  carregarPergunta();
 }
 </script>
 

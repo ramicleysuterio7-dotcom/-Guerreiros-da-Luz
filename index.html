@@ -22,23 +22,31 @@
     display:block;
   }
 
-  /* PENTÁGONO */
-  .pentagono{
-    width:520px;
-    height:520px;
-    margin:20px auto;
-    background:#1a1a1a;
+ #pentagono {
+    position: relative;
+    width: 520px;   /* pode aumentar se quiser */
+    height: 520px;
     clip-path: polygon(
-      50% 0%,
-      100% 38%,
-      82% 100%,
-      18% 100%,
-      0% 38%
+        50% 0%,
+        100% 38%,
+        82% 100%,
+        18% 100%,
+        0% 38%
     );
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-pentagono {
+    position: absolute;
+    width: 180px;
+    height: auto;
+    z-index: 1;
+    pointer-events: none; /* não atrapalha os cliques */
+}
+
     gap:10px;
     padding:20px;
   }

@@ -74,6 +74,7 @@ body{
     0% 38%
   );
   margin:0 auto 20px auto;
+  transition: transform 0.5s;
 }
 
 /* ===== BOTÕES ===== */
@@ -102,6 +103,26 @@ button:hover{
   margin-bottom:15px;
   font-size:20px;
 }
+
+/* ===== PARTÍCULAS DO TÍTULO ===== */
+.particulas span{
+  position:absolute;
+  display:inline-block;
+  animation: explodir 0.8s forwards;
+}
+
+@keyframes explodir{
+  to{
+    transform:
+      translate(
+        calc(-50px + 100px * var(--dx)),
+        calc(-50px + 100px * var(--dy))
+      )
+      rotate(720deg)
+      scale(0);
+    opacity:0;
+  }
+}
 </style>
 </head>
 
@@ -109,7 +130,7 @@ button:hover{
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="titulo vento">Guerreiros da Luz</div>
+  <div class="titulo vento" id="tituloApp">Guerreiros da Luz</div>
   <div class="pentagono"></div>
   <button onclick="selecionarFase('iniciante')">Iniciar Missão</button>
 </div>
@@ -133,15 +154,20 @@ button:hover{
 </audio>
 
 <script>
+// ===== CONTROLE DE TELAS =====
 function trocarTela(id){
   document.querySelectorAll(".tela").forEach(t=>t.classList.remove("ativa"));
   document.getElementById(id).classList.add("ativa");
 }
 
+// ===== VARIÁVEIS =====
 let pontos = 0;
 let indicePergunta = 0;
+let nivelAtual = "iniciante";
+
 const audio = document.getElementById("audioBg");
 
+// ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
   iniciante: [
     { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
@@ -154,16 +180,47 @@ const bancoPerguntas = {
 
 let perguntas = bancoPerguntas.iniciante;
 
-function selecionarFase(fase){
-  perguntas = bancoPerguntas[fase];
-  pontos = 0;
-  indicePergunta = 0;
-  document.getElementById("pontos").innerText = pontos;
-  trocarTela("fases");
-  carregarPergunta();
-  audio.play();
+// ===== FUNÇÃO DE EXPLOSÃO DO TÍTULO =====
+function explodirTitulo(){
+  const titulo = document.getElementById("tituloApp");
+  const texto = titulo.innerText;
+  titulo.innerHTML = "";
+  titulo.classList.remove("vento");
+  titulo.classList.add("particulas");
+
+  [...texto].forEach(letra=>{
+    const span = document.createElement("span");
+    span.innerText = letra === " " ? "\u00A0" : letra;
+    span.style.setProperty("--dx", Math.random());
+    span.style.setProperty("--dy", Math.random());
+    titulo.appendChild(span);
+  });
 }
 
+// ===== ANIMAÇÃO DO PENTÁGONO =====
+function animarPentagono(){
+  const pent = document.querySelector(".pentagono");
+  pent.style.transform = "scale(1.1)";
+  setTimeout(()=>{ pent.style.transform="scale(1)"; }, 500);
+}
+
+// ===== INICIAR MISSÃO =====
+function selecionarFase(fase){
+  explodirTitulo();       // explosão do título
+  animarPentagono();      // efeito do pentágono
+
+  setTimeout(()=>{
+    perguntas = bancoPerguntas[fase];
+    pontos = 0;
+    indicePergunta = 0;
+    document.getElementById("pontos").innerText = pontos;
+    trocarTela("fases");
+    carregarPergunta();
+    audio.play();
+  }, 800);
+}
+
+// ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
   document.getElementById("pergunta").innerText = p.texto;
@@ -172,6 +229,7 @@ function carregarPergunta(){
   document.getElementById("op2").innerText = p.opcoes[2];
 }
 
+// ===== RESPONDER =====
 function responder(opcao){
   if(opcao === perguntas[indicePergunta].correta){
     pontos += 10;

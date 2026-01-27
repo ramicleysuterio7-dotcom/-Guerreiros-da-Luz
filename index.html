@@ -7,7 +7,6 @@
 <style>
 body{
   margin:0;
-  padding:0;
   background:#0b0b0b;
   color:#fff;
   font-family: Arial, Helvetica, sans-serif;
@@ -38,12 +37,16 @@ body{
     23% 100%,
     5% 35%
   );
-  background: url("https://i.imgur.com/4Qy6nYk.png") no-repeat center;
-  background-size: cover;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  overflow:hidden;
   margin:auto;
+  background:#111;
+}
+
+/* imagem interna */
+.pentagono img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 /* ===== BOTÕES ===== */
@@ -62,7 +65,7 @@ button:hover{
   background:#f39c12;
 }
 
-/* ===== PERGUNTAS ===== */
+/* ===== JOGO ===== */
 #pergunta{
   font-size:18px;
   margin-bottom:15px;
@@ -74,7 +77,6 @@ button:hover{
   margin:8px 0;
 }
 
-/* ===== PONTOS ===== */
 #placar{
   margin-top:15px;
   font-weight:bold;
@@ -86,7 +88,9 @@ button:hover{
 
 <!-- ===== TELA INÍCIO ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="pentagono"></div>
+  <div class="pentagono">
+    <img src="https://i.imgur.com/4Qy6nYk.png" alt="Espada e Bíblia">
+  </div>
   <br>
   <button onclick="trocarTela('fases')">Iniciar Missão</button>
 </div>
@@ -107,7 +111,6 @@ button:hover{
 </div>
 
 <script>
-/* ===== VARIÁVEIS ===== */
 let indicePergunta = 0;
 let pontos = 0;
 let perguntas = [];
@@ -127,26 +130,14 @@ const bancoPerguntas = {
       correta: 1
     }
   ],
-
   intermediario: [
     {
       pergunta: "Quem venceu Golias?",
       opcoes: ["Saul", "Sansão", "Davi"],
       correta: 2
-    },
-    {
-      pergunta: "Quantos dias Jesus jejuou no deserto?",
-      opcoes: ["7", "30", "40"],
-      correta: 2
     }
   ],
-
   avancado: [
-    {
-      pergunta: "Quem escreveu a maioria das cartas do Novo Testamento?",
-      opcoes: ["Pedro", "Paulo", "João"],
-      correta: 1
-    },
     {
       pergunta: "Onde Jesus nasceu?",
       opcoes: ["Nazaré", "Belém", "Jerusalém"],
@@ -177,22 +168,20 @@ function carregarPergunta(){
   let p = perguntas[indicePergunta];
   document.getElementById("pergunta").innerText = p.pergunta;
 
-  let opcoesHTML = "";
-  p.opcoes.forEach((op, i)=>{
-    opcoesHTML += `<button class="opcao" onclick="responder(${i})">${op}</button>`;
+  let html = "";
+  p.opcoes.forEach((op,i)=>{
+    html += `<button class="opcao" onclick="responder(${i})">${op}</button>`;
   });
-
-  document.getElementById("opcoes").innerHTML = opcoesHTML;
+  document.getElementById("opcoes").innerHTML = html;
 }
 
-function responder(indice){
-  if(indice === perguntas[indicePergunta].correta){
+function responder(i){
+  if(i === perguntas[indicePergunta].correta){
     pontos++;
     document.getElementById("pontos").innerText = pontos;
   }
 
   indicePergunta++;
-
   if(indicePergunta < perguntas.length){
     carregarPergunta();
   }else{

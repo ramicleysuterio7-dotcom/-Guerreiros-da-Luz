@@ -128,6 +128,7 @@ button:hover{ background:#ffcc00; transform: scale(1.05); }
   <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
   <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
   <button onclick="selecionarFase('avancado')">Missão Avançada</button>
+<button onclick="selecionarFase('hard')">Missão Hard</button>
 </div>
 
 <!-- ===== TELA DO JOGO ===== -->
@@ -181,6 +182,14 @@ const bancoPerguntas = {
     { texto:"Quem foi arrebatado por Deus?", opcoes:["Enoque","Moisés","Eliseu"], correta:0 },
     { texto:"Quem foi ressuscitado por Jesus?", opcoes:["Lázaro","Tabita","Jairo"], correta:0 }
   ]
+hard:[
+  { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
+  { texto:"Quantos discípulos Jesus tinha?", opcoes:["12","10","14"], correta:0 },
+  { texto:"Quem foi lançado na fornalha?", opcoes:["Sadraque","Mesaque","Abednego"], correta:2 },
+  { texto:"Quem escreveu a Epístola aos Hebreus?", opcoes:["Paulo","Lucas","Desconhecido"], correta:2 },
+  { texto:"Qual profeta teve visão do vale de ossos secos?", opcoes:["Ezequiel","Isaías","Jeremias"], correta:0 }
+]
+
 };
 let perguntas = bancoPerguntas.iniciante;
 

@@ -5,116 +5,140 @@
 <title>Guerreiros da Luz</title>
 
 <style>
-  body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#0b0b0b;
-    color:#fff;
-    text-align:center;
-  }
-
-  .tela{
-    display:none;
-    padding:20px;
-  }
-
-  .tela.ativa{
-    display:block;
-  }
-
- #pentagono {
-    position: relative;
-    width: 520px;   /* pode aumentar se quiser */
-    height: 520px;
-    clip-path: polygon(
-        50% 0%,
-        100% 38%,
-        82% 100%,
-        18% 100%,
-        0% 38%
-    );
-    background: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0a0f1f;
+  font-family:Arial, sans-serif;
+  color:#fff;
 }
 
-.logo-pentagono {
-    position: absolute;
-    width: 180px;
-    height: auto;
-    z-index: 1;
-    pointer-events: none; /* não atrapalha os cliques */
+/* TELAS */
+.tela{
+  display:none;
+  text-align:center;
 }
 
-    gap:10px;
-    padding:20px;
-  }
+.tela.ativa{
+  display:block;
+}
 
-  button{
-    padding:12px 18px;
-    font-size:16px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    background:#d4af37;
-    font-weight:bold;
-  }
+/* PENTÁGONO */
+.pentagono{
+  position:relative;
+  width:min(520px, 90vw);
+  height:min(520px, 90vw);
+  clip-path: polygon(
+    50% 0%,
+    100% 38%,
+    82% 100%,
+    18% 100%,
+    0% 38%
+  );
+  background:#111;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:30px 20px;
+  box-sizing:border-box;
+}
 
-  button:hover{
-    background:#f1c94a;
-  }
+/* IMAGEM CENTRAL */
+.logo-pentagono{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:180px;
+  z-index:1;
+  pointer-events:none;
+}
 
-  .opcao{
-    width:80%;
-    margin:6px auto;
-  }
+/* TÍTULO */
+.titulo{
+  z-index:2;
+  font-size:22px;
+  font-weight:bold;
+}
+
+/* BOTÕES */
+.botoes{
+  z-index:2;
+  display:flex;
+  gap:12px;
+}
+
+button{
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:14px;
+  background:#d4af37;
+  font-weight:bold;
+}
+
+/* OPÇÕES */
+.opcao{
+  width:90%;
+  margin:6px auto;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ===== TELA INICIAL ===== -->
+<!-- TELA INICIAL -->
 <div id="inicio" class="tela ativa">
-  <h1>⚔️ Guerreiros da Luz ⚔️</h1>
-  <button onclick="trocarTela('jogo')">Iniciar Missão</button>
+  <div class="pentagono">
 
-<!-- ===== TELA DE FASES ===== -->
-<div id="fases" class="tela">
-  <h2>Escolha a Fase</h2>
-  <button onclick="selecionarFase('iniciante')">Iniciante</button>
+    <div class="titulo">Guerreiros da Luz</div>
+
+    <img src="logonovo.png" class="logo-pentagono" alt="Espada e Bíblia">
+
+    <div class="botoes">
+      <button onclick="selecionarFase('iniciante')">Iniciar Missão</button>
+      <button onclick="som()">Som</button>
+    </div>
+
+  </div>
 </div>
 
-<!-- ===== TELA DO JOGO ===== -->
-<div id="fases" class="tela">
-  <h3>Pontos: <span id="pontos">0</span></h3>
+<!-- TELA DO JOGO -->
+<div id="jogo" class="tela">
+  <h3>Pontuação: <span id="pontos">0</span></h3>
 
   <div class="pentagono">
-    <h2 id="pergunta">Pergunta</h2>
+
+    <h3 id="pergunta" style="z-index:2;"></h3>
 
     <button class="opcao" id="op0" onclick="responder(0)"></button>
     <button class="opcao" id="op1" onclick="responder(1)"></button>
     <button class="opcao" id="op2" onclick="responder(2)"></button>
+
   </div>
 </div>
 
-<!-- ===== ÁUDIO ===== -->
+<!-- AUDIO -->
 <audio id="audioBg" loop>
   <source src="som.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* ===== ÁUDIO ===== */
-const audio = document.getElementById("audioBg");
-
-/* ===== CONTROLE ===== */
+// ================= VARIÁVEIS =================
 let pontos = 0;
 let indicePergunta = 0;
 let perguntas = [];
 let nivelAtual = "";
 
-/* ===== BANCO DE PERGUNTAS ===== */
-let bancoPerguntas = {
+const audio = document.getElementById("audioBg");
+
+// ================= BANCO DE PERGUNTAS =================
+const bancoPerguntas = {
   iniciante: [
     {
       texto: "Quem construiu a arca?",
@@ -130,16 +154,11 @@ let bancoPerguntas = {
       texto: "Quem derrotou Golias?",
       opcoes: ["Saul", "Davi", "Sansão"],
       correta: 1
-    },
-    {
-      texto: "Quantos dias Deus levou para criar o mundo?",
-      opcoes: ["6", "7", "10"],
-      correta: 0
     }
   ]
 };
 
-/* ===== TELAS ===== */
+// ================= TELAS =================
 function trocarTela(id){
   document.querySelectorAll(".tela").forEach(t=>{
     t.classList.remove("ativa");
@@ -147,7 +166,7 @@ function trocarTela(id){
   document.getElementById(id).classList.add("ativa");
 }
 
-/* ===== INICIAR FASE ===== */
+// ================= INICIAR FASE =================
 function selecionarFase(fase){
   nivelAtual = fase;
   perguntas = bancoPerguntas[fase];
@@ -164,12 +183,12 @@ function selecionarFase(fase){
   }
 }
 
-/* ===== CARREGAR PERGUNTA ===== */
+// ================= CARREGAR PERGUNTA =================
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
 
   if(!p){
-    alert("🎉 Missão Concluída! Pontos: " + pontos);
+    alert("🏆 Missão concluída! Pontuação: " + pontos);
     trocarTela("inicio");
     return;
   }
@@ -180,17 +199,24 @@ function carregarPergunta(){
   document.getElementById("op2").innerText = p.opcoes[2];
 }
 
-/* ===== RESPONDER ===== */
+// ================= RESPONDER =================
 function responder(opcao){
-  let p = perguntas[indicePergunta];
-
-  if(opcao === p.correta){
+  if(opcao === perguntas[indicePergunta].correta){
     pontos += 10;
-    document.getElementById("pontos").innerText = pontos;
   }
 
+  document.getElementById("pontos").innerText = pontos;
   indicePergunta++;
   carregarPergunta();
+}
+
+// ================= SOM =================
+function som(){
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
+  }
 }
 </script>
 

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<div class="titulo vento">Guerreiros da Luz</div>
+<title>Guerreiros da Luz</title>
 
 <style>
 /* ===== RESET ===== */
@@ -41,8 +41,6 @@ body{
   text-transform:uppercase;
   letter-spacing:3px;
   color:#ffd966;
-
-  /* Efeito 3D */
   text-shadow:
     1px 1px 0 #c9a227,
     2px 2px 0 #b8941f,
@@ -57,21 +55,10 @@ body{
 }
 
 @keyframes vento3D{
-  0%{
-    transform: translateX(0) skewX(0deg);
-    opacity:1;
-  }
-  40%{
-    transform: translateX(-6px) skewX(-6deg);
-  }
-  70%{
-    transform: translateX(-14px) skewX(-14deg);
-    opacity:0.85;
-  }
-  100%{
-    transform: translateX(0) skewX(0deg);
-    opacity:1;
-  }
+  0%{ transform:translateX(0) skewX(0deg); opacity:1; }
+  40%{ transform:translateX(-6px) skewX(-6deg); }
+  70%{ transform:translateX(-14px) skewX(-14deg); opacity:.85; }
+  100%{ transform:translateX(0) skewX(0deg); opacity:1; }
 }
 
 /* ===== PENTÁGONO ===== */
@@ -86,10 +73,7 @@ body{
     18% 100%,
     0% 38%
   );
-  margin: 0 auto 20px auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  margin:0 auto 20px auto;
 }
 
 /* ===== BOTÕES ===== */
@@ -125,10 +109,8 @@ button:hover{
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  
-
+  <div class="titulo vento">Guerreiros da Luz</div>
   <div class="pentagono"></div>
-
   <button onclick="selecionarFase('iniciante')">Iniciar Missão</button>
 </div>
 
@@ -151,96 +133,55 @@ button:hover{
 </audio>
 
 <script>
-// ===== CONTROLE DE TELAS =====
 function trocarTela(id){
-  document.querySelectorAll(".tela").forEach(t=>{
-    t.classList.remove("ativa");
-  });
+  document.querySelectorAll(".tela").forEach(t=>t.classList.remove("ativa"));
   document.getElementById(id).classList.add("ativa");
 }
 
-// ===== VARIÁVEIS =====
 let pontos = 0;
 let indicePergunta = 0;
-let nivelAtual = "iniciante";
-
 const audio = document.getElementById("audioBg");
 
-// ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
   iniciante: [
-    {
-      texto: "Quem construiu a arca?",
-      opcoes: ["Moisés", "Noé", "Abraão"],
-      correta: 1
-    },
-    {
-      texto: "Quem abriu o Mar Vermelho?",
-      opcoes: ["Josué", "Moisés", "Elias"],
-      correta: 1
-    },
-    {
-      texto: "Quem derrotou Golias?",
-      opcoes: ["Saul", "Davi", "Sansão"],
-      correta: 1
-    },
-    {
-      texto: "Quantos dias Jesus jejuou?",
-      opcoes: ["30", "20", "40"],
-      correta: 2
-    },
-    {
-      texto: "Quem foi lançado na cova dos leões?",
-      opcoes: ["Daniel", "José", "Pedro"],
-      correta: 0
-    }
+    { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
+    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 },
+    { texto:"Quem derrotou Golias?", opcoes:["Saul","Davi","Sansão"], correta:1 },
+    { texto:"Quantos dias Jesus jejuou?", opcoes:["30","20","40"], correta:2 },
+    { texto:"Quem foi lançado na cova dos leões?", opcoes:["Daniel","José","Pedro"], correta:0 }
   ]
 };
 
 let perguntas = bancoPerguntas.iniciante;
 
-// ===== INICIAR MISSÃO =====
 function selecionarFase(fase){
-  nivelAtual = fase;
   perguntas = bancoPerguntas[fase];
-
   pontos = 0;
   indicePergunta = 0;
   document.getElementById("pontos").innerText = pontos;
-
   trocarTela("fases");
   carregarPergunta();
-
-  if(audio.paused){
-    audio.play();
-  }
+  audio.play();
 }
 
-// ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
-
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];
   document.getElementById("op2").innerText = p.opcoes[2];
 }
 
-// ===== RESPONDER =====
 function responder(opcao){
-  let correta = perguntas[indicePergunta].correta;
-
-  if(opcao === correta){
+  if(opcao === perguntas[indicePergunta].correta){
     pontos += 10;
     alert("Resposta correta! ⚔️🔥");
   }else{
-    pontos -= 5;
-    if(pontos < 0) pontos = 0;
+    pontos = Math.max(0, pontos - 5);
     alert("Resposta errada 😬");
   }
 
   document.getElementById("pontos").innerText = pontos;
-
   indicePergunta++;
 
   if(indicePergunta < perguntas.length){

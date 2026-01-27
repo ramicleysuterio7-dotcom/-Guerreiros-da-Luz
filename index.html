@@ -6,12 +6,7 @@
 
 <style>
 /* ===== RESET ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: Arial, sans-serif;
-}
+*{margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
 
 /* ===== BODY ===== */
 body{
@@ -24,14 +19,8 @@ body{
 }
 
 /* ===== TELAS ===== */
-.tela{
-  display:none;
-  text-align:center;
-}
-
-.tela.ativa{
-  display:block;
-}
+.tela{ display:none; text-align:center; }
+.tela.ativa{ display:block; }
 
 /* ===== TÍTULO ===== */
 .titulo{
@@ -48,12 +37,7 @@ body{
     4px 4px 0 #7d5f12,
     6px 6px 10px rgba(0,0,0,0.8);
 }
-
-/* ===== EFEITO VENTO ===== */
-.vento{
-  animation: vento3D 3s infinite ease-in-out;
-}
-
+.vento{ animation: vento3D 3s infinite ease-in-out; }
 @keyframes vento3D{
   0%{ transform:translateX(0) skewX(0deg); opacity:1; }
   40%{ transform:translateX(-6px) skewX(-6deg); }
@@ -66,13 +50,7 @@ body{
   width:520px;
   height:520px;
   background:url("logonovo.png") center/cover no-repeat;
-  clip-path: polygon(
-    50% 0%,
-    100% 38%,
-    82% 100%,
-    18% 100%,
-    0% 38%
-  );
+  clip-path: polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);
   margin:0 auto 20px auto;
   transition: transform 0.5s;
 }
@@ -87,22 +65,13 @@ button{
   cursor:pointer;
   font-weight:bold;
 }
-
-button:hover{
-  background:#ffcc00;
-}
+button:hover{ background:#ffcc00; }
 
 /* ===== PLACAR ===== */
-#placar{
-  margin:15px 0;
-  font-size:18px;
-}
+#placar{ margin:15px 0; font-size:18px; }
 
 /* ===== PERGUNTA ===== */
-#pergunta{
-  margin-bottom:15px;
-  font-size:20px;
-}
+#pergunta{ margin-bottom:15px; font-size:20px; }
 
 /* ===== PARTÍCULAS DO TÍTULO ===== */
 .particulas span{
@@ -110,14 +79,10 @@ button:hover{
   display:inline-block;
   animation: explodir 0.8s forwards;
 }
-
 @keyframes explodir{
   to{
     transform:
-      translate(
-        calc(-50px + 100px * var(--dx)),
-        calc(-50px + 100px * var(--dy))
-      )
+      translate(calc(-50px + 100px * var(--dx)),calc(-50px + 100px * var(--dy)))
       rotate(720deg)
       scale(0);
     opacity:0;
@@ -132,17 +97,15 @@ button:hover{
 <div id="inicio" class="tela ativa">
   <div class="titulo vento" id="tituloApp">Guerreiros da Luz</div>
   <div class="pentagono"></div>
-  <button onclick="selecionarFase('iniciante')">Iniciar Missão</button>
+  <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
+  <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
+  <button onclick="selecionarFase('avancado')">Missão Avançada</button>
 </div>
 
 <!-- ===== TELA DO JOGO ===== -->
 <div id="fases" class="tela">
-  <div id="placar">
-    Pontuação: <span id="pontos">0</span>
-  </div>
-
+  <div id="placar">Pontuação: <span id="pontos">0</span></div>
   <h3 id="pergunta"></h3>
-
   <button id="op0" onclick="responder(0)"></button><br><br>
   <button id="op1" onclick="responder(1)"></button><br><br>
   <button id="op2" onclick="responder(2)"></button>
@@ -164,17 +127,30 @@ function trocarTela(id){
 let pontos = 0;
 let indicePergunta = 0;
 let nivelAtual = "iniciante";
-
 const audio = document.getElementById("audioBg");
 
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
-  iniciante: [
+  iniciante:[
     { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
     { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 },
     { texto:"Quem derrotou Golias?", opcoes:["Saul","Davi","Sansão"], correta:1 },
     { texto:"Quantos dias Jesus jejuou?", opcoes:["30","20","40"], correta:2 },
     { texto:"Quem foi lançado na cova dos leões?", opcoes:["Daniel","José","Pedro"], correta:0 }
+  ],
+  intermediario:[
+    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 },
+    { texto:"Quem interpretou sonhos no Egito?", opcoes:["Daniel","José","Moisés"], correta:1 },
+    { texto:"Quem recebeu os 10 mandamentos?", opcoes:["Moisés","Josué","Elias"], correta:0 },
+    { texto:"Quem foi tentado no deserto?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
+    { texto:"Quem construiu o templo de Salomão?", opcoes:["Salomão","Davi","Ezequias"], correta:0 }
+  ],
+  avancado:[
+    { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 },
+    { texto:"Quem escreveu Apocalipse?", opcoes:["Paulo","João","Pedro"], correta:1 },
+    { texto:"Qual profeta desafiou os profetas de Baal?", opcoes:["Elias","Isaías","Jeremias"], correta:0 },
+    { texto:"Quem foi arrebatado por Deus?", opcoes:["Enoque","Moisés","Eliseu"], correta:0 },
+    { texto:"Quem foi ressuscitado por Jesus?", opcoes:["Lázaro","Tabita","Jairo"], correta:0 }
   ]
 };
 
@@ -190,7 +166,7 @@ function explodirTitulo(){
 
   [...texto].forEach(letra=>{
     const span = document.createElement("span");
-    span.innerText = letra === " " ? "\u00A0" : letra;
+    span.innerText = letra===" "? "\u00A0": letra;
     span.style.setProperty("--dx", Math.random());
     span.style.setProperty("--dy", Math.random());
     titulo.appendChild(span);
@@ -201,23 +177,24 @@ function explodirTitulo(){
 function animarPentagono(){
   const pent = document.querySelector(".pentagono");
   pent.style.transform = "scale(1.1)";
-  setTimeout(()=>{ pent.style.transform="scale(1)"; }, 500);
+  setTimeout(()=>{ pent.style.transform="scale(1)"; },500);
 }
 
 // ===== INICIAR MISSÃO =====
 function selecionarFase(fase){
-  explodirTitulo();       // explosão do título
-  animarPentagono();      // efeito do pentágono
+  explodirTitulo();
+  animarPentagono();
 
   setTimeout(()=>{
     perguntas = bancoPerguntas[fase];
+    nivelAtual = fase;
     pontos = 0;
     indicePergunta = 0;
     document.getElementById("pontos").innerText = pontos;
     trocarTela("fases");
     carregarPergunta();
     audio.play();
-  }, 800);
+  },800);
 }
 
 // ===== CARREGAR PERGUNTA =====
@@ -235,7 +212,7 @@ function responder(opcao){
     pontos += 10;
     alert("Resposta correta! ⚔️🔥");
   }else{
-    pontos = Math.max(0, pontos - 5);
+    pontos = Math.max(0,pontos-5);
     alert("Resposta errada 😬");
   }
 
@@ -245,12 +222,11 @@ function responder(opcao){
   if(indicePergunta < perguntas.length){
     carregarPergunta();
   }else{
-    alert("Missão concluída! 🏆🔥");
+    alert(`Missão ${nivelAtual} concluída! 🏆🔥`);
     audio.pause();
     trocarTela("inicio");
   }
 }
 </script>
-
 </body>
 </html>

@@ -5,10 +5,7 @@
 <title>Guerreiros da Luz</title>
 
 <style>
-/* ===== RESET ===== */
 *{margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
-
-/* ===== BODY ===== */
 body{
   background:#111;
   color:#fff;
@@ -16,11 +13,12 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
+  overflow:hidden;
 }
 
 /* ===== TELAS ===== */
-.tela{ display:none; text-align:center; }
-.tela.ativa{ display:block; }
+.tela{ display:none; text-align:center; opacity:0; transform: scale(0.9); transition: opacity 0.5s, transform 0.5s; }
+.tela.ativa{ display:block; opacity:1; transform: scale(1); }
 
 /* ===== TÍTULO ===== */
 .titulo{
@@ -52,7 +50,20 @@ body{
   background:url("logonovo.png") center/cover no-repeat;
   clip-path: polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);
   margin:0 auto 20px auto;
+  position:relative;
   transition: transform 0.5s;
+  z-index:1;
+}
+
+/* ===== FOGO AO REDOR DO PENTÁGONO ===== */
+.fogo{
+  position:absolute;
+  top:-20px; left:-20px; right:-20px; bottom:-20px;
+  pointer-events:none;
+  background: url('fogo.gif') center/cover no-repeat;
+  opacity:0;
+  transition: opacity 0.5s;
+  z-index:0;
 }
 
 /* ===== BOTÕES ===== */
@@ -64,14 +75,33 @@ button{
   background:#ffd966;
   cursor:pointer;
   font-weight:bold;
+  transition: background 0.3s, transform 0.3s;
 }
-button:hover{ background:#ffcc00; }
+button:hover{ background:#ffcc00; transform: scale(1.05); }
 
 /* ===== PLACAR ===== */
 #placar{ margin:15px 0; font-size:18px; }
 
 /* ===== PERGUNTA ===== */
 #pergunta{ margin-bottom:15px; font-size:20px; }
+
+/* ===== CONFETES ===== */
+.confete{
+  position:absolute;
+  width:8px;
+  height:8px;
+  background: red;
+  top:0;
+  left:50%;
+  opacity:0;
+  border-radius:50%;
+  pointer-events:none;
+  animation: cair 2s linear forwards;
+}
+@keyframes cair{
+  0%{ transform: translate(0,0) rotate(0deg); opacity:1; }
+  100%{ transform: translate(calc(-50px + 100px*var(--x)),400px) rotate(360deg); opacity:0; }
+}
 
 /* ===== PARTÍCULAS DO TÍTULO ===== */
 .particulas span{
@@ -81,22 +111,20 @@ button:hover{ background:#ffcc00; }
 }
 @keyframes explodir{
   to{
-    transform:
-      translate(calc(-50px + 100px * var(--dx)),calc(-50px + 100px * var(--dy)))
-      rotate(720deg)
-      scale(0);
+    transform: translate(calc(-50px + 100px * var(--dx)),calc(-50px + 100px * var(--dy))) rotate(720deg) scale(0);
     opacity:0;
   }
 }
 </style>
 </head>
-
 <body>
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
   <div class="titulo vento" id="tituloApp">Guerreiros da Luz</div>
-  <div class="pentagono"></div>
+  <div class="pentagono">
+    <div class="fogo" id="fogo"></div>
+  </div>
   <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
   <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
   <button onclick="selecionarFase('avancado')">Missão Avançada</button>
@@ -128,6 +156,7 @@ let pontos = 0;
 let indicePergunta = 0;
 let nivelAtual = "iniciante";
 const audio = document.getElementById("audioBg");
+const fogo = document.getElementById("fogo");
 
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
@@ -153,7 +182,6 @@ const bancoPerguntas = {
     { texto:"Quem foi ressuscitado por Jesus?", opcoes:["Lázaro","Tabita","Jairo"], correta:0 }
   ]
 };
-
 let perguntas = bancoPerguntas.iniciante;
 
 // ===== FUNÇÃO DE EXPLOSÃO DO TÍTULO =====
@@ -184,7 +212,6 @@ function animarPentagono(){
 function selecionarFase(fase){
   explodirTitulo();
   animarPentagono();
-
   setTimeout(()=>{
     perguntas = bancoPerguntas[fase];
     nivelAtual = fase;
@@ -222,9 +249,27 @@ function responder(opcao){
   if(indicePergunta < perguntas.length){
     carregarPergunta();
   }else{
-    alert(`Missão ${nivelAtual} concluída! 🏆🔥`);
-    audio.pause();
-    trocarTela("inicio");
+    // ===== EFETOS DE VITÓRIA =====
+    fogo.style.opacity = "1"; // ativar fogo
+    gerarConfetes(50); // gerar 50 confetes
+    setTimeout(()=>{
+      alert(`Missão ${nivelAtual} concluída! 🏆🔥`);
+      fogo.style.opacity = "0"; // desativar fogo
+      audio.pause();
+      trocarTela("inicio");
+    },1500);
+  }
+}
+
+// ===== FUNÇÃO DE CONFETES =====
+function gerarConfetes(qtd){
+  for(let i=0;i<qtd;i++){
+    const conf = document.createElement("div");
+    conf.classList.add("confete");
+    conf.style.setProperty("--x", Math.random());
+    conf.style.left = `${Math.random()*100}%`;
+    document.body.appendChild(conf);
+    setTimeout(()=> conf.remove(),2000);
   }
 }
 </script>

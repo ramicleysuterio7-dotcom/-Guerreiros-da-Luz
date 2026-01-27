@@ -204,15 +204,12 @@ function selecionarFase(fase){
   trocarTela("fases");
   carregarPergunta();
 
-  if(audio.paused){
-    audio.play();
-  }
+  if(audio.paused) audio.play();
 }
 
 // ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
-
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];

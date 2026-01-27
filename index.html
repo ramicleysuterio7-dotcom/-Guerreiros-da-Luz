@@ -24,8 +24,8 @@ body{
 }
 
 .pentagono{
-  width:360px;
-  height:360px;
+  width:420px;
+  height:420px;
   margin:0 auto;
   position: relative; /* IMPORTANTE */
   clip-path: polygon(
@@ -39,46 +39,12 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  padding:20px;
+  padding:32px;
   box-sizing:border-box;
   z-index:1;
 }
-.pentagono::before{
-  content:"";
-  position:absolute;
-  inset:-18px; /* distância da borda */
-  clip-path: polygon(
-    50% 0%,
-    100% 38%,
-    82% 100%,
-    18% 100%,
-    0% 38%
-  );
-  background: linear-gradient(
-    45deg,
-    #ff2a00,
-    #ff6a00,
-    #ffb300,
-    #ff0000
-  );
-  filter: blur(10px);
-  z-index:-1;
-  animation: fogo 2.5s infinite alternate;
-}
-@keyframes fogo{
-  0%{
-    filter: blur(14px);
-    opacity: 0.6;
-  }
-  50%{
-    filter: blur(22px);
-    opacity: 0.9;
-  }
-  100%{
-    filter: blur(16px);
-    opacity: 0.7;
-  }
-}
+
+
 
 
 

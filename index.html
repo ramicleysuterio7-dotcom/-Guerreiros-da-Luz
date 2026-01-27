@@ -24,8 +24,8 @@ body{
 }
 
 .pentagono{
-  width:420px;
-  height:420px;
+  width:360px;
+  height:360px;
   margin:0 auto;
   position: relative; /* IMPORTANTE */
   clip-path: polygon(
@@ -39,7 +39,7 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  padding:32px;
+  padding:20px;
   box-sizing:border-box;
   z-index:1;
 }
@@ -67,14 +67,19 @@ body{
 }
 @keyframes fogo{
   0%{
-    filter: blur(8px);
-    opacity:0.7;
+    filter: blur(14px);
+    opacity: 0.6;
+  }
+  50%{
+    filter: blur(22px);
+    opacity: 0.9;
   }
   100%{
-    filter: blur(14px);
-    opacity:1;
+    filter: blur(16px);
+    opacity: 0.7;
   }
 }
+
 
 
 

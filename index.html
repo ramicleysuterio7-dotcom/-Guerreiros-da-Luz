@@ -3,9 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Guerreiros da Luz</title>
-
 <style>
-*{margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== BODY ===== */
 body{
   background:#111;
   color:#fff;
@@ -13,12 +20,18 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
-  overflow:hidden;
+  flex-direction:column;
 }
 
 /* ===== TELAS ===== */
-.tela{ display:none; text-align:center; opacity:0; transform: scale(0.9); transition: opacity 0.5s, transform 0.5s; }
-.tela.ativa{ display:block; opacity:1; transform: scale(1); }
+.tela{
+  display:none;
+  text-align:center;
+}
+
+.tela.ativa{
+  display:block;
+}
 
 /* ===== TÍTULO ===== */
 .titulo{
@@ -35,12 +48,17 @@ body{
     4px 4px 0 #7d5f12,
     6px 6px 10px rgba(0,0,0,0.8);
 }
-.vento{ animation: vento3D 3s infinite ease-in-out; }
+
+/* ===== EFEITO VENTO ===== */
+.vento{
+  animation: vento3D 3s infinite ease-in-out;
+}
+
 @keyframes vento3D{
-  0%{ transform:translateX(0) skewX(0deg); opacity:1; }
-  40%{ transform:translateX(-6px) skewX(-6deg); }
-  70%{ transform:translateX(-14px) skewX(-14deg); opacity:.85; }
-  100%{ transform:translateX(0) skewX(0deg); opacity:1; }
+  0%{ transform: translateX(0) skewX(0deg); opacity:1; }
+  40%{ transform: translateX(-6px) skewX(-6deg); }
+  70%{ transform: translateX(-14px) skewX(-14deg); opacity:0.85; }
+  100%{ transform: translateX(0) skewX(0deg); opacity:1; }
 }
 
 /* ===== PENTÁGONO ===== */
@@ -48,22 +66,17 @@ body{
   width:520px;
   height:520px;
   background:url("logonovo.png") center/cover no-repeat;
-  clip-path: polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);
-  margin:0 auto 20px auto;
-  position:relative;
-  transition: transform 0.5s;
-  z-index:1;
-}
-
-/* ===== FOGO AO REDOR DO PENTÁGONO ===== */
-.fogo{
-  position:absolute;
-  top:-20px; left:-20px; right:-20px; bottom:-20px;
-  pointer-events:none;
-  background: url('fogo.gif') center/cover no-repeat;
-  opacity:0;
-  transition: opacity 0.5s;
-  z-index:0;
+  clip-path: polygon(
+    50% 0%,
+    100% 38%,
+    82% 100%,
+    18% 100%,
+    0% 38%
+  );
+  margin: 0 auto 20px auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 /* ===== BOTÕES ===== */
@@ -75,45 +88,23 @@ button{
   background:#ffd966;
   cursor:pointer;
   font-weight:bold;
-  transition: background 0.3s, transform 0.3s;
+  margin:5px 0;
 }
-button:hover{ background:#ffcc00; transform: scale(1.05); }
+
+button:hover{
+  background:#ffcc00;
+}
 
 /* ===== PLACAR ===== */
-#placar{ margin:15px 0; font-size:18px; }
+#placar{
+  margin:15px 0;
+  font-size:18px;
+}
 
 /* ===== PERGUNTA ===== */
-#pergunta{ margin-bottom:15px; font-size:20px; }
-
-/* ===== CONFETES ===== */
-.confete{
-  position:absolute;
-  width:8px;
-  height:8px;
-  background: red;
-  top:0;
-  left:50%;
-  opacity:0;
-  border-radius:50%;
-  pointer-events:none;
-  animation: cair 2s linear forwards;
-}
-@keyframes cair{
-  0%{ transform: translate(0,0) rotate(0deg); opacity:1; }
-  100%{ transform: translate(calc(-50px + 100px*var(--x)),400px) rotate(360deg); opacity:0; }
-}
-
-/* ===== PARTÍCULAS DO TÍTULO ===== */
-.particulas span{
-  position:absolute;
-  display:inline-block;
-  animation: explodir 0.8s forwards;
-}
-@keyframes explodir{
-  to{
-    transform: translate(calc(-50px + 100px * var(--dx)),calc(-50px + 100px * var(--dy))) rotate(720deg) scale(0);
-    opacity:0;
-  }
+#pergunta{
+  margin-bottom:15px;
+  font-size:20px;
 }
 </style>
 </head>
@@ -121,20 +112,23 @@ button:hover{ background:#ffcc00; transform: scale(1.05); }
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="titulo vento" id="tituloApp">Guerreiros da Luz</div>
-  <div class="pentagono">
-    <div class="fogo" id="fogo"></div>
-  </div>
-  <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
-  <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
-  <button onclick="selecionarFase('avancado')">Missão Avançada</button>
-<button onclick="selecionarFase('hard')">Missão Hard</button>
+  <div class="titulo vento">Guerreiros da Luz</div>
+  <div class="pentagono"></div>
+
+  <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br>
+  <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br>
+  <button onclick="selecionarFase('avancado')">Missão Avançada</button><br>
+  <button onclick="selecionarFase('hard')">Missão Hard</button>
 </div>
 
 <!-- ===== TELA DO JOGO ===== -->
 <div id="fases" class="tela">
-  <div id="placar">Pontuação: <span id="pontos">0</span></div>
+  <div id="placar">
+    Pontuação: <span id="pontos">0</span>
+  </div>
+
   <h3 id="pergunta"></h3>
+
   <button id="op0" onclick="responder(0)"></button><br><br>
   <button id="op1" onclick="responder(1)"></button><br><br>
   <button id="op2" onclick="responder(2)"></button>
@@ -148,7 +142,9 @@ button:hover{ background:#ffcc00; transform: scale(1.05); }
 <script>
 // ===== CONTROLE DE TELAS =====
 function trocarTela(id){
-  document.querySelectorAll(".tela").forEach(t=>t.classList.remove("ativa"));
+  document.querySelectorAll(".tela").forEach(t=>{
+    t.classList.remove("ativa");
+  });
   document.getElementById(id).classList.add("ativa");
 }
 
@@ -157,7 +153,6 @@ let pontos = 0;
 let indicePergunta = 0;
 let nivelAtual = "iniciante";
 const audio = document.getElementById("audioBg");
-const fogo = document.getElementById("fogo");
 
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
@@ -181,61 +176,43 @@ const bancoPerguntas = {
     { texto:"Qual profeta desafiou os profetas de Baal?", opcoes:["Elias","Isaías","Jeremias"], correta:0 },
     { texto:"Quem foi arrebatado por Deus?", opcoes:["Enoque","Moisés","Eliseu"], correta:0 },
     { texto:"Quem foi ressuscitado por Jesus?", opcoes:["Lázaro","Tabita","Jairo"], correta:0 }
+  ],
+  hard:[
+    { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
+    { texto:"Quantos discípulos Jesus tinha?", opcoes:["12","10","14"], correta:0 },
+    { texto:"Quem foi lançado na fornalha?", opcoes:["Sadraque","Mesaque","Abednego"], correta:2 },
+    { texto:"Quem escreveu a Epístola aos Hebreus?", opcoes:["Paulo","Lucas","Desconhecido"], correta:2 },
+    { texto:"Qual profeta teve visão do vale de ossos secos?", opcoes:["Ezequiel","Isaías","Jeremias"], correta:0 }
   ]
-hard:[
-  { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
-  { texto:"Quantos discípulos Jesus tinha?", opcoes:["12","10","14"], correta:0 },
-  { texto:"Quem foi lançado na fornalha?", opcoes:["Sadraque","Mesaque","Abednego"], correta:2 },
-  { texto:"Quem escreveu a Epístola aos Hebreus?", opcoes:["Paulo","Lucas","Desconhecido"], correta:2 },
-  { texto:"Qual profeta teve visão do vale de ossos secos?", opcoes:["Ezequiel","Isaías","Jeremias"], correta:0 }
-]
-
 };
+
 let perguntas = bancoPerguntas.iniciante;
-
-// ===== FUNÇÃO DE EXPLOSÃO DO TÍTULO =====
-function explodirTitulo(){
-  const titulo = document.getElementById("tituloApp");
-  const texto = titulo.innerText;
-  titulo.innerHTML = "";
-  titulo.classList.remove("vento");
-  titulo.classList.add("particulas");
-
-  [...texto].forEach(letra=>{
-    const span = document.createElement("span");
-    span.innerText = letra===" "? "\u00A0": letra;
-    span.style.setProperty("--dx", Math.random());
-    span.style.setProperty("--dy", Math.random());
-    titulo.appendChild(span);
-  });
-}
-
-// ===== ANIMAÇÃO DO PENTÁGONO =====
-function animarPentagono(){
-  const pent = document.querySelector(".pentagono");
-  pent.style.transform = "scale(1.1)";
-  setTimeout(()=>{ pent.style.transform="scale(1)"; },500);
-}
 
 // ===== INICIAR MISSÃO =====
 function selecionarFase(fase){
-  explodirTitulo();
-  animarPentagono();
-  setTimeout(()=>{
-    perguntas = bancoPerguntas[fase];
-    nivelAtual = fase;
-    pontos = 0;
-    indicePergunta = 0;
-    document.getElementById("pontos").innerText = pontos;
-    trocarTela("fases");
-    carregarPergunta();
+  if(!bancoPerguntas[fase]){
+    alert("Missão não disponível!");
+    return;
+  }
+
+  nivelAtual = fase;
+  perguntas = bancoPerguntas[fase];
+  pontos = 0;
+  indicePergunta = 0;
+  document.getElementById("pontos").innerText = pontos;
+
+  trocarTela("fases");
+  carregarPergunta();
+
+  if(audio.paused){
     audio.play();
-  },800);
+  }
 }
 
 // ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
+
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];
@@ -244,41 +221,27 @@ function carregarPergunta(){
 
 // ===== RESPONDER =====
 function responder(opcao){
-  if(opcao === perguntas[indicePergunta].correta){
+  let correta = perguntas[indicePergunta].correta;
+
+  if(opcao === correta){
     pontos += 10;
     alert("Resposta correta! ⚔️🔥");
   }else{
-    pontos = Math.max(0,pontos-5);
+    pontos -= 5;
+    if(pontos < 0) pontos = 0;
     alert("Resposta errada 😬");
   }
 
   document.getElementById("pontos").innerText = pontos;
+
   indicePergunta++;
 
   if(indicePergunta < perguntas.length){
     carregarPergunta();
   }else{
-    // ===== EFETOS DE VITÓRIA =====
-    fogo.style.opacity = "1"; // ativar fogo
-    gerarConfetes(50); // gerar 50 confetes
-    setTimeout(()=>{
-      alert(`Missão ${nivelAtual} concluída! 🏆🔥`);
-      fogo.style.opacity = "0"; // desativar fogo
-      audio.pause();
-      trocarTela("inicio");
-    },1500);
-  }
-}
-
-// ===== FUNÇÃO DE CONFETES =====
-function gerarConfetes(qtd){
-  for(let i=0;i<qtd;i++){
-    const conf = document.createElement("div");
-    conf.classList.add("confete");
-    conf.style.setProperty("--x", Math.random());
-    conf.style.left = `${Math.random()*100}%`;
-    document.body.appendChild(conf);
-    setTimeout(()=> conf.remove(),2000);
+    alert("Missão concluída! 🏆🔥");
+    audio.pause();
+    trocarTela("inicio");
   }
 }
 </script>

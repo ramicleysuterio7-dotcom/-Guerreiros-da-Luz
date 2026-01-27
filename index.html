@@ -2,13 +2,20 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<div class="titulo">Guerreiros da Luz</div>
+<title>Guerreiros da Luz</title>
 
 <style>
-body{
+/* ===== RESET ===== */
+*{
   margin:0;
+  padding:0;
+  box-sizing:border-box;
   font-family: Arial, sans-serif;
-  background:#0b0b0b;
+}
+
+/* ===== BODY ===== */
+body{
+  background:#111;
   color:#fff;
   display:flex;
   justify-content:center;
@@ -26,10 +33,19 @@ body{
   display:block;
 }
 
+/* ===== TÍTULO ===== */
+.titulo{
+  font-size:34px;
+  font-weight:bold;
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+
 /* ===== PENTÁGONO ===== */
 .pentagono{
-  width:500px;
-  height:500px;
+  width:520px;
+  height:520px;
+  background:url("logonovo.png") center/cover no-repeat;
   clip-path: polygon(
     50% 0%,
     100% 38%,
@@ -37,35 +53,38 @@ body{
     18% 100%,
     0% 38%
   );
-  background:#000;
+  margin: 0 auto 20px auto;
   display:flex;
   justify-content:center;
   align-items:center;
-  margin:0 auto 30px auto;
-  box-shadow: 0 0 30px rgba(255,215,0,0.5);
-}
-
-.pentagono img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
 }
 
 /* ===== BOTÕES ===== */
 button{
-  padding:15px 30px;
-  font-size:18px;
+  padding:12px 22px;
+  font-size:16px;
   border:none;
-  border-radius:8px;
-  background:#f5c542;
-  color:#000;
+  border-radius:6px;
+  background:#ffd966;
   cursor:pointer;
+  font-weight:bold;
 }
 
 button:hover{
-  background:#ffd966;
+  background:#ffcc00;
 }
-  
+
+/* ===== PLACAR ===== */
+#placar{
+  margin:15px 0;
+  font-size:18px;
+}
+
+/* ===== PERGUNTA ===== */
+#pergunta{
+  margin-bottom:15px;
+  font-size:20px;
+}
 </style>
 </head>
 
@@ -73,23 +92,30 @@ button:hover{
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="pentagono">
-    <!-- ⚔️📖 IMAGEM DA ESPADA + BÍBLIA -->
-    <img src="logo.png" alt="Espada e Bíblia">
+  <div class="titulo">Guerreiros da Luz</div>
+
+  <div class="pentagono"></div>
+
+  <button onclick="selecionarFase('iniciante')">Iniciar Missão</button>
+</div>
+
+<!-- ===== TELA DO JOGO ===== -->
+<div id="fases" class="tela">
+  <div id="placar">
+    Pontuação: <span id="pontos">0</span>
   </div>
 
-  <h1>Guerreiros da Luz</h1>
-  <br>
-  <button onclick="iniciarMissao()">Iniciar Missão</button>
+  <h3 id="pergunta"></h3>
+
+  <button id="op0" onclick="responder(0)"></button><br><br>
+  <button id="op1" onclick="responder(1)"></button><br><br>
+  <button id="op2" onclick="responder(2)"></button>
 </div>
 
-<!-- ===== TELA DE FASES (VAZIA POR ENQUANTO) ===== -->
-<div id="fases" class="tela">
-  <h2>Missão Iniciada!</h2>
-  <p>A próxima etapa virá aqui.</p>
-  <br>
-  <button onclick="trocarTela('inicio')">Voltar</button>
-</div>
+<!-- ===== AUDIO ===== -->
+<audio id="audioBg" loop>
+  <source src="som.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 // ===== CONTROLE DE TELAS =====
@@ -100,8 +126,97 @@ function trocarTela(id){
   document.getElementById(id).classList.add("ativa");
 }
 
-function iniciarMissao(){
+// ===== VARIÁVEIS =====
+let pontos = 0;
+let indicePergunta = 0;
+let nivelAtual = "iniciante";
+
+const audio = document.getElementById("audioBg");
+
+// ===== BANCO DE PERGUNTAS =====
+const bancoPerguntas = {
+  iniciante: [
+    {
+      texto: "Quem construiu a arca?",
+      opcoes: ["Moisés", "Noé", "Abraão"],
+      correta: 1
+    },
+    {
+      texto: "Quem abriu o Mar Vermelho?",
+      opcoes: ["Josué", "Moisés", "Elias"],
+      correta: 1
+    },
+    {
+      texto: "Quem derrotou Golias?",
+      opcoes: ["Saul", "Davi", "Sansão"],
+      correta: 1
+    },
+    {
+      texto: "Quantos dias Jesus jejuou?",
+      opcoes: ["30", "20", "40"],
+      correta: 2
+    },
+    {
+      texto: "Quem foi lançado na cova dos leões?",
+      opcoes: ["Daniel", "José", "Pedro"],
+      correta: 0
+    }
+  ]
+};
+
+let perguntas = bancoPerguntas.iniciante;
+
+// ===== INICIAR MISSÃO =====
+function selecionarFase(fase){
+  nivelAtual = fase;
+  perguntas = bancoPerguntas[fase];
+
+  pontos = 0;
+  indicePergunta = 0;
+  document.getElementById("pontos").innerText = pontos;
+
   trocarTela("fases");
+  carregarPergunta();
+
+  if(audio.paused){
+    audio.play();
+  }
+}
+
+// ===== CARREGAR PERGUNTA =====
+function carregarPergunta(){
+  let p = perguntas[indicePergunta];
+
+  document.getElementById("pergunta").innerText = p.texto;
+  document.getElementById("op0").innerText = p.opcoes[0];
+  document.getElementById("op1").innerText = p.opcoes[1];
+  document.getElementById("op2").innerText = p.opcoes[2];
+}
+
+// ===== RESPONDER =====
+function responder(opcao){
+  let correta = perguntas[indicePergunta].correta;
+
+  if(opcao === correta){
+    pontos += 10;
+    alert("Resposta correta! ⚔️🔥");
+  }else{
+    pontos -= 5;
+    if(pontos < 0) pontos = 0;
+    alert("Resposta errada 😬");
+  }
+
+  document.getElementById("pontos").innerText = pontos;
+
+  indicePergunta++;
+
+  if(indicePergunta < perguntas.length){
+    carregarPergunta();
+  }else{
+    alert("Missão concluída! 🏆🔥");
+    audio.pause();
+    trocarTela("inicio");
+  }
 }
 </script>
 

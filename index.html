@@ -21,6 +21,7 @@ body{
   align-items:center;
   height:100vh;
   flex-direction:column;
+  overflow-x:hidden;
 }
 
 /* ===== TELAS ===== */
@@ -77,6 +78,27 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  position:relative;
+}
+
+/* ===== FOGO EXTERNO ===== */
+.fogo{
+  position:absolute;
+  top:-15px;
+  left:-15px;
+  right:-15px;
+  bottom:-15px;
+  border-radius:5px;
+  pointer-events:none;
+  box-shadow: 0 0 40px 15px orange, 0 0 60px 25px red, 0 0 80px 35px yellow;
+  opacity:0;
+  animation: fogoAnim 1s infinite alternate;
+}
+
+@keyframes fogoAnim{
+  0%{ opacity:0; box-shadow:0 0 40px 15px orange,0 0 60px 25px red,0 0 80px 35px yellow; }
+  50%{ opacity:1; box-shadow:0 0 50px 20px orange,0 0 70px 30px red,0 0 100px 40px yellow; }
+  100%{ opacity:0.8; box-shadow:0 0 60px 25px orange,0 0 80px 35px red,0 0 120px 50px yellow; }
 }
 
 /* ===== BOTÕES ===== */
@@ -106,6 +128,23 @@ button:hover{
   margin-bottom:15px;
   font-size:20px;
 }
+
+/* ===== CONFETES ===== */
+.confete{
+  position:fixed;
+  width:10px;
+  height:10px;
+  background:orange;
+  top:-10px;
+  animation: cair 3s linear infinite;
+  opacity:0.8;
+  border-radius:50%;
+}
+
+@keyframes cair{
+  0%{ transform: translateY(0) rotate(0deg); }
+  100%{ transform: translateY(100vh) rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -113,7 +152,7 @@ button:hover{
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
   <div class="titulo vento">Guerreiros da Luz</div>
-  <div class="pentagono"></div>
+  <div class="pentagono"><div class="fogo" id="fogo"></div></div>
 
   <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br>
   <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br>
@@ -153,29 +192,19 @@ let pontos = 0;
 let indicePergunta = 0;
 let nivelAtual = "iniciante";
 const audio = document.getElementById("audioBg");
+const fogo = document.getElementById("fogo");
 
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
   iniciante:[
     { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
-    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 },
-    { texto:"Quem derrotou Golias?", opcoes:["Saul","Davi","Sansão"], correta:1 },
-    { texto:"Quantos dias Jesus jejuou?", opcoes:["30","20","40"], correta:2 },
-    { texto:"Quem foi lançado na cova dos leões?", opcoes:["Daniel","José","Pedro"], correta:0 }
+    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 }
   ],
   intermediario:[
-    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 },
-    { texto:"Quem interpretou sonhos no Egito?", opcoes:["Daniel","José","Moisés"], correta:1 },
-    { texto:"Quem recebeu os 10 mandamentos?", opcoes:["Moisés","Josué","Elias"], correta:0 },
-    { texto:"Quem foi tentado no deserto?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
-    { texto:"Quem construiu o templo de Salomão?", opcoes:["Salomão","Davi","Ezequias"], correta:0 }
+    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 }
   ],
   avancado:[
-    { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 },
-    { texto:"Quem escreveu Apocalipse?", opcoes:["Paulo","João","Pedro"], correta:1 },
-    { texto:"Qual profeta desafiou os profetas de Baal?", opcoes:["Elias","Isaías","Jeremias"], correta:0 },
-    { texto:"Quem foi arrebatado por Deus?", opcoes:["Enoque","Moisés","Eliseu"], correta:0 },
-    { texto:"Quem foi ressuscitado por Jesus?", opcoes:["Lázaro","Tabita","Jairo"], correta:0 }
+    { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 }
   ],
   hard:[
     { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
@@ -220,11 +249,15 @@ function carregarPergunta(){
 function responder(opcao){
   let correta = perguntas[indicePergunta].correta;
 
+  // ===== Pontuação diferenciada para Hard =====
+  let pontosAcerto = (nivelAtual === "hard") ? 20 : 10;
+  let pontosErro   = (nivelAtual === "hard") ? 10 : 5;
+
   if(opcao === correta){
-    pontos += 10;
+    pontos += pontosAcerto;
     alert("Resposta correta! ⚔️🔥");
   }else{
-    pontos -= 5;
+    pontos -= pontosErro;
     if(pontos < 0) pontos = 0;
     alert("Resposta errada 😬");
   }
@@ -236,9 +269,30 @@ function responder(opcao){
   if(indicePergunta < perguntas.length){
     carregarPergunta();
   }else{
-    alert("Missão concluída! 🏆🔥");
+    // ===== Missão concluída com fogo e confetes =====
     audio.pause();
-    trocarTela("inicio");
+    fogo.style.opacity = 1;
+    criarConfetes(50);
+    alert("Missão concluída! 🏆🔥");
+
+    setTimeout(()=>{
+      fogo.style.opacity = 0;
+      trocarTela("inicio");
+    },2000);
+  }
+}
+
+// ===== CONFETES =====
+function criarConfetes(qtd){
+  for(let i=0;i<qtd;i++){
+    let c = document.createElement("div");
+    c.classList.add("confete");
+    c.style.left = Math.random()*window.innerWidth+"px";
+    c.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+    c.style.animationDuration = (2+Math.random()*3)+"s";
+    document.body.appendChild(c);
+
+    setTimeout(()=>document.body.removeChild(c),5000);
   }
 }
 </script>

@@ -7,9 +7,9 @@
 <style>
 body{
   margin:0;
+  font-family: Arial, sans-serif;
   background:#0b0b0b;
   color:#fff;
-  font-family: Arial, Helvetica, sans-serif;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -28,21 +28,23 @@ body{
 
 /* ===== PENTÁGONO ===== */
 .pentagono{
-  width:460px;
-  height:460px;
+  width:500px;
+  height:500px;
   clip-path: polygon(
     50% 0%,
-    95% 35%,
-    77% 100%,
-    23% 100%,
-    5% 35%
+    100% 38%,
+    82% 100%,
+    18% 100%,
+    0% 38%
   );
-  overflow:hidden;
-  margin:auto;
-  background:#111;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 auto 30px auto;
+  box-shadow: 0 0 30px rgba(255,215,0,0.5);
 }
 
-/* imagem interna */
 .pentagono img{
   width:100%;
   height:100%;
@@ -51,102 +53,45 @@ body{
 
 /* ===== BOTÕES ===== */
 button{
-  padding:12px 20px;
-  margin:8px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+  padding:15px 30px;
+  font-size:18px;
   border:none;
   border-radius:8px;
-  background:#f5b041;
+  background:#f5c542;
+  color:#000;
+  cursor:pointer;
 }
 
 button:hover{
-  background:#f39c12;
-}
-
-/* ===== JOGO ===== */
-#pergunta{
-  font-size:18px;
-  margin-bottom:15px;
-}
-
-.opcao{
-  display:block;
-  width:100%;
-  margin:8px 0;
-}
-
-#placar{
-  margin-top:15px;
-  font-weight:bold;
+  background:#ffd966;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== TELA INÍCIO ===== -->
+<!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
   <div class="pentagono">
-    <img src="https://i.imgur.com/4Qy6nYk.png" alt="Espada e Bíblia">
+    <!-- ⚔️📖 IMAGEM DA ESPADA + BÍBLIA -->
+    <img src="logo.png" alt="Espada e Bíblia">
   </div>
+
+  <h1>Guerreiros da Luz</h1>
   <br>
-  <button onclick="trocarTela('fases')">Iniciar Missão</button>
+  <button onclick="iniciarMissao()">Iniciar Missão</button>
 </div>
 
-<!-- ===== TELA FASES ===== -->
+<!-- ===== TELA DE FASES (VAZIA POR ENQUANTO) ===== -->
 <div id="fases" class="tela">
-  <h2>Escolha a Fase</h2>
-  <button onclick="selecionarFase('iniciante')">Iniciante</button>
-  <button onclick="selecionarFase('intermediario')">Intermediário</button>
-  <button onclick="selecionarFase('avancado')">Avançado</button>
-</div>
-
-<!-- ===== TELA JOGO ===== -->
-<div id="jogo" class="tela">
-  <div id="pergunta"></div>
-  <div id="opcoes"></div>
-  <div id="placar">Pontos: <span id="pontos">0</span></div>
+  <h2>Missão Iniciada!</h2>
+  <p>A próxima etapa virá aqui.</p>
+  <br>
+  <button onclick="trocarTela('inicio')">Voltar</button>
 </div>
 
 <script>
-let indicePergunta = 0;
-let pontos = 0;
-let perguntas = [];
-let nivelAtual = "";
-
-/* ===== BANCO DE PERGUNTAS ===== */
-const bancoPerguntas = {
-  iniciante: [
-    {
-      pergunta: "Quem criou o céu e a terra?",
-      opcoes: ["Moisés", "Deus", "Abraão"],
-      correta: 1
-    },
-    {
-      pergunta: "Quem foi lançado na cova dos leões?",
-      opcoes: ["José", "Daniel", "Davi"],
-      correta: 1
-    }
-  ],
-  intermediario: [
-    {
-      pergunta: "Quem venceu Golias?",
-      opcoes: ["Saul", "Sansão", "Davi"],
-      correta: 2
-    }
-  ],
-  avancado: [
-    {
-      pergunta: "Onde Jesus nasceu?",
-      opcoes: ["Nazaré", "Belém", "Jerusalém"],
-      correta: 1
-    }
-  ]
-};
-
-/* ===== FUNÇÕES ===== */
+// ===== CONTROLE DE TELAS =====
 function trocarTela(id){
   document.querySelectorAll(".tela").forEach(t=>{
     t.classList.remove("ativa");
@@ -154,40 +99,8 @@ function trocarTela(id){
   document.getElementById(id).classList.add("ativa");
 }
 
-function selecionarFase(fase){
-  nivelAtual = fase;
-  perguntas = bancoPerguntas[fase];
-  indicePergunta = 0;
-  pontos = 0;
-  document.getElementById("pontos").innerText = pontos;
-  trocarTela("jogo");
-  carregarPergunta();
-}
-
-function carregarPergunta(){
-  let p = perguntas[indicePergunta];
-  document.getElementById("pergunta").innerText = p.pergunta;
-
-  let html = "";
-  p.opcoes.forEach((op,i)=>{
-    html += `<button class="opcao" onclick="responder(${i})">${op}</button>`;
-  });
-  document.getElementById("opcoes").innerHTML = html;
-}
-
-function responder(i){
-  if(i === perguntas[indicePergunta].correta){
-    pontos++;
-    document.getElementById("pontos").innerText = pontos;
-  }
-
-  indicePergunta++;
-  if(indicePergunta < perguntas.length){
-    carregarPergunta();
-  }else{
-    alert("Missão concluída! 🏆");
-    trocarTela("inicio");
-  }
+function iniciarMissao(){
+  trocarTela("fases");
 }
 </script>
 

@@ -5,202 +5,200 @@
 <title>Guerreiros da Luz</title>
 
 <style>
-body {
-  margin: 0;
-  background: radial-gradient(circle, #000 40%, #111);
-  font-family: Arial, sans-serif;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body{
+  margin:0;
+  padding:0;
+  background:#0b0b0b;
+  color:#fff;
+  font-family: Arial, Helvetica, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-/* TELAS */
-.tela {
-  display: none;
-  text-align: center;
+/* ===== TELAS ===== */
+.tela{
+  display:none;
+  text-align:center;
 }
 
-.tela.ativa {
-  display: block;
+.tela.ativa{
+  display:block;
 }
 
-/* PENTÁGONO */
-.pentagono {
-  width: 560px;
-  height: 560px;
-  background-image: url("interface.png");
-  background-size: cover;
-  background-position: center;
+/* ===== PENTÁGONO ===== */
+.pentagono{
+  width:460px;
+  height:460px;
   clip-path: polygon(
     50% 0%,
-    100% 38%,
-    82% 100%,
-    18% 100%,
-    0% 38%
+    95% 35%,
+    77% 100%,
+    23% 100%,
+    5% 35%
   );
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: url("https://i.imgur.com/4Qy6nYk.png") no-repeat center;
+  background-size: cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
 }
 
-/* BOTÕES */
-button {
-  padding: 12px 20px;
-  margin: 6px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(45deg, gold, orange);
-  color: #000;
-  font-weight: bold;
+/* ===== BOTÕES ===== */
+button{
+  padding:12px 20px;
+  margin:8px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  border:none;
+  border-radius:8px;
+  background:#f5b041;
 }
 
-button:hover {
-  transform: scale(1.05);
+button:hover{
+  background:#f39c12;
 }
 
-/* PERGUNTAS */
-.pergunta {
-  font-size: 20px;
-  margin-bottom: 15px;
+/* ===== PERGUNTAS ===== */
+#pergunta{
+  font-size:18px;
+  margin-bottom:15px;
 }
 
-.opcao {
-  display: block;
-  margin: 5px auto;
-  width: 80%;
+.opcao{
+  display:block;
+  width:100%;
+  margin:8px 0;
 }
 
-#pontos {
-  margin-top: 10px;
-  font-size: 18px;
+/* ===== PONTOS ===== */
+#placar{
+  margin-top:15px;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TELA INICIAL -->
+<!-- ===== TELA INÍCIO ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="pentagono">
-    <button onclick="trocarTela('fases')">Iniciar Missão</button>
-  </div>
+  <div class="pentagono"></div>
+  <br>
+  <button onclick="trocarTela('fases')">Iniciar Missão</button>
 </div>
 
-<!-- TELA DE FASES -->
+<!-- ===== TELA FASES ===== -->
 <div id="fases" class="tela">
-  <div class="pentagono">
-    <h2>Escolha a Fase</h2>
-    <button onclick="selecionarFase(1)">Fase 1</button>
-    <button onclick="selecionarFase(2)">Fase 2</button>
-    <button onclick="selecionarFase(3)">Fase 3</button>
-  </div>
+  <h2>Escolha a Fase</h2>
+  <button onclick="selecionarFase('iniciante')">Iniciante</button>
+  <button onclick="selecionarFase('intermediario')">Intermediário</button>
+  <button onclick="selecionarFase('avancado')">Avançado</button>
 </div>
 
-<!-- TELA DO JOGO -->
+<!-- ===== TELA JOGO ===== -->
 <div id="jogo" class="tela">
-  <div class="pentagono">
-    <div class="pergunta" id="pergunta"></div>
-    <div id="opcoes"></div>
-    <div id="pontos">Pontos: 0</div>
-  </div>
+  <div id="pergunta"></div>
+  <div id="opcoes"></div>
+  <div id="placar">Pontos: <span id="pontos">0</span></div>
 </div>
 
 <script>
-let nivelAtual = 1;
-let perguntas = [];
+/* ===== VARIÁVEIS ===== */
 let indicePergunta = 0;
 let pontos = 0;
+let perguntas = [];
+let nivelAtual = "";
 
-/* BANCO DE PERGUNTAS */
+/* ===== BANCO DE PERGUNTAS ===== */
 const bancoPerguntas = {
-  1: [
+  iniciante: [
     {
-      pergunta: "Quem construiu a arca?",
-      opcoes: ["Moisés", "Noé", "Abraão"],
+      pergunta: "Quem criou o céu e a terra?",
+      opcoes: ["Moisés", "Deus", "Abraão"],
       correta: 1
     },
     {
-      pergunta: "Quantos dias choveu no dilúvio?",
-      opcoes: ["7", "40", "100"],
+      pergunta: "Quem foi lançado na cova dos leões?",
+      opcoes: ["José", "Daniel", "Davi"],
       correta: 1
     }
   ],
-  2: [
+
+  intermediario: [
     {
-      pergunta: "Quem derrotou Golias?",
-      opcoes: ["Saul", "Davi", "Sansão"],
-      correta: 1
+      pergunta: "Quem venceu Golias?",
+      opcoes: ["Saul", "Sansão", "Davi"],
+      correta: 2
     },
     {
-      pergunta: "Qual era a arma de Davi?",
-      opcoes: ["Espada", "Lança", "Funda"],
+      pergunta: "Quantos dias Jesus jejuou no deserto?",
+      opcoes: ["7", "30", "40"],
       correta: 2
     }
   ],
-  3: [
+
+  avancado: [
     {
-      pergunta: "Quem abriu o Mar Vermelho?",
-      opcoes: ["Josué", "Moisés", "Elias"],
+      pergunta: "Quem escreveu a maioria das cartas do Novo Testamento?",
+      opcoes: ["Pedro", "Paulo", "João"],
       correta: 1
     },
     {
-      pergunta: "Os Dez Mandamentos foram dados em qual monte?",
-      opcoes: ["Carmelo", "Horebe", "Sinai"],
-      correta: 2
+      pergunta: "Onde Jesus nasceu?",
+      opcoes: ["Nazaré", "Belém", "Jerusalém"],
+      correta: 1
     }
   ]
 };
 
-/* FUNÇÕES */
-function trocarTela(id) {
-  document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+/* ===== FUNÇÕES ===== */
+function trocarTela(id){
+  document.querySelectorAll(".tela").forEach(t=>{
+    t.classList.remove("ativa");
+  });
   document.getElementById(id).classList.add("ativa");
 }
 
-function selecionarFase(fase) {
+function selecionarFase(fase){
   nivelAtual = fase;
   perguntas = bancoPerguntas[fase];
   indicePergunta = 0;
   pontos = 0;
-  document.getElementById("pontos").innerText = "Pontos: 0";
+  document.getElementById("pontos").innerText = pontos;
   trocarTela("jogo");
   carregarPergunta();
 }
 
-function carregarPergunta() {
-  if (indicePergunta >= perguntas.length) {
-    alert("Missão concluída! Pontos: " + pontos);
-    trocarTela("fases");
-    return;
-  }
-
-  const p = perguntas[indicePergunta];
+function carregarPergunta(){
+  let p = perguntas[indicePergunta];
   document.getElementById("pergunta").innerText = p.pergunta;
 
-  const opcoesDiv = document.getElementById("opcoes");
-  opcoesDiv.innerHTML = "";
-
-  p.opcoes.forEach((op, i) => {
-    const btn = document.createElement("button");
-    btn.className = "opcao";
-    btn.innerText = op;
-    btn.onclick = () => verificarResposta(i);
-    opcoesDiv.appendChild(btn);
+  let opcoesHTML = "";
+  p.opcoes.forEach((op, i)=>{
+    opcoesHTML += `<button class="opcao" onclick="responder(${i})">${op}</button>`;
   });
+
+  document.getElementById("opcoes").innerHTML = opcoesHTML;
 }
 
-function verificarResposta(indice) {
-  if (indice === perguntas[indicePergunta].correta) {
-    pontos += 10;
+function responder(indice){
+  if(indice === perguntas[indicePergunta].correta){
+    pontos++;
+    document.getElementById("pontos").innerText = pontos;
   }
-  document.getElementById("pontos").innerText = "Pontos: " + pontos;
+
   indicePergunta++;
-  carregarPergunta();
+
+  if(indicePergunta < perguntas.length){
+    carregarPergunta();
+  }else{
+    alert("Missão concluída! 🏆");
+    trocarTela("inicio");
+  }
 }
 </script>
 

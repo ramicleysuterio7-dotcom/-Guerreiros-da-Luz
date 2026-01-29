@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Guerreiros da Luz</title>
+
 <style>
-/* ===== RESET ===== */
 *{
   margin:0;
   padding:0;
@@ -12,7 +12,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* ===== BODY ===== */
 body{
   background:#111;
   color:#fff;
@@ -20,11 +19,8 @@ body{
   justify-content:center;
   align-items:center;
   height:100vh;
-  flex-direction:column;
-  overflow-x:hidden;
 }
 
-/* ===== TELAS ===== */
 .tela{
   display:none;
   text-align:center;
@@ -34,35 +30,19 @@ body{
   display:block;
 }
 
-/* ===== TÍTULO ===== */
 .titulo{
   font-size:42px;
   font-weight:900;
-  margin-bottom:25px;
+  margin-bottom:20px;
   text-transform:uppercase;
-  letter-spacing:3px;
   color:#ffd966;
   text-shadow:
     1px 1px 0 #c9a227,
     2px 2px 0 #b8941f,
     3px 3px 0 #9e7c19,
-    4px 4px 0 #7d5f12,
-    6px 6px 10px rgba(0,0,0,0.8);
+    5px 5px 10px rgba(0,0,0,0.8);
 }
 
-/* ===== EFEITO VENTO ===== */
-.vento{
-  animation: vento3D 3s infinite ease-in-out;
-}
-
-@keyframes vento3D{
-  0%{ transform: translateX(0) skewX(0deg); opacity:1; }
-  40%{ transform: translateX(-6px) skewX(-6deg); }
-  70%{ transform: translateX(-14px) skewX(-14deg); opacity:0.85; }
-  100%{ transform: translateX(0) skewX(0deg); opacity:1; }
-}
-
-/* ===== PENTÁGONO ===== */
 .pentagono{
   width:520px;
   height:520px;
@@ -74,92 +54,55 @@ body{
     18% 100%,
     0% 38%
   );
-  margin: 0 auto 20px auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
+  margin:0 auto 20px;
 }
 
-/* ===== FOGO EXTERNO ===== */
-.fogo{
-  position:absolute;
-  top:-15px;
-  left:-15px;
-  right:-15px;
-  bottom:-15px;
-  border-radius:5px;
-  pointer-events:none;
-  box-shadow: 0 0 40px 15px orange, 0 0 60px 25px red, 0 0 80px 35px yellow;
-  opacity:0;
-  animation: fogoAnim 1s infinite alternate;
-}
-
-@keyframes fogoAnim{
-  0%{ opacity:0; box-shadow:0 0 40px 15px orange,0 0 60px 25px red,0 0 80px 35px yellow; }
-  50%{ opacity:1; box-shadow:0 0 50px 20px orange,0 0 70px 30px red,0 0 100px 40px yellow; }
-  100%{ opacity:0.8; box-shadow:0 0 60px 25px orange,0 0 80px 35px red,0 0 120px 50px yellow; }
-}
-
-/* ===== BOTÕES ===== */
 button{
   padding:12px 22px;
+  margin:6px;
   font-size:16px;
   border:none;
   border-radius:6px;
   background:#ffd966;
-  cursor:pointer;
   font-weight:bold;
-  margin:5px 0;
+  cursor:pointer;
 }
 
 button:hover{
   background:#ffcc00;
 }
 
-/* ===== PLACAR ===== */
 #placar{
-  margin:15px 0;
+  margin:10px 0;
   font-size:18px;
 }
 
-/* ===== PERGUNTA ===== */
 #pergunta{
-  margin-bottom:15px;
+  margin:15px 0;
   font-size:20px;
 }
 
-/* ===== CONFETES ===== */
-.confete{
-  position:fixed;
-  width:10px;
-  height:10px;
-  background:orange;
-  top:-10px;
-  animation: cair 3s linear infinite;
-  opacity:0.8;
-  border-radius:50%;
-}
-
-@keyframes cair{
-  0%{ transform: translateY(0) rotate(0deg); }
-  100%{ transform: translateY(100vh) rotate(360deg); }
+#versiculo{
+  display:none;
+  margin-top:15px;
+  font-style:italic;
+  color:#ffd966;
 }
 </style>
 </head>
+
 <body>
 
 <!-- ===== TELA INICIAL ===== -->
 <div id="inicio" class="tela ativa">
-  <div class="titulo vento">Guerreiros da Luz</div>
-  <div class="pentagono"><div class="fogo" id="fogo"></div></div>
+  <div class="titulo">Guerreiros da Luz</div>
+  <div class="pentagono"></div>
 
- <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
-<button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
-<button onclick="selecionarFase('avancado')">Missão Avançada</button><br><br>
-<button onclick="selecionarFase('hard')">Missão Hard</button><br><br>
-<button onclick="selecionarFase('ebd')">Missão EBD</button>
- 
+  <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br>
+  <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br>
+  <button onclick="selecionarFase('avancado')">Missão Avançada</button><br>
+  <button onclick="selecionarFase('hard')">Missão Hard</button><br>
+  <button onclick="selecionarFase('ebd')">Missão EBD</button>
 </div>
 
 <!-- ===== TELA DO JOGO ===== -->
@@ -167,16 +110,16 @@ button:hover{
   <div id="placar">
     Pontuação: <span id="pontos">0</span>
   </div>
-<p id="versiculo" style="font-style:italic; margin-bottom:15px; color:#ffd966;"></p>
 
   <h3 id="pergunta"></h3>
 
   <button id="op0" onclick="responder(0)"></button><br><br>
   <button id="op1" onclick="responder(1)"></button><br><br>
   <button id="op2" onclick="responder(2)"></button>
+
+  <p id="versiculo"></p>
 </div>
 
-<!-- ===== AUDIO ===== -->
 <audio id="audioBg" loop>
   <source src="som.mp3" type="audio/mpeg">
 </audio>
@@ -193,315 +136,79 @@ function trocarTela(id){
 // ===== VARIÁVEIS =====
 let pontos = 0;
 let indicePergunta = 0;
-let nivelAtual = "iniciante";
+let perguntas = [];
+
 const audio = document.getElementById("audioBg");
-const fogo = document.getElementById("fogo");
 
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
 
   iniciante:[
-    {
-      texto:"Quem construiu a arca?",
-      versiculo:"Gênesis 6:14",
-      opcoes:["Moisés","Noé","Abraão"],
-      correta:1
-    },
-    {
-      texto:"Quem abriu o Mar Vermelho?",
-      versiculo:"Êxodo 14:21",
-      opcoes:["Josué","Moisés","Elias"],
-      correta:1
-    },
-    {
-      texto:"Quem derrotou Golias?",
-      versiculo:"1 Samuel 17:50",
-      opcoes:["Saul","Davi","Sansão"],
-      correta:1
-    },
-    {
-      texto:"Quantos dias Jesus jejuou no deserto?",
-      versiculo:"Mateus 4:2",
-      opcoes:["30","20","40"],
-      correta:2
-    },
-    {
-      texto:"Quem foi o primeiro homem criado por Deus?",
-      versiculo:"Gênesis 2:7",
-      opcoes:["Noé","Abraão","Adão"],
-      correta:2
-    },
-    {
-      texto:"Quem foi engolido por um grande peixe?",
-      versiculo:"Jonas 1:17",
-      opcoes:["Jonas","Amós","Naum"],
-      correta:0
-    },
-    {
-      texto:"Quem recebeu os Dez Mandamentos?",
-      versiculo:"Êxodo 31:18",
-      opcoes:["Abraão","Moisés","Josué"],
-      correta:1
-    },
-    {
-      texto:"Quem nasceu em Belém?",
-      versiculo:"Mateus 2:1",
-      opcoes:["João Batista","Jesus","Davi"],
-      correta:1
-    }
+    { texto:"Quem construiu a arca?", versiculo:"Gênesis 6:14", opcoes:["Moisés","Noé","Abraão"], correta:1 },
+    { texto:"Quem abriu o Mar Vermelho?", versiculo:"Êxodo 14:21", opcoes:["Josué","Moisés","Elias"], correta:1 },
+    { texto:"Quem derrotou Golias?", versiculo:"1 Samuel 17:50", opcoes:["Saul","Davi","Sansão"], correta:1 },
+    { texto:"Quantos dias Jesus jejuou?", versiculo:"Mateus 4:2", opcoes:["30","20","40"], correta:2 }
   ],
 
   intermediario:[
-    {
-      texto:"Quem subiu ao céu sem morrer?",
-      versiculo:"2 Reis 2:11",
-      opcoes:["Elias","Moisés","Abraão"],
-      correta:0
-    },
-    {
-      texto:"Quem foi vendido por seus irmãos?",
-      versiculo:"Gênesis 37:28",
-      opcoes:["Davi","José","Isaque"],
-      correta:1
-    },
-    {
-      texto:"Qual juiz venceu os midianitas com 300 homens?",
-      versiculo:"Juízes 7:7",
-      opcoes:["Sansão","Gideão","Débora"],
-      correta:1
-    },
-    {
-      texto:"Quem escreveu a maioria dos Salmos?",
-      versiculo:"Salmos 23:1",
-      opcoes:["Salomão","Davi","Asafe"],
-      correta:1
-    },
-    {
-      texto:"Qual rei construiu o primeiro templo?",
-      versiculo:"1 Reis 6:1",
-      opcoes:["Davi","Salomão","Saul"],
-      correta:1
-    },
-    {
-      texto:"Quem interpretou os sonhos no Egito?",
-      versiculo:"Gênesis 41:15",
-      opcoes:["Daniel","José","Moisés"],
-      correta:1
-    },
-    {
-      texto:"Quem foi lançado na cova dos leões?",
-      versiculo:"Daniel 6:16",
-      opcoes:["Daniel","José","Jeremias"],
-      correta:0
-    },
-    {
-      texto:"Qual profeta confrontou o rei Acabe?",
-      versiculo:"1 Reis 18:17",
-      opcoes:["Elias","Eliseu","Isaías"],
-      correta:0
-    }
+    { texto:"Quem subiu ao céu sem morrer?", versiculo:"2 Reis 2:11", opcoes:["Elias","Moisés","Abraão"], correta:0 },
+    { texto:"Quem foi vendido pelos irmãos?", versiculo:"Gênesis 37:28", opcoes:["José","Isaque","Davi"], correta:0 },
+    { texto:"Quem derrotou os midianitas com 300 homens?", versiculo:"Juízes 7:7", opcoes:["Sansão","Gideão","Débora"], correta:1 },
+    { texto:"Quem escreveu a maioria dos Salmos?", versiculo:"Salmos 23:1", opcoes:["Davi","Salomão","Asafe"], correta:0 }
   ],
 
   avancado:[
-    {
-      texto:"Quantos dias choveu no dilúvio?",
-      versiculo:"Gênesis 7:12",
-      opcoes:["30","40","150"],
-      correta:1
-    },
-    {
-      texto:"Quem interpretou o sonho da estátua de Nabucodonosor?",
-      versiculo:"Daniel 2:19",
-      opcoes:["José","Daniel","Ezequiel"],
-      correta:1
-    },
-    {
-      texto:"Qual rei viu a escrita na parede?",
-      versiculo:"Daniel 5:5",
-      opcoes:["Nabucodonosor","Belsazar","Ciro"],
-      correta:1
-    },
-    {
-      texto:"Quem escreveu o livro de Lamentações?",
-      versiculo:"Lamentações 1:1",
-      opcoes:["Isaías","Jeremias","Ezequiel"],
-      correta:1
-    },
-    {
-      texto:"Qual profeta anunciou o novo concerto?",
-      versiculo:"Jeremias 31:31",
-      opcoes:["Daniel","Jeremias","Oséias"],
-      correta:1
-    },
-    {
-      texto:"Quem reconstruiu os muros de Jerusalém?",
-      versiculo:"Neemias 2:17",
-      opcoes:["Esdras","Neemias","Zorobabel"],
-      correta:1
-    },
-    {
-      texto:"Qual livro bíblico é poético e filosófico?",
-      versiculo:"Eclesiastes 1:2",
-      opcoes:["Provérbios","Jó","Eclesiastes"],
-      correta:2
-    },
-    {
-      texto:"Quem foi o profeta contemporâneo de Jeremias no exílio?",
-      versiculo:"Ezequiel 1:1",
-      opcoes:["Ezequiel","Daniel","Oséias"],
-      correta:0
-    }
+    { texto:"Quantos dias choveu no dilúvio?", versiculo:"Gênesis 7:12", opcoes:["30","40","150"], correta:1 },
+    { texto:"Quem interpretou o sonho da estátua?", versiculo:"Daniel 2:19", opcoes:["José","Daniel","Ezequiel"], correta:1 },
+    { texto:"Qual rei viu a escrita na parede?", versiculo:"Daniel 5:5", opcoes:["Nabucodonosor","Belsazar","Ciro"], correta:1 },
+    { texto:"Quem reconstruiu os muros de Jerusalém?", versiculo:"Neemias 2:17", opcoes:["Esdras","Neemias","Zorobabel"], correta:1 },
+    { texto:"Qual profeta foi engolido por um grande peixe?", versiculo:"Jonas 1:17", opcoes:["Jonas","Amós","Naum"], correta:0 }
   ],
 
   hard:[
-    {
-      texto:"Quem escreveu a Epístola aos Hebreus?",
-      versiculo:"Hebreus 1:1",
-      opcoes:["Paulo","Lucas","Autor não identificado"],
-      correta:2
-    },
-    {
-      texto:"O que significa 'Emanuel'?",
-      versiculo:"Mateus 1:23",
-      opcoes:["Deus conosco","Príncipe da Paz","Filho do Altíssimo"],
-      correta:0
-    },
-    {
-      texto:"Qual apóstolo escreveu o Apocalipse?",
-      versiculo:"Apocalipse 1:1",
-      opcoes:["Pedro","Paulo","João"],
-      correta:2
-    },
-    {
-      texto:"Qual doutrina ensina a salvação somente pela fé?",
-      versiculo:"Efésios 2:8",
-      opcoes:["Legalismo","Justificação pela fé","Predestinação"],
-      correta:1
-    },
-    {
-      texto:"Qual carta fala da armadura de Deus?",
-      versiculo:"Efésios 6:11",
-      opcoes:["Romanos","Efésios","Gálatas"],
-      correta:1
-    },
-    {
-      texto:"Qual livro apresenta Cristo como sumo sacerdote?",
-      versiculo:"Hebreus 4:14",
-      opcoes:["Levítico","Hebreus","Romanos"],
-      correta:1
-    },
-    {
-      texto:"Qual profeta teve visão dos quatro animais?",
-      versiculo:"Daniel 7:3",
-      opcoes:["Daniel","Ezequiel","Zacarias"],
-      correta:0
-    },
-    {
-      texto:"Qual livro trata da soberania de Deus no sofrimento?",
-      versiculo:"Jó 1:21",
-      opcoes:["Salmos","Jó","Provérbios"],
-      correta:1
-    }
+    { texto:"Quem foi traído por Judas?", versiculo:"Mateus 26:14", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
+    { texto:"Quem escreveu Hebreus?", versiculo:"Hebreus 1:1", opcoes:["Paulo","Lucas","Autor desconhecido"], correta:2 },
+    { texto:"Quem teve visão dos ossos secos?", versiculo:"Ezequiel 37", opcoes:["Isaías","Jeremias","Ezequiel"], correta:2 },
+    { texto:"Quem carregou a cruz?", versiculo:"Lucas 23:26", opcoes:["Pedro","João","Simão Cireneu"], correta:2 },
+    { texto:"O que significa Emanuel?", versiculo:"Mateus 1:23", opcoes:["Deus conosco","Rei eterno","Príncipe da Paz"], correta:0 }
   ],
 
   ebd:[
-    {
-      texto:"Qual é o tema central da Bíblia?",
-      versiculo:"Lucas 24:27",
-      opcoes:["Israel","A redenção do homem","A lei de Moisés"],
-      correta:1
-    },
-    {
-      texto:"O que é justificação segundo Romanos?",
-      versiculo:"Romanos 5:1",
-      opcoes:["Pelas obras","Pela fé","Pela lei"],
-      correta:1
-    },
-    {
-      texto:"Qual é a missão principal da Igreja?",
-      versiculo:"Mateus 28:19-20",
-      opcoes:["Prosperar","Fazer discípulos","Construir templos"],
-      correta:1
-    },
-    {
-      texto:"O que significa discipulado?",
-      versiculo:"Lucas 9:23",
-      opcoes:["Conhecer doutrinas","Seguir a Cristo","Ensinar leis"],
-      correta:1
-    },
-    {
-      texto:"Qual doutrina afirma Deus como Trino?",
-      versiculo:"Mateus 28:19",
-      opcoes:["Unicidade","Trindade","Predestinação"],
-      correta:1
-    },
-    {
-      texto:"Qual fruto do Espírito está ligado ao domínio próprio?",
-      versiculo:"Gálatas 5:23",
-      opcoes:["Fé","Mansidão","Temperança"],
-      correta:2
-    }
+    { texto:"Tema central da Bíblia?", versiculo:"Lucas 24:27", opcoes:["Israel","Redenção","Lei"], correta:1 },
+    { texto:"O que significa EBD?", versiculo:"Atos 2:42", opcoes:["Estudo Bíblico Diário","Escola Bíblica Dominical","Ensino Doutrinário"], correta:1 },
+    { texto:"Livro considerado o coração da Bíblia?", versiculo:"Salmos 119:105", opcoes:["Salmos","Romanos","Isaías"], correta:0 },
+    { texto:"Apóstolo dos gentios?", versiculo:"Romanos 11:13", opcoes:["Pedro","Paulo","Barnabé"], correta:1 },
+    { texto:"O que é justificação?", versiculo:"Romanos 5:1", opcoes:["Pelas obras","Pela fé","Pela lei"], correta:1 }
   ]
 };
 
-
-let perguntas = bancoPerguntas.iniciante;
-
 // ===== INICIAR MISSÃO =====
 function selecionarFase(fase){
-  if(!bancoPerguntas[fase]){
-    alert("Missão não disponível!");
-    return;
-  }
-
-  nivelAtual = fase;
   perguntas = bancoPerguntas[fase];
-  pontos = 0;
   indicePergunta = 0;
+  pontos = 0;
   document.getElementById("pontos").innerText = pontos;
 
   trocarTela("fases");
   carregarPergunta();
 
-  if(audio.paused) audio.play();
+  if(audio.paused){
+    audio.play();
+  }
 }
 
 // ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
 
-  document.getElementById("pergunta").innerText = p.pergunta;
-
-  const versiculoEl = document.getElementById("versiculo");
-  versiculoEl.innerText = "";          // 👈 limpa
-  versiculoEl.style.display = "none";  // 👈 esconde
-
-  // carrega as opções normalmente
-}
-
-
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];
   document.getElementById("op2").innerText = p.opcoes[2];
-}
 
-// ===== CARREGAR PERGUNTA =====
-function carregarPergunta(){
-  let p = perguntas[indicePergunta];
-
-  // texto da pergunta
-  document.getElementById("pergunta").innerText = p.texto;
-
-  // opções
-  document.getElementById("op0").innerText = p.opcoes[0];
-  document.getElementById("op1").innerText = p.opcoes[1];
-  document.getElementById("op2").innerText = p.opcoes[2];
-
-  // esconde o versículo ao carregar
   const versiculoEl = document.getElementById("versiculo");
-  versiculoEl.innerText = "";
   versiculoEl.style.display = "none";
+  versiculoEl.innerText = "";
 }
 
 // ===== RESPONDER =====
@@ -511,43 +218,27 @@ function responder(opcao){
 
   if(opcao === p.correta){
     pontos += 10;
-    document.getElementById("pontos").inner
-
-
-
-  document.getElementById("pontos").innerText = pontos;
-
-  indicePergunta++;
-
-  if(indicePergunta < perguntas.length){
-    carregarPergunta();
+    document.getElementById("pontos").innerText = pontos;
+    alert("Resposta correta! ✅");
   }else{
-    // ===== Missão concluída com fogo e confetes =====
-    audio.pause();
-    fogo.style.opacity = 1;
-    criarConfetes(50);
-    alert("Missão concluída! 🏆🔥");
+    alert("Resposta errada ❌");
+  }
 
-    setTimeout(()=>{
-      fogo.style.opacity = 0;
+  versiculoEl.innerText = "📖 " + p.versiculo;
+  versiculoEl.style.display = "block";
+
+  setTimeout(()=>{
+    indicePergunta++;
+    if(indicePergunta < perguntas.length){
+      carregarPergunta();
+    }else{
+      alert("Missão concluída! 🏆🔥");
+      audio.pause();
       trocarTela("inicio");
-    },2000);
-  }
-}
-
-// ===== CONFETES =====
-function criarConfetes(qtd){
-  for(let i=0;i<qtd;i++){
-    let c = document.createElement("div");
-    c.classList.add("confete");
-    c.style.left = Math.random()*window.innerWidth+"px";
-    c.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
-    c.style.animationDuration = (2+Math.random()*3)+"s";
-    document.body.appendChild(c);
-
-    setTimeout(()=>document.body.removeChild(c),5000);
-  }
+    }
+  },2000);
 }
 </script>
+
 </body>
 </html>

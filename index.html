@@ -198,14 +198,29 @@ const fogo = document.getElementById("fogo");
 const bancoPerguntas = {
   iniciante:[
     { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
-    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 }
+    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 },
+    { texto:"Quem foi o primeiro homem criado por Deus?", opcoes:["Adão","Noé","Abraão"], correta:0 },
+    { texto:"Quem foi engolido por um grande peixe?", opcoes:["Jonas","Pedro","Paulo"], correta:0 },
+    { texto:"Onde Jesus nasceu?", opcoes:["Belém","Jerusalém","Nazaré"], correta:0 },
+    { texto:"Quem derrotou o gigante Golias?", opcoes:["Saul","Davi","Sansão"], correta:1 }
   ],
+
   intermediario:[
-    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 }
+    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 },
+    { texto:"Quantos mandamentos Deus deu a Moisés?", opcoes:["5","10","12"], correta:1 },
+    { texto:"Quem interpretou os sonhos do faraó?", opcoes:["José","Daniel","Jacó"], correta:0 },
+    { texto:"Qual livro vem depois de Salmos?", opcoes:["Provérbios","Jó","Eclesiastes"], correta:0 },
+    { texto:"Quem foi o rei mais sábio de Israel?", opcoes:["Davi","Salomão","Saul"], correta:1 }
   ],
+
   avancado:[
-    { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 }
+    { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 },
+    { texto:"Qual profeta desafiou os profetas de Baal?", opcoes:["Elias","Eliseu","Isaías"], correta:0 },
+    { texto:"Quem escreveu a maioria dos Salmos?", opcoes:["Salomão","Davi","Asafe"], correta:1 },
+    { texto:"Qual apóstolo negou Jesus três vezes?", opcoes:["João","Pedro","Tomé"], correta:1 },
+    { texto:"Em qual monte Moisés recebeu os 10 mandamentos?", opcoes:["Sinai","Carmelo","Horebe"], correta:0 }
   ],
+
   hard:[
     { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
     { texto:"Quantos discípulos Jesus tinha?", opcoes:["12","10","14"], correta:0 },
@@ -214,6 +229,7 @@ const bancoPerguntas = {
     { texto:"Qual profeta teve visão do vale de ossos secos?", opcoes:["Ezequiel","Isaías","Jeremias"], correta:0 }
   ]
 };
+
 
 let perguntas = bancoPerguntas.iniciante;
 

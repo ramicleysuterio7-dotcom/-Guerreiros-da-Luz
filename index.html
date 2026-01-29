@@ -154,10 +154,12 @@ button:hover{
   <div class="titulo vento">Guerreiros da Luz</div>
   <div class="pentagono"><div class="fogo" id="fogo"></div></div>
 
-  <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br>
-  <button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br>
-  <button onclick="selecionarFase('avancado')">Missão Avançada</button><br>
-  <button onclick="selecionarFase('hard')">Missão Hard</button>
+ <button onclick="selecionarFase('iniciante')">Missão Iniciante</button><br><br>
+<button onclick="selecionarFase('intermediario')">Missão Intermediária</button><br><br>
+<button onclick="selecionarFase('avancado')">Missão Avançada</button><br><br>
+<button onclick="selecionarFase('hard')">Missão Hard</button><br><br>
+<button onclick="selecionarFase('ebd')">Missão EBD</button>
+ 
 </div>
 
 <!-- ===== TELA DO JOGO ===== -->
@@ -236,6 +238,57 @@ hard:[
   { texto:"Quem foi o profeta que casou com uma prostituta por ordem de Deus?", opcoes:["Amós","Oséias","Jonas"], correta:1 },
   { texto:"Qual evangelho foi escrito para os judeus?", opcoes:["Marcos","Lucas","Mateus"], correta:2 }
 ]
+,
+  ebd: [
+    {
+      texto: "Qual é o tema central da Bíblia?",
+      opcoes: ["Israel", "A redenção do homem", "A lei de Moisés"],
+      correta: 1
+    },
+    {
+      texto: "O que significa a palavra 'EBD'?",
+      opcoes: [
+        "Estudo Bíblico Diário",
+        "Escola Bíblica Dominical",
+        "Ensino Bíblico Doutrinário"
+      ],
+      correta: 1
+    },
+    {
+      texto: "Qual livro é considerado o coração da Bíblia?",
+      opcoes: ["Salmos", "Romanos", "Isaías"],
+      correta: 0
+    },
+    {
+      texto: "Quem foi o teólogo conhecido como o apóstolo dos gentios?",
+      opcoes: ["Pedro", "Paulo", "Barnabé"],
+      correta: 1
+    },
+    {
+      texto: "O que é justificação segundo Romanos?",
+      opcoes: [
+        "Ser perdoado pelas obras",
+        "Ser declarado justo pela fé",
+        "Cumprir toda a lei"
+      ],
+      correta: 1
+    },
+    {
+      texto: "Qual doutrina afirma que Deus é Pai, Filho e Espírito Santo?",
+      opcoes: ["Unicidade", "Trindade", "Predestinação"],
+      correta: 1
+    },
+    {
+      texto: "Qual é a missão principal da Igreja segundo Mateus 28?",
+      opcoes: [
+        "Prosperar financeiramente",
+        "Fazer discípulos",
+        "Construir templos"
+      ],
+      correta: 1
+    }
+  ]
+  
 };
 
 let perguntas = bancoPerguntas.iniciante;

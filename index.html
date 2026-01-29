@@ -486,6 +486,24 @@ function carregarPergunta(){
   document.getElementById("op2").innerText = p.opcoes[2];
 }
 
+// ===== CARREGAR PERGUNTA =====
+function carregarPergunta(){
+  let p = perguntas[indicePergunta];
+
+  // texto da pergunta
+  document.getElementById("pergunta").innerText = p.texto;
+
+  // opções
+  document.getElementById("op0").innerText = p.opcoes[0];
+  document.getElementById("op1").innerText = p.opcoes[1];
+  document.getElementById("op2").innerText = p.opcoes[2];
+
+  // esconde o versículo ao carregar
+  const versiculoEl = document.getElementById("versiculo");
+  versiculoEl.innerText = "";
+  versiculoEl.style.display = "none";
+}
+
 // ===== RESPONDER =====
 function responder(opcao){
   let p = perguntas[indicePergunta];
@@ -493,30 +511,8 @@ function responder(opcao){
 
   if(opcao === p.correta){
     pontos += 10;
-    document.getElementById("pontos").innerText = pontos;
-    alert("Resposta correta! ✅");
-  }else{
-    alert("Resposta errada ❌");
-  }
+    document.getElementById("pontos").inner
 
-  // 👇 MOSTRA O VERSÍCULO APÓS RESPONDER
-  if(p.versiculo){
-    versiculoEl.innerText = "📖 " + p.versiculo;
-    versiculoEl.style.display = "block";
-  }
-
-  // 👇 espera 2 segundos e passa para a próxima pergunta
-  setTimeout(() => {
-    indicePergunta++;
-
-    if(indicePergunta < perguntas.length){
-      carregarPergunta();
-    }else{
-      alert("Missão concluída! 🏆🔥");
-      trocarTela("inicio");
-    }
-  }, 2000);
-}
 
 
   document.getElementById("pontos").innerText = pontos;

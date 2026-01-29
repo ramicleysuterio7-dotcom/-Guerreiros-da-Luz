@@ -499,24 +499,25 @@ function responder(opcao){
     alert("Resposta errada ❌");
   }
 
-  // 👇 AGORA SIM MOSTRA O VERSÍCULO
+  // 👇 MOSTRA O VERSÍCULO APÓS RESPONDER
   if(p.versiculo){
     versiculoEl.innerText = "📖 " + p.versiculo;
-    versiculoEl.style.display = "block
-
-
-  // ===== Pontuação diferenciada para Hard =====
-  let pontosAcerto = (nivelAtual === "hard") ? 20 : 10;
-  let pontosErro   = (nivelAtual === "hard") ? 10 : 5;
-
-  if(opcao === correta){
-    pontos += pontosAcerto;
-    alert("Resposta correta! ⚔️🔥");
-  }else{
-    pontos -= pontosErro;
-    if(pontos < 0) pontos = 0;
-    alert("Resposta errada 😬");
+    versiculoEl.style.display = "block";
   }
+
+  // 👇 espera 2 segundos e passa para a próxima pergunta
+  setTimeout(() => {
+    indicePergunta++;
+
+    if(indicePergunta < perguntas.length){
+      carregarPergunta();
+    }else{
+      alert("Missão concluída! 🏆🔥");
+      trocarTela("inicio");
+    }
+  }, 2000);
+}
+
 
   document.getElementById("pontos").innerText = pontos;
 

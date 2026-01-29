@@ -488,7 +488,22 @@ function carregarPergunta(){
 
 // ===== RESPONDER =====
 function responder(opcao){
-  let correta = perguntas[indicePergunta].correta;
+  let p = perguntas[indicePergunta];
+  const versiculoEl = document.getElementById("versiculo");
+
+  if(opcao === p.correta){
+    pontos += 10;
+    document.getElementById("pontos").innerText = pontos;
+    alert("Resposta correta! ✅");
+  }else{
+    alert("Resposta errada ❌");
+  }
+
+  // 👇 AGORA SIM MOSTRA O VERSÍCULO
+  if(p.versiculo){
+    versiculoEl.innerText = "📖 " + p.versiculo;
+    versiculoEl.style.display = "block
+
 
   // ===== Pontuação diferenciada para Hard =====
   let pontosAcerto = (nivelAtual === "hard") ? 20 : 10;

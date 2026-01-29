@@ -200,45 +200,96 @@ const fogo = document.getElementById("fogo");
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
   iniciante:[
-    { texto:"Quem construiu a arca?", opcoes:["Moisés","Noé","Abraão"], correta:1 },
-    { texto:"Quem abriu o Mar Vermelho?", opcoes:["Josué","Moisés","Elias"], correta:1 },
-    { texto:"Quem foi o primeiro homem criado por Deus?", opcoes:["Adão","Noé","Abraão"], correta:0 },
-    { texto:"Quem foi engolido por um grande peixe?", opcoes:["Jonas","Pedro","Paulo"], correta:0 },
-    { texto:"Onde Jesus nasceu?", opcoes:["Belém","Jerusalém","Nazaré"], correta:0 },
-    { texto:"Quem derrotou o gigante Golias?", opcoes:["Saul","Davi","Sansão"], correta:1 }
+    {
+      texto:"Quem construiu a arca?",
+      versiculo:"Gênesis 6:14",
+      opcoes:["Moisés","Noé","Abraão"],
+      correta:1
+    },
+    {
+      texto:"Quem abriu o Mar Vermelho?",
+      versiculo:"Êxodo 14:21",
+      opcoes:["Josué","Moisés","Elias"],
+      correta:1
+    }
   ],
 
   intermediario:[
-    { texto:"Quem subiu ao céu sem morrer?", opcoes:["Elias","Moisés","Abraão"], correta:0 },
-    { texto:"Quantos mandamentos Deus deu a Moisés?", opcoes:["5","10","12"], correta:1 },
-    { texto:"Quem interpretou os sonhos do faraó?", opcoes:["José","Daniel","Jacó"], correta:0 },
-    { texto:"Qual livro vem depois de Salmos?", opcoes:["Provérbios","Jó","Eclesiastes"], correta:0 },
-    { texto:"Quem foi o rei mais sábio de Israel?", opcoes:["Davi","Salomão","Saul"], correta:1 }
+    {
+      texto:"Quem subiu ao céu sem morrer?",
+      versiculo:"2 Reis 2:11",
+      opcoes:["Elias","Moisés","Abraão"],
+      correta:0
+    }
   ],
 
-avancado:[
-  { texto:"Quantos dias choveu no dilúvio?", opcoes:["30","40","50"], correta:1 },
-  { texto:"Qual profeta desafiou os profetas de Baal no Monte Carmelo?", opcoes:["Elias","Eliseu","Isaías"], correta:0 },
-  { texto:"Quem escreveu a maioria dos Salmos?", opcoes:["Salomão","Davi","Asafe"], correta:1 },
-  { texto:"Qual apóstolo negou Jesus três vezes?", opcoes:["João","Pedro","Tomé"], correta:1 },
-  { texto:"Em qual monte Moisés recebeu os Dez Mandamentos?", opcoes:["Sinai","Horebe","Carmelo"], correta:0 },
-  { texto:"Quem interpretou a escrita na parede para o rei Belsazar?", opcoes:["Daniel","José","Ezequiel"], correta:0 },
-  { texto:"Quantos livros tem o Antigo Testamento?", opcoes:["27","39","66"], correta:1 },
-  { texto:"Quem foi o profeta contemporâneo de Jeremias?", opcoes:["Ezequiel","Daniel","Oséias"], correta:0 }
-],
+  avancado:[
+    {
+      texto:"Quantos dias choveu no dilúvio?",
+      versiculo:"Gênesis 7:12",
+      opcoes:["30","40","150"],
+      correta:1
+    },
+    {
+      texto:"Quem interpretou o sonho de Nabucodonosor?",
+      versiculo:"Daniel 2:19",
+      opcoes:["José","Daniel","Ezequiel"],
+      correta:1
+    },
+    {
+      texto:"Qual rei viu a escrita na parede?",
+      versiculo:"Daniel 5:5",
+      opcoes:["Nabucodonosor","Belsazar","Ciro"],
+      correta:1
+    },
+    {
+      texto:"Quem foi o profeta que confrontou Acabe?",
+      versiculo:"1 Reis 18:17-18",
+      opcoes:["Isaías","Elias","Eliseu"],
+      correta:1
+    }
+  ],
 
-hard:[
-  { texto:"Quem foi traído por Judas?", opcoes:["Jesus","Pedro","Paulo"], correta:0 },
-  { texto:"Quantos discípulos Jesus tinha?", opcoes:["12","10","14"], correta:0 },
-  { texto:"Quem foi lançado na fornalha ardente?", opcoes:["Sadraque","Mesaque","Abednego"], correta:2 },
-  { texto:"Quem escreveu a Epístola aos Hebreus?", opcoes:["Paulo","Lucas","Desconhecido"], correta:2 },
-  { texto:"Qual profeta teve a visão do vale de ossos secos?", opcoes:["Ezequiel","Isaías","Jeremias"], correta:0 },
-  { texto:"Qual livro termina com a palavra 'Amém'?", opcoes:["Apocalipse","Judas","Romanos"], correta:0 },
-  { texto:"Quem foi o rei quando Daniel foi lançado na cova dos leões?", opcoes:["Nabucodonosor","Dario","Ciro"], correta:1 },
-  { texto:"Quantos anos Israel ficou no deserto?", opcoes:["30","40","70"], correta:1 },
-  { texto:"Quem foi o profeta que casou com uma prostituta por ordem de Deus?", opcoes:["Amós","Oséias","Jonas"], correta:1 },
-  { texto:"Qual evangelho foi escrito para os judeus?", opcoes:["Marcos","Lucas","Mateus"], correta:2 }
-]
+  hard:[
+    {
+      texto:"Quem foi traído por Judas?",
+      versiculo:"Mateus 26:14-16",
+      opcoes:["Jesus","Pedro","Paulo"],
+      correta:0
+    },
+    {
+      texto:"Quantos discípulos Jesus tinha?",
+      versiculo:"Lucas 6:13",
+      opcoes:["12","10","14"],
+      correta:0
+    },
+    {
+      texto:"Quem foi lançado na fornalha ardente?",
+      versiculo:"Daniel 3:20",
+      opcoes:["Daniel","Neemias","Sadraque, Mesaque e Abede-Nego"],
+      correta:2
+    },
+    {
+      texto:"Qual livro termina com a pergunta de Deus a Jonas?",
+      versiculo:"Jonas 4:11",
+      opcoes:["Naum","Jonas","Habacuque"],
+      correta:1
+    },
+    {
+      texto:"Quem carregou a cruz de Jesus?",
+      versiculo:"Lucas 23:26",
+      opcoes:["Pedro","João","Simão Cireneu"],
+      correta:2
+    },
+    {
+      texto:"Qual profeta teve visão do vale de ossos secos?",
+      versiculo:"Ezequiel 37:1-2",
+      opcoes:["Isaías","Jeremias","Ezequiel"],
+      correta:2
+    }
+  ]
+};
+
 ,
   ebd: [
     {

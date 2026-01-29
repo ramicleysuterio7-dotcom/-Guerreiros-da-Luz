@@ -167,6 +167,7 @@ button:hover{
   <div id="placar">
     Pontuação: <span id="pontos">0</span>
   </div>
+<p id="versiculo" style="font-style:italic; margin-bottom:15px; color:#ffd966;"></p>
 
   <h3 id="pergunta"></h3>
 
@@ -315,6 +316,16 @@ function selecionarFase(fase){
 // ===== CARREGAR PERGUNTA =====
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
+
+  const versiculoEl = document.getElementById("versiculo");
+
+  if(p.versiculo){
+    versiculoEl.innerText = p.versiculo;
+    versiculoEl.style.display = "block";
+  }else{
+    versiculoEl.style.display = "none";
+  }
+
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];
   document.getElementById("op1").innerText = p.opcoes[1];

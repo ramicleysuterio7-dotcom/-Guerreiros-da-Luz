@@ -470,14 +470,15 @@ function selecionarFase(fase){
 function carregarPergunta(){
   let p = perguntas[indicePergunta];
 
-  const versiculoEl = document.getElementById("versiculo");
+  document.getElementById("pergunta").innerText = p.pergunta;
 
-  if(p.versiculo){
-    versiculoEl.innerText = p.versiculo;
-    versiculoEl.style.display = "block";
-  }else{
-    versiculoEl.style.display = "none";
-  }
+  const versiculoEl = document.getElementById("versiculo");
+  versiculoEl.innerText = "";          // 👈 limpa
+  versiculoEl.style.display = "none";  // 👈 esconde
+
+  // carrega as opções normalmente
+}
+
 
   document.getElementById("pergunta").innerText = p.texto;
   document.getElementById("op0").innerText = p.opcoes[0];

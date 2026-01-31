@@ -143,19 +143,52 @@ const audio = document.getElementById("audioBg");
 // ===== BANCO DE PERGUNTAS =====
 const bancoPerguntas = {
 
-  iniciante:[
-    { texto:"Quem construiu a arca?", versiculo:"Gênesis 6:14", opcoes:["Moisés","Noé","Abraão"], correta:1 },
-    { texto:"Quem abriu o Mar Vermelho?", versiculo:"Êxodo 14:21", opcoes:["Josué","Moisés","Elias"], correta:1 },
-    { texto:"Quem derrotou Golias?", versiculo:"1 Samuel 17:50", opcoes:["Saul","Davi","Sansão"], correta:1 },
-    { texto:"Quantos dias Jesus jejuou?", versiculo:"Mateus 4:2", opcoes:["30","20","40"], correta:2 }
-  ],
+ iniciante:[
+  { texto:"Quem construiu a arca?", versiculo:"Gênesis 6:14", opcoes:["Moisés","Noé","Abraão"], correta:1 },
+  { texto:"Quem abriu o Mar Vermelho?", versiculo:"Êxodo 14:21", opcoes:["Josué","Moisés","Elias"], correta:1 },
+  { texto:"Quem derrotou Golias?", versiculo:"1 Samuel 17:50", opcoes:["Saul","Davi","Sansão"], correta:1 },
+  { texto:"Quantos dias Jesus jejuou?", versiculo:"Mateus 4:2", opcoes:["30","20","40"], correta:2 },
+  { texto:"Quem foi o primeiro homem?", versiculo:"Gênesis 2:7", opcoes:["Noé","Adão","Abraão"], correta:1 },
+  { texto:"Quem foi a primeira mulher?", versiculo:"Gênesis 2:22", opcoes:["Eva","Sara","Rebeca"], correta:0 },
+  { texto:"Onde Jesus nasceu?", versiculo:"Mateus 2:1", opcoes:["Nazaré","Belém","Jerusalém"], correta:1 },
+  { texto:"Quem batizou Jesus?", versiculo:"Mateus 3:13", opcoes:["Pedro","João Batista","Tiago"], correta:1 },
+  { texto:"Quem negou Jesus três vezes?", versiculo:"Mateus 26:75", opcoes:["João","Pedro","Tomé"], correta:1 },
+  { texto:"Quem foi engolido por um grande peixe?", versiculo:"Jonas 1:17", opcoes:["Jonas","Elias","Amós"], correta:0 },
+  { texto:"Quantos livros tem a Bíblia?", versiculo:"2 Timóteo 3:16", opcoes:["66","70","72"], correta:0 },
+  { texto:"Qual é o último livro da Bíblia?", versiculo:"Apocalipse 1:1", opcoes:["Judas","Hebreus","Apocalipse"], correta:2 },
+  { texto:"Quem recebeu os Dez Mandamentos?", versiculo:"Êxodo 20", opcoes:["Abraão","Moisés","Josué"], correta:1 },
+  { texto:"Qual animal falou com Balaão?", versiculo:"Números 22:28", opcoes:["Cavalo","Jumento","Camelo"], correta:1 },
+  { texto:"Quem foi lançado na cova dos leões?", versiculo:"Daniel 6", opcoes:["José","Daniel","Davi"], correta:1 },
+  { texto:"Quem foi chamado amigo de Deus?", versiculo:"Tiago 2:23", opcoes:["Abraão","Moisés","Noé"], correta:0 },
+  { texto:"Quem construiu o templo?", versiculo:"1 Reis 6", opcoes:["Davi","Salomão","Saul"], correta:1 },
+  { texto:"Quem escreveu muitos provérbios?", versiculo:"Provérbios 1:1", opcoes:["Davi","Salomão","Ezequiel"], correta:1 },
+  { texto:"Quem foi vendido por moedas de prata?", versiculo:"Gênesis 37:28", opcoes:["José","Jesus","Sansão"], correta:0 },
+  { texto:"Quem ressuscitou Lázaro?", versiculo:"João 11:43", opcoes:["Pedro","Jesus","Paulo"], correta:1 }
+],
 
-  intermediario:[
-    { texto:"Quem subiu ao céu sem morrer?", versiculo:"2 Reis 2:11", opcoes:["Elias","Moisés","Abraão"], correta:0 },
-    { texto:"Quem foi vendido pelos irmãos?", versiculo:"Gênesis 37:28", opcoes:["José","Isaque","Davi"], correta:0 },
-    { texto:"Quem derrotou os midianitas com 300 homens?", versiculo:"Juízes 7:7", opcoes:["Sansão","Gideão","Débora"], correta:1 },
-    { texto:"Quem escreveu a maioria dos Salmos?", versiculo:"Salmos 23:1", opcoes:["Davi","Salomão","Asafe"], correta:0 }
-  ],
+intermediario:[
+  { texto:"Quem subiu ao céu sem morrer?", versiculo:"2 Reis 2:11", opcoes:["Elias","Moisés","Abraão"], correta:0 },
+  { texto:"Quem escreveu Atos dos Apóstolos?", versiculo:"Atos 1:1", opcoes:["Paulo","Lucas","Pedro"], correta:1 },
+  { texto:"Quem teve um sonho com uma escada até o céu?", versiculo:"Gênesis 28:12", opcoes:["José","Jacó","Isaque"], correta:1 },
+  { texto:"Quem foi rei antes de Davi?", versiculo:"1 Samuel 10", opcoes:["Saul","Salomão","Josué"], correta:0 },
+  { texto:"Qual juiz era muito forte?", versiculo:"Juízes 16", opcoes:["Gideão","Sansão","Débora"], correta:1 },
+  { texto:"Quem escreveu Eclesiastes?", versiculo:"Eclesiastes 1:1", opcoes:["Davi","Salomão","Isaías"], correta:1 },
+  { texto:"Quem foi lançado na fornalha ardente?", versiculo:"Daniel 3", opcoes:["Daniel","Três jovens","Neemias"], correta:1 },
+  { texto:"Quem reconstruiu Jerusalém?", versiculo:"Neemias 2", opcoes:["Esdras","Neemias","Zorobabel"], correta:1 },
+  { texto:"Qual profeta enfrentou os profetas de Baal?", versiculo:"1 Reis 18", opcoes:["Elias","Eliseu","Isaías"], correta:0 },
+  { texto:"Quem escreveu o Salmo 23?", versiculo:"Salmos 23", opcoes:["Asafe","Davi","Salomão"], correta:1 },
+  { texto:"Quem teve um sonho sobre vacas?", versiculo:"Gênesis 41", opcoes:["Faraó","Nabucodonosor","Herodes"], correta:0 },
+  { texto:"Quem libertou Israel do Egito?", versiculo:"Êxodo 3", opcoes:["Moisés","Arão","Josué"], correta:0 },
+  { texto:"Quem escreveu o livro de Josué?", versiculo:"Josué 1:1", opcoes:["Josué","Moisés","Samuel"], correta:0 },
+  { texto:"Qual profeta casou com Gômer?", versiculo:"Oséias 1", opcoes:["Oséias","Amós","Joel"], correta:0 },
+  { texto:"Quem escreveu o livro de Lamentações?", versiculo:"Lamentações 1:1", opcoes:["Jeremias","Isaías","Ezequiel"], correta:0 },
+  { texto:"Qual rei pediu sabedoria a Deus?", versiculo:"1 Reis 3:9", opcoes:["Davi","Salomão","Saul"], correta:1 },
+  { texto:"Quem escreveu o livro de Ruth?", versiculo:"Rute 1:1", opcoes:["Samuel","Desconhecido","Davi"], correta:1 },
+  { texto:"Quem teve visão dos ossos secos?", versiculo:"Ezequiel 37", opcoes:["Isaías","Ezequiel","Jeremias"], correta:1 },
+  { texto:"Qual profeta anunciou o novo concerto?", versiculo:"Jeremias 31:31", opcoes:["Daniel","Jeremias","Oséias"], correta:1 },
+  { texto:"Quem escreveu o livro de Jonas?", versiculo:"Jonas 1:1", opcoes:["Jonas","Naum","Habacuque"], correta:0 }
+],
+
 
   avancado:[
     { texto:"Quantos dias choveu no dilúvio?", versiculo:"Gênesis 7:12", opcoes:["30","40","150"], correta:1 },
